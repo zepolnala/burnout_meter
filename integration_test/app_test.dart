@@ -35,7 +35,7 @@ void main() {
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
       
       // Perform Logout
-      final logoutButton = find.byIcon(Icons.logout);
+      final logoutButton = find.byIcon(Icons.exit_to_app);
       expect(logoutButton, findsOneWidget);
       await tester.tap(logoutButton);
       await tester.pumpAndSettle(const Duration(seconds: 2));
