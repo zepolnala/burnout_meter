@@ -913,6 +913,15 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     final bool isAccepted = action.status == 'acknowledged';
     final color = isAccepted ? AppTheme.activeGreen : AppTheme.softText;
 
+    final Map<String, String> titles = {
+      'suggest_break': 'Pausa sugerida',
+      'offer_1on1': 'Charla 1:1',
+      'share_resource': 'Recurso compartido',
+      'recommend_time_off': 'Descanso sugerido',
+      'wellness_check': 'Check-in de bienestar',
+    };
+    final displayTitle = titles[action.type] ?? action.type.replaceAll('_', ' ').toUpperCase();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       margin: const EdgeInsets.only(bottom: 8),
@@ -924,7 +933,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            action.type == 'suggest_break' ? 'Pausa sugerida' : 'Conversación 1:1',
+            displayTitle,
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
           Container(
