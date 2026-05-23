@@ -1,0 +1,63 @@
+name: burnout_meter_app
+description: "BurnoutMeter - Multi-tenant B2B Wellness early psychophysiological load detection platform."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Navigation
+  go_router: ^13.0.0
+
+  # State Management
+  flutter_riverpod: ^2.5.0
+  riverpod_annotation: ^2.3.0
+
+  # Database / Local Persistence
+  drift: ^2.19.1
+  sqlite3_flutter_libs: ^0.5.20
+  path_provider: ^2.1.2
+  path: ^1.9.0
+
+  # Data & Serialization
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+  uuid: ^4.3.3
+
+  # Firebase Backend
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.5
+  firebase_auth: ^4.17.8
+  firebase_messaging: ^14.7.19
+
+  # Health Data Stubs
+  health: ^10.1.0
+
+  # Visualizations
+  fl_chart: ^0.66.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+  # Strict Lints
+  flutter_lints: ^3.0.1
+
+  # Code Generation
+  build_runner: ^2.4.8
+  drift_dev: ^2.19.1
+  freezed: ^2.4.7
+  riverpod_generator: ^2.3.9
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/fixtures/

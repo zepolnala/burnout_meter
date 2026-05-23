@@ -1,0 +1,75 @@
+name: BurnoutMeter CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    name: Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 1. Environment Setup
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Node.js (for Firebase Emulators & Rules Tests)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      # 2. Dependencies & Generation
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Build Runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      # 3. Static Analysis
+      - name: Run Lints Analyzer
+        run: flutter analyze
+
+      # 4. Security Rules Validation
+      - name: Install Firestore Tests Dependencies
+        run: cd firestore-tests && npm ci
+
+      - name: Run Firestore Security Rules Tests
+        run: cd firestore-tests && npm test
+
+      # 5. Unit & Widget Tests
+      - name: Run Standard Tests
+        run: flutter test
+
+      # 6. E2E Web Integration Tests (against Emulators)
+      - name: Run Web E2E Integration Tests
+        run: |
+          chromedriver --port=4444 &
+          firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server"
+          
+      # 7. Production Build Verification
+      - name: Build Web Target
+        run: flutter build web --release
+
+      # 8. Staging Deployment (Optional/Placeholder)
+      - name: Deploy to Firebase Hosting (Staging)
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deployment to Firebase Hosting would occur here using firebase deploy --only hosting"

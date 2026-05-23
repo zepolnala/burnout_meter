@@ -1,0 +1,15 @@
+{
+  "name": "burnout-meter-firestore-tests",
+  "version": "1.0.0",
+  "description": "Firestore security rules unit test suite for BurnoutMeter B2B.",
+  "main": "rules.test.js",
+  "scripts": {
+    "test": "mocha rules.test.js --timeout 15000"
+  },
+  "dependencies": {
+    "@firebase/rules-unit-testing": "^3.0.2",
+    "firebase-admin": "^11.8.0",
+    "mocha": "^10.2.0"
+  },
+  "private": true
+}

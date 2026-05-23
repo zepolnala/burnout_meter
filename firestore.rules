@@ -1,0 +1,116 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helper security functions ---
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Fetches the dynamic membership profile of the active operator
+    function getMembership() {
+      return get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data;
+    }
+
+    // Dynamic membership checks based on Firestore document rather than JWT custom claims
+    function getRole() {
+      return getMembership().role;
+    }
+
+    function isEmployee() {
+      return getRole() == 'employee';
+    }
+
+    function isManager() {
+      return getRole() == 'manager';
+    }
+
+    function isAdmin() {
+      return getRole() == 'admin';
+    }
+
+    function sameOrg(orgId) {
+      return getMembership().orgId == orgId;
+    }
+
+    // Checks if the employee has allowed sharing
+    function hasSharingConsent(userId) {
+      return get(/databases/$(database)/documents/consents/$(userId)).data.sharingEnabled == true;
+    }
+
+    // Checks if the employee has allowed receiving actions
+    function hasActionsConsent(userId) {
+      return get(/databases/$(database)/documents/consents/$(userId)).data.actionsEnabled == true;
+    }
+
+    // --- COLLECTION RULES ---
+
+    // 1. Memberships (RBAC mappings)
+    match /memberships/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || ((isAdmin() || isManager()) && sameOrg(resource.data.orgId)));
+      allow write: if isAuthenticated() && (isAdmin() || isOwner(userId)); // Admins or the user themselves during dynamic seeding
+    }
+
+    // 2. Privacy Consents
+    match /consents/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isManager() || isAdmin());
+      allow write: if isAuthenticated() && isOwner(userId); // Only the user toggles consent
+    }
+
+    // 3. Raw Health Ingestion (Privacy-by-Design Isolation)
+    match /healthSamples/{sampleId} {
+      // CRITICAL: ONLY the employee can read or write their raw biometric readings.
+      // Managers and Admins are categorically DENIED direct read access.
+      allow read: if isAuthenticated() && isOwner(resource.data.userId);
+      allow write: if isAuthenticated() && (
+        (resource == null && isOwner(request.resource.data.userId)) ||
+        (resource != null && isOwner(resource.data.userId))
+      );
+    }
+
+    // 4. Burnout Scores
+    match /scores/{scoreId} {
+      // Employees read their own.
+      // Managers can read if the employee has granted sharing consent AND is on their team.
+      allow read: if isAuthenticated() && (
+        isOwner(resource.data.userId) || 
+        (isManager() && hasSharingConsent(resource.data.userId) && resource.data.teamId in getMembership().managedTeamIds) ||
+        (isAdmin() && sameOrg(resource.data.orgId))
+      );
+      // Allowed for local prototype demonstration. Owner employee can write their own score.
+      allow write: if isAuthenticated() && (
+        (resource == null && isOwner(request.resource.data.userId)) ||
+        (resource != null && isOwner(resource.data.userId))
+      ); 
+    }
+
+    // 5. Wellness Interventions & Actions
+    match /actions/{actionId} {
+      // Users involved (sender or target) can read
+      allow read: if isAuthenticated() && (isOwner(resource.data.targetUserId) || isOwner(resource.data.senderUserId));
+      
+      // Managers can create action only if target has enabled actions consent
+      allow create: if isAuthenticated() && 
+        (isManager() || isAdmin()) && 
+        hasActionsConsent(request.resource.data.targetUserId) &&
+        isOwner(request.resource.data.senderUserId);
+
+      // Employees can only update action status (sent -> received -> acknowledged/dismissed)
+      allow update: if isAuthenticated() && 
+        isOwner(resource.data.targetUserId) && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt']);
+    }
+
+    // 6. Security Access Auditing (GDPR Audit Trail)
+    match /audit_logs/{logId} {
+      // WRITE-ONCE Principle: Authenticated users can write log but never delete or modify it
+      allow create: if isAuthenticated() && request.resource.data.actorUserId == request.auth.uid;
+      allow read: if isAuthenticated() && isAdmin() && sameOrg(resource.data.orgId);
+      allow update, delete: if false;
+    }
+  }
+}

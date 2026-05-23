@@ -1,0 +1,18 @@
+[
+  {"hoursOffset": 0, "type": "heart_rate", "value": 72.5, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 0, "type": "hrv", "value": 45.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 0, "type": "respiratory_rate", "value": 14.5, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 4, "type": "heart_rate", "value": 78.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 4, "type": "hrv", "value": 42.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 4, "type": "respiratory_rate", "value": 15.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 8, "type": "heart_rate", "value": 85.2, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 8, "type": "hrv", "value": 32.5, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 8, "type": "respiratory_rate", "value": 16.2, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 12, "type": "heart_rate", "value": 90.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 12, "type": "hrv", "value": 28.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 12, "type": "respiratory_rate", "value": 17.5, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 16, "type": "heart_rate", "value": 68.4, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 16, "type": "hrv", "value": 52.0, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 16, "type": "respiratory_rate", "value": 13.8, "deviceSource": "ReplayWatch_E500"},
+  {"hoursOffset": 24, "type": "sleep_duration", "value": 6.2, "deviceSource": "ReplayWatch_E500"}
+]
