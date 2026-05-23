@@ -5,9 +5,12 @@ import 'package:flutter/foundation.dart';
 class SeedService {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  static bool isSeeding = false;
 
   /// Idempotently seed Auth and Firestore databases inside the local emulator.
   static Future<void> seedDatabase() async {
+    isSeeding = true;
     debugPrint('🌱 Starting BurnoutMeter Seeding process...');
 
     // 1. Core seed users parameters
@@ -145,6 +148,7 @@ class SeedService {
     // 2. Always sign out at the end of the seed to let the user select any demo profile cleanly
     await _auth.signOut();
 
+    isSeeding = false;
     debugPrint('🌱 Seeding process complete!');
   }
 }

@@ -18,6 +18,14 @@ class EmployeeShell extends ConsumerStatefulWidget {
 class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   int _activeTab = 0; // 0: Dashboard, 1: Privacy, 2: Actions
 
+  String _getNameFromEmail(String email) {
+    if (email.startsWith('employee_eng1')) return 'Alan (Empleado Demo)';
+    if (email.startsWith('employee_eng2')) return 'Sofía Martín';
+    if (email.startsWith('employee_cs1')) return 'Tomás (Customer Success)';
+    final prefix = email.split('@').first;
+    return prefix.split('_').map((word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
@@ -73,9 +81,9 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                       )
                     ],
                   ),
-                  const Text(
-                    'Perfil: Empleado Demo (Alan)',
-                    style: TextStyle(fontSize: 11, color: AppTheme.softText),
+                  Text(
+                    'Perfil: ${_getNameFromEmail(user.email)}',
+                    style: const TextStyle(fontSize: 11, color: AppTheme.softText),
                   ),
                 ],
               ),

@@ -4,6 +4,7 @@ import '../../data/sources/health/synthetic_health_data_source.dart';
 import '../../domain/models/action.dart';
 import '../../domain/models/audit_log.dart';
 import '../../domain/models/consent.dart';
+import '../../domain/models/membership.dart';
 import '../../domain/models/score.dart';
 import '../../domain/services/scoring_engine.dart';
 import 'auth_provider.dart';
@@ -15,16 +16,21 @@ final scoringEngineProvider = Provider<ScoringEngine>((ref) {
 });
 
 // --- Consent State Provider ---
+final consentProvider = StateNotifierProvider.autoDispose.family<ConsentNotifier, AsyncValue<Consent?>, String>((ref, userId) {
+  return ConsentNotifier(ref, userId);
+});
+
 class ConsentNotifier extends StateNotifier<AsyncValue<Consent?>> {
   final Ref _ref;
   final String _userId;
+  StreamSubscription? _subscription;
 
   ConsentNotifier(this._ref, this._userId) : super(const AsyncValue.loading()) {
     _init();
   }
 
   void _init() {
-    _ref.read(consentRepositoryProvider).watchConsent(_userId).listen(
+    _subscription = _ref.read(consentRepositoryProvider).watchConsent(_userId).listen(
       (consent) {
         state = AsyncValue.data(consent);
       },
@@ -32,6 +38,12 @@ class ConsentNotifier extends StateNotifier<AsyncValue<Consent?>> {
         state = AsyncValue.error(err, stack);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   Future<void> updateConsent({required bool sharingEnabled, required bool actionsEnabled}) async {
@@ -66,16 +78,19 @@ class ConsentNotifier extends StateNotifier<AsyncValue<Consent?>> {
   }
 }
 
-final consentProvider = StateNotifierProvider.family<ConsentNotifier, AsyncValue<Consent?>, String>((ref, userId) {
-  return ConsentNotifier(ref, userId);
-});
+
 
 // --- Personal Score Provider (Employee) ---
-final personalScoreProvider = FutureProvider.family<Score?, String>((ref, userId) async {
+final personalScoreProvider = FutureProvider.autoDispose.family<Score?, String>((ref, userId) async {
   final healthRepo = ref.read(healthRepositoryProvider);
   
+  // To satisfy Firestore Security Rules for Manager reads, we supply teamId and orgId to the query constraint.
+  final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
+  final orgId = member?.orgId ?? 'org789';
+  final teamId = member?.teamId ?? 'teamAlpha';
+
   // Try retrieving the last saved score first
-  final cached = await healthRepo.getLastScore(userId);
+  final cached = await healthRepo.getLastScore(userId, teamId: teamId, orgId: orgId);
   if (cached != null) return cached;
 
   // Otherwise, simulate a scoring run by pulling recent synthetic samples
@@ -85,11 +100,6 @@ final personalScoreProvider = FutureProvider.family<Score?, String>((ref, userId
   
   final samples = await syntheticSource.fetchSamples(userId: userId, start: start, end: end);
   await healthRepo.saveSamples(samples);
-
-  // Read active membership info
-  final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
-  final orgId = member?.orgId ?? 'org789';
-  final teamId = member?.teamId ?? 'teamAlpha';
 
   final engine = ref.read(scoringEngineProvider);
   final calculated = engine.calculateScore(
@@ -103,8 +113,19 @@ final personalScoreProvider = FutureProvider.family<Score?, String>((ref, userId
   return calculated;
 });
 
+// --- Team Members Provider (Manager) ---
+final teamMembersProvider = FutureProvider.autoDispose.family<List<Membership>, String>((ref, teamId) async {
+  final authState = ref.read(authStateProvider).value;
+  if (authState == null || (authState.role != 'manager' && authState.role != 'admin')) {
+    throw Exception('Unauthorized: Only Managers or Admins can query team members.');
+  }
+
+  final membershipRepo = ref.read(membershipRepositoryProvider);
+  return membershipRepo.getTeamMemberships(teamId, authState.orgId);
+});
+
 // --- Team Scores Provider (Manager - Privacy Enforced) ---
-final teamScoresProvider = FutureProvider.family<List<Score>, String>((ref, teamId) async {
+final teamScoresProvider = FutureProvider.autoDispose.family<List<Score>, String>((ref, teamId) async {
   final authState = ref.read(authStateProvider).value;
   if (authState == null || (authState.role != 'manager' && authState.role != 'admin')) {
     throw Exception('Unauthorized: Only Managers or Admins can query team scores.');
@@ -113,8 +134,8 @@ final teamScoresProvider = FutureProvider.family<List<Score>, String>((ref, team
   final membershipRepo = ref.read(membershipRepositoryProvider);
   final auditRepo = ref.read(auditRepositoryProvider);
 
-  // Load all team members
-  final members = await membershipRepo.getTeamMemberships(teamId);
+  // Load all team members with orgId verification for Firestore rules
+  final members = await membershipRepo.getTeamMemberships(teamId, authState.orgId);
   final List<Score> sharedScores = [];
 
   for (final member in members) {
@@ -177,7 +198,7 @@ final actionTemplatesProvider = Provider<List<ActionTemplate>>((ref) {
 });
 
 // --- Action Instances State Providers ---
-final employeeActionsProvider = StreamProvider.family<List<ActionInstance>, String>((ref, userId) {
+final employeeActionsProvider = StreamProvider.autoDispose.family<List<ActionInstance>, String>((ref, userId) {
   return ref.read(actionRepositoryProvider).watchActionsForUser(userId);
 });
 
@@ -246,6 +267,6 @@ class ManagerActionsNotifier extends StateNotifier<AsyncValue<List<ActionInstanc
   }
 }
 
-final managerActionsProvider = StateNotifierProvider.family<ManagerActionsNotifier, AsyncValue<List<ActionInstance>>, String>((ref, managerId) {
+final managerActionsProvider = StateNotifierProvider.autoDispose.family<ManagerActionsNotifier, AsyncValue<List<ActionInstance>>, String>((ref, managerId) {
   return ManagerActionsNotifier(ref, managerId);
 });

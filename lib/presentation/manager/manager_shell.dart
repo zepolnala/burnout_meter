@@ -18,6 +18,15 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
   String? _selectedActionType;
   final TextEditingController _notesController = TextEditingController();
 
+  String _getNameFromEmail(String email) {
+    if (email.startsWith('employee_eng1')) return 'Alan (Empleado Demo)';
+    if (email.startsWith('employee_eng2')) return 'Sofía Martín';
+    if (email.startsWith('employee_cs1')) return 'Tomás (Customer Success)';
+    if (email.startsWith('manager_eng')) return 'Victor (Manager)';
+    final prefix = email.split('@').first;
+    return prefix.split('_').map((word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1)).join(' ');
+  }
+
   @override
   void dispose() {
     _notesController.dispose();
@@ -69,9 +78,14 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
     }
 
     final teamId = manager.teamId ?? 'teamEng';
+    final membersAsync = ref.watch(teamMembersProvider(teamId));
     final scoresAsync = ref.watch(teamScoresProvider(teamId));
     final sentActionsAsync = ref.watch(managerActionsProvider(manager.userId));
     final templates = ref.watch(actionTemplatesProvider);
+
+    final members = membersAsync.value ?? [];
+    final selectedMember = members.where((m) => m.userId == _selectedEmployeeId).firstOrNull;
+    final selectedEmployeeName = selectedMember != null ? _getNameFromEmail(selectedMember.email) : 'Empleado';
 
     return Scaffold(
       backgroundColor: AppTheme.darkSlate,
@@ -159,19 +173,21 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Miembros del Equipo',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Supervisa los indicadores de burnout agregados y emite recomendaciones.',
-                            style: TextStyle(fontSize: 13, color: AppTheme.softText),
-                          ),
-                        ],
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Miembros del Equipo',
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Supervisa los indicadores de burnout agregados y emite recomendaciones.',
+                              style: TextStyle(fontSize: 13, color: AppTheme.softText),
+                            ),
+                          ],
+                        ),
                       ),
                       // Privacy notice label
                       Container(
@@ -197,7 +213,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                   const SizedBox(height: 24),
 
                   // Load Team Members & Scores
-                  scoresAsync.when(
+                  membersAsync.when(
                     loading: () => const Center(
                       child: Padding(
                         padding: EdgeInsets.all(48.0),
@@ -205,160 +221,167 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                       ),
                     ),
                     error: (err, stack) => Center(
-                      child: Text('Error al cargar scores: $err', style: const TextStyle(color: Colors.red)),
+                      child: Text('Error al cargar miembros: $err', style: const TextStyle(color: Colors.red)),
                     ),
-                    data: (scores) {
-                      // Seeded Team details
-                      final List<Map<String, dynamic>> mockTeamDetails = [
-                        {'id': 'emp123', 'name': 'Alan (Empleado Demo)', 'email': 'employee_eng1@burnoutmeter.com'},
-                        {'id': 'empEng2', 'name': 'Sofía Martín', 'email': 'employee_eng2@burnoutmeter.com'},
-                      ];
-
-                      // Dynamic Attention Needed Alarm
-                      final highRiskScores = scores.where((s) => s.burnoutIndex >= 70).toList();
-                      
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (highRiskScores.isNotEmpty)
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              margin: const EdgeInsets.only(bottom: 24),
-                              decoration: BoxDecoration(
-                                color: AppTheme.activeOrange.withValues(alpha: 0.08),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: AppTheme.activeOrange.withValues(alpha: 0.3)),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.warning_amber_rounded, color: AppTheme.activeOrange),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      'ATENCIÓN REQUERIDA: ${highRiskScores.length} miembro(s) reportan fatiga psicofisiológica severa (Carga >= 70). Considera enviar sugerencias wellness.',
-                                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
-                                    ),
+                    data: (members) {
+                      return scoresAsync.when(
+                        loading: () => const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(48.0),
+                            child: CircularProgressIndicator(color: AppTheme.accentTeal),
+                          ),
+                        ),
+                        error: (err, stack) => Center(
+                          child: Text('Error al cargar scores: $err', style: const TextStyle(color: Colors.red)),
+                        ),
+                        data: (scores) {
+                          // Dynamic Attention Needed Alarm
+                          final highRiskScores = scores.where((s) => s.burnoutIndex >= 70).toList();
+                          
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (highRiskScores.isNotEmpty)
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  margin: const EdgeInsets.only(bottom: 24),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.activeOrange.withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: AppTheme.activeOrange.withValues(alpha: 0.3)),
                                   ),
-                                ],
-                              ),
-                            ),
-
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 320,
-                              mainAxisSpacing: 16,
-                              crossAxisSpacing: 16,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount: mockTeamDetails.length,
-                            itemBuilder: (context, idx) {
-                              final member = mockTeamDetails[idx];
-                              final memberId = member['id'] as String;
-                              
-                              final score = scores.where((s) => s.userId == memberId).firstOrNull;
-                              final bool isSelected = _selectedEmployeeId == memberId;
-
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF1E293B),
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: isSelected ? AppTheme.accentTeal : const Color(0xFF334155),
-                                    width: isSelected ? 2 : 1,
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.warning_amber_rounded, color: AppTheme.activeOrange),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Text(
+                                          'ATENCIÓN REQUERIDA: ${highRiskScores.length} miembro(s) reportan fatiga psicofisiológica severa (Carga >= 70). Considera enviar sugerencias wellness.',
+                                          style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(16),
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedEmployeeId = memberId;
-                                      _selectedActionType = null;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          member['name'] as String,
-                                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
-                                        ),
-                                        Text(
-                                          member['email'] as String,
-                                          style: const TextStyle(color: AppTheme.softText, fontSize: 11),
-                                        ),
-                                        const Spacer(),
 
-                                        if (score != null) ...[
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Carga Laboral:',
-                                                style: TextStyle(color: AppTheme.softText, fontSize: 12),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.getScoreColor(score.burnoutIndex).withValues(alpha: 0.15),
-                                                  borderRadius: BorderRadius.circular(8),
-                                                ),
-                                                child: Text(
-                                                  score.burnoutIndex.toStringAsFixed(0),
-                                                  style: TextStyle(
-                                                    color: AppTheme.getScoreColor(score.burnoutIndex),
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
+                              GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 320,
+                                  mainAxisSpacing: 16,
+                                  crossAxisSpacing: 16,
+                                  childAspectRatio: 1.3,
+                                ),
+                                itemCount: members.length,
+                                itemBuilder: (context, idx) {
+                                  final member = members[idx];
+                                  final memberId = member.userId;
+                                  
+                                  final score = scores.where((s) => s.userId == memberId).firstOrNull;
+                                  final bool isSelected = _selectedEmployeeId == memberId;
+
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF1E293B),
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: isSelected ? AppTheme.accentTeal : const Color(0xFF334155),
+                                        width: isSelected ? 2 : 1,
+                                      ),
+                                    ),
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(16),
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedEmployeeId = memberId;
+                                          _selectedActionType = null;
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _getNameFromEmail(member.email),
+                                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                                            ),
+                                            Text(
+                                              member.email,
+                                              style: const TextStyle(color: AppTheme.softText, fontSize: 11),
+                                            ),
+                                            const Spacer(),
+
+                                            if (score != null) ...[
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    'Carga Laboral:',
+                                                    style: TextStyle(color: AppTheme.softText, fontSize: 12),
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ] else ...[
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                'Carga Laboral:',
-                                                style: TextStyle(color: AppTheme.softText, fontSize: 12),
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white.withValues(alpha: 0.04),
-                                                  borderRadius: BorderRadius.circular(8),
-                                                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-                                                ),
-                                                child: const Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Icon(Icons.lock_outline, color: AppTheme.softText, size: 12),
-                                                    SizedBox(width: 6),
-                                                    Text(
-                                                      '🔒 Privado',
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.getScoreColor(score.burnoutIndex).withValues(alpha: 0.15),
+                                                      borderRadius: BorderRadius.circular(8),
+                                                    ),
+                                                    child: Text(
+                                                      score.burnoutIndex.toStringAsFixed(0),
                                                       style: TextStyle(
-                                                        color: AppTheme.softText,
+                                                        color: AppTheme.getScoreColor(score.burnoutIndex),
                                                         fontWeight: FontWeight.bold,
-                                                        fontSize: 11,
+                                                        fontSize: 16,
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  )
+                                                ],
                                               )
-                                            ],
-                                          )
-                                        ]
-                                      ],
+                                            ] else ...[
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    'Carga Laboral:',
+                                                    style: TextStyle(color: AppTheme.softText, fontSize: 12),
+                                                  ),
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white.withValues(alpha: 0.04),
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                                                    ),
+                                                    child: const Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Icon(Icons.lock_outline, color: AppTheme.softText, size: 12),
+                                                        SizedBox(width: 6),
+                                                        Text(
+                                                          '🔒 Privado',
+                                                          style: TextStyle(
+                                                            color: AppTheme.softText,
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 11,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
@@ -411,7 +434,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                               style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
-                              'Destinatario: ${act.targetUserId == 'emp123' ? 'Alan' : 'Privado'} | Nota: ${act.payload?['notes'] ?? 'Sin descripción'}',
+                              'Destinatario: ${_getNameFromEmail(members.where((m) => m.userId == act.targetUserId).firstOrNull?.email ?? act.targetUserId)} | Nota: ${act.payload?['notes'] ?? 'Sin descripción'}',
                               style: const TextStyle(color: AppTheme.softText, fontSize: 11),
                             ),
                             trailing: Container(
@@ -465,7 +488,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                     )
                   ] else ...[
                     Text(
-                      'Destinatario: ${_selectedEmployeeId == 'emp123' ? 'Alan' : 'Sofía (Privado)'}',
+                      'Destinatario: $selectedEmployeeName',
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     const SizedBox(height: 24),

@@ -49,6 +49,14 @@ void main() {
       // Verify routing landed in Manager Dashboard
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
       
+      // Explicitly check that there is NO permission denied error for scores
+      expect(find.textContaining('Error al cargar scores:'), findsNothing);
+      expect(find.textContaining('permission-denied'), findsNothing);
+      expect(find.textContaining('Null value error'), findsNothing);
+
+      // Verify that at least one member name is visible
+      expect(find.text('Alan (Empleado Demo)'), findsWidgets);
+      
       // Logout
       await tester.tap(logoutButton);
       await tester.pumpAndSettle(const Duration(seconds: 2));

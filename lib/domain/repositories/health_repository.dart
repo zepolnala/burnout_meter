@@ -6,6 +6,6 @@ abstract class HealthRepository {
   Future<List<HealthSample>> getSamples(String userId, DateTime start, DateTime end);
   
   Future<void> saveScore(Score score);
-  Future<Score?> getLastScore(String userId);
+  Future<Score?> getLastScore(String userId, {String? teamId, String? orgId});
   Future<List<Score>> getTeamLatestScores(List<String> userIds);
 }

@@ -39,8 +39,11 @@ class FirestoreMembershipRepository implements MembershipRepository {
   }
 
   @override
-  Future<List<Membership>> getTeamMemberships(String teamId) async {
-    final query = await _db.collection('memberships').where('teamId', isEqualTo: teamId).get();
+  Future<List<Membership>> getTeamMemberships(String teamId, String orgId) async {
+    final query = await _db.collection('memberships')
+        .where('teamId', isEqualTo: teamId)
+        .where('orgId', isEqualTo: orgId)
+        .get();
     return query.docs.map((doc) {
       final data = doc.data();
       return Membership(
@@ -146,15 +149,22 @@ class FirestoreHealthRepository implements HealthRepository {
   }
 
   @override
-  Future<Score?> getLastScore(String userId) async {
-    final query = await _db.collection('scores')
-        .where('userId', isEqualTo: userId)
-        .orderBy('calculatedAt', descending: true)
-        .limit(1)
-        .get();
+  Future<Score?> getLastScore(String userId, {String? teamId, String? orgId}) async {
+    var query = _db.collection('scores').where('userId', isEqualTo: userId);
+    
+    print('DEBUG getLastScore: userId=$userId, teamId=$teamId, orgId=$orgId');
+
+    if (teamId != null) {
+      query = query.where('teamId', isEqualTo: teamId);
+    }
+    if (orgId != null) {
+      query = query.where('orgId', isEqualTo: orgId);
+    }
+
+    final querySnap = await query.orderBy('calculatedAt', descending: true).limit(1).get();
         
-    if (query.docs.isEmpty) return null;
-    final doc = query.docs.first;
+    if (querySnap.docs.isEmpty) return null;
+    final doc = querySnap.docs.first;
     final data = doc.data();
     final sub = data['subscores'] as Map<String, dynamic>;
     

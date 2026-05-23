@@ -8,6 +8,7 @@ import '../../presentation/shared/app_shell.dart';
 import '../../presentation/shared/login_screen.dart';
 import '../providers/auth_provider.dart';
 import '../logging/app_logger.dart';
+import '../config/seed_service.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -21,8 +22,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       final user = authState.value;
       final location = state.uri.path;
 
-      // 1. If auth is loading, hold redirection
-      if (authState.isLoading) return null;
+      // 1. If auth is loading or we are seeding the database, hold redirection
+      if (authState.isLoading || SeedService.isSeeding) return null;
 
       // 2. Unauthenticated state: Force redirection to login
       if (user == null) {

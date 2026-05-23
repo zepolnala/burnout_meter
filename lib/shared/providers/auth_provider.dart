@@ -104,11 +104,11 @@ class AuthNotifier extends StateNotifier<AsyncValue<Membership?>> {
     AppLogger.auth('Demo Quick Switcher triggered for mockId: $mockId');
     String email;
     if (mockId == 'emp123') {
-      email = 'employee_eng1@burnoutmeter.com';
+      email = 'employee_eng1@burnoutmeter.demo';
     } else if (mockId == 'mgr456') {
-      email = 'manager_eng@burnoutmeter.com';
+      email = 'manager_eng@burnoutmeter.demo';
     } else if (mockId == 'adm789') {
-      email = 'admin@burnoutmeter.com';
+      email = 'admin@burnoutmeter.demo';
     } else {
       AppLogger.auth('Unknown mockId: $mockId');
       return;

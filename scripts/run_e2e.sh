@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [ -d "/opt/homebrew/opt/openjdk/bin" ]; then
+    export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+fi
+
 echo "============================================="
 echo "🏃‍♂️ Starting BurnoutMeter E2E Web Tests"
 echo "============================================="

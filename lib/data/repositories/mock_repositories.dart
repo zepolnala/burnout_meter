@@ -59,8 +59,8 @@ class MockMembershipRepository implements MembershipRepository {
   }
 
   @override
-  Future<List<Membership>> getTeamMemberships(String teamId) async {
-    return _memberships.values.where((m) => m.teamId == teamId).toList();
+  Future<List<Membership>> getTeamMemberships(String teamId, String orgId) async {
+    return _memberships.values.where((m) => m.teamId == teamId && m.orgId == orgId).toList();
   }
 
   @override
@@ -98,8 +98,14 @@ class MockHealthRepository implements HealthRepository {
   }
 
   @override
-  Future<Score?> getLastScore(String userId) async {
-    return _scores[userId];
+  Future<Score?> getLastScore(String userId, {String? teamId, String? orgId}) async {
+    final userScores = _scores.values.where((s) {
+      if (s.userId != userId) return false;
+      if (teamId != null && s.teamId != teamId) return false;
+      if (orgId != null && s.orgId != orgId) return false;
+      return true;
+    }).toList();
+    return userScores.isNotEmpty ? userScores.first : null;
   }
 
   @override

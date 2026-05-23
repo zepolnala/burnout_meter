@@ -17,13 +17,17 @@ service cloud.firestore {
     }
 
     // Fetches the dynamic membership profile of the active operator
+    function hasMembership() {
+      return exists(/databases/$(database)/documents/memberships/$(request.auth.uid));
+    }
+
     function getMembership() {
       return get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data;
     }
 
     // Dynamic membership checks based on Firestore document rather than JWT custom claims
     function getRole() {
-      return getMembership().role;
+      return hasMembership() ? getMembership().role : 'none';
     }
 
     function isEmployee() {
@@ -39,7 +43,7 @@ service cloud.firestore {
     }
 
     function sameOrg(orgId) {
-      return getMembership().orgId == orgId;
+      return hasMembership() && getMembership().orgId == orgId;
     }
 
     // Checks if the employee has allowed sharing
@@ -88,7 +92,7 @@ service cloud.firestore {
       // Managers can read if the employee has granted sharing consent AND is on their team.
       allow read: if isAuthenticated() && (
         isOwner(resource.data.userId) || 
-        (isManager() && hasSharingConsent(resource.data.userId) && resource.data.teamId in getMembership().managedTeamIds && sameOrg(resource.data.orgId)) ||
+        (isManager() && hasSharingConsent(resource.data.userId) && resource.data.teamId in getMembership().get('managedTeamIds', []) && sameOrg(resource.data.orgId)) ||
         (isAdmin() && sameOrg(resource.data.orgId))
       );
       // Allowed for local prototype demonstration. Owner employee can write their own score.

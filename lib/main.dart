@@ -27,7 +27,7 @@ Future<void> main() async {
     );
 
     if (kDebugMode) {
-      const host = 'localhost';
+      const host = '127.0.0.1';
       await FirebaseAuth.instance.useAuthEmulator(host, 9099);
       FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
       AppLogger.info('🔥 [EMULATOR] Connected to Firebase Emulators: Auth (9099), Firestore (8080)');
