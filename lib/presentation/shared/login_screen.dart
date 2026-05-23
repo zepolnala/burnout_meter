@@ -26,6 +26,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _seeding = false;
   bool _isRegisterMode = false;
   String _selectedRole = 'employee'; // 'employee' or 'manager'
+  String _selectedOrg = 'org789';
+  String _selectedTeam = 'teamEng';
+
+  final Map<String, Map<String, dynamic>> _predefinedOrgs = const {
+    'org789': {
+      'name': 'Acme Corporation (org789)',
+      'teams': {
+        'teamEng': 'Engineering Team (teamEng)',
+        'teamCS': 'Customer Success Team (teamCS)',
+      }
+    },
+    'orgDemo': {
+      'name': 'Demo Health Inc. (orgDemo)',
+      'teams': {
+        'teamDemo': 'General Demo Team (teamDemo)',
+        'teamProduct': 'Product & Design (teamProduct)',
+      }
+    },
+  };
 
   @override
   void dispose() {
@@ -456,34 +475,118 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 12),
 
-                    // Org Input
-                    TextField(
-                      controller: _regOrgController,
+                    // Org Input (Dropdown + Custom TextField)
+                    DropdownButtonFormField<String>(
+                      // ignore: deprecated_member_use
+                      value: _selectedOrg,
+                      dropdownColor: AppTheme.cardSlate,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.business_outlined, color: AppTheme.softText, size: 18),
-                        hintText: 'ID Organización (Ej: org789)',
-                        hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                        labelText: 'Organización B2B',
+                        labelStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                         filled: true,
                         fillColor: const Color(0xFF0F172A),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                       ),
+                      items: [
+                        ..._predefinedOrgs.entries.map((e) => DropdownMenuItem(
+                          value: e.key,
+                          child: Text(e.value['name'] as String),
+                        )),
+                        const DropdownMenuItem(
+                          value: 'custom',
+                          child: Text('Crear nueva organización / Otra...'),
+                        ),
+                      ],
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            _selectedOrg = val;
+                            if (val == 'custom') {
+                              _regOrgController.clear();
+                              _selectedTeam = 'custom';
+                              _regTeamController.clear();
+                            } else {
+                              _regOrgController.text = val;
+                              final teams = _predefinedOrgs[val]!['teams'] as Map<String, String>;
+                              _selectedTeam = teams.keys.first;
+                              _regTeamController.text = _selectedTeam;
+                            }
+                          });
+                        }
+                      },
                     ),
+                    if (_selectedOrg == 'custom') ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _regOrgController,
+                        style: const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.business_outlined, color: AppTheme.accentTeal, size: 18),
+                          hintText: 'ID de la Nueva Organización (Ej: miOrg)',
+                          hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                          filled: true,
+                          fillColor: const Color(0xFF0F172A),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 12),
 
-                    // Team Input
-                    TextField(
-                      controller: _regTeamController,
+                    // Team Input (Dropdown + Custom TextField)
+                    DropdownButtonFormField<String>(
+                      // ignore: deprecated_member_use
+                      value: _selectedTeam,
+                      dropdownColor: AppTheme.cardSlate,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.softText, size: 18),
-                        hintText: _selectedRole == 'employee' ? 'ID Equipo (Ej: teamEng)' : 'ID Equipo Asignado (Ej: teamEng)',
-                        hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                        labelText: _selectedRole == 'employee' ? 'Equipo asignado' : 'Equipo a liderar',
+                        labelStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                         filled: true,
                         fillColor: const Color(0xFF0F172A),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                       ),
+                      items: [
+                        if (_selectedOrg != 'custom')
+                          ...(_predefinedOrgs[_selectedOrg]!['teams'] as Map<String, String>).entries.map((e) => DropdownMenuItem(
+                            value: e.key,
+                            child: Text(e.value),
+                          )),
+                        const DropdownMenuItem(
+                          value: 'custom',
+                          child: Text('Otro equipo / Crear nuevo...'),
+                        ),
+                      ],
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            _selectedTeam = val;
+                            if (val == 'custom') {
+                              _regTeamController.clear();
+                            } else {
+                              _regTeamController.text = val;
+                            }
+                          });
+                        }
+                      },
                     ),
+                    if (_selectedTeam == 'custom') ...[
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _regTeamController,
+                        style: const TextStyle(color: Colors.white, fontSize: 14),
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.accentTeal, size: 18),
+                          hintText: _selectedRole == 'employee' ? 'ID del Nuevo Equipo (Ej: teamEng)' : 'ID del Equipo a Liderar (Ej: teamEng)',
+                          hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                          filled: true,
+                          fillColor: const Color(0xFF0F172A),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
                     // Register Button
