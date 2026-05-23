@@ -206,6 +206,45 @@ describe('Firestore Security Rules Compliance Tests', () => {
     });
   });
 
+  describe('2.5 Privilege Escalation Prevention', () => {
+    it('❌ Normal User CANNOT create Admin membership', async () => {
+      const db = testEnv.authenticatedContext('attackerUid', { email: 'hacker@gmail.com' }).firestore();
+      
+      await assertFails(db.collection('memberships').doc('attackerUid').set({
+        userId: 'attackerUid',
+        role: 'admin',
+        orgId: 'org123'
+      }));
+    });
+
+    it('✅ Demo User CAN create Admin membership', async () => {
+      const db = testEnv.authenticatedContext('demoAdmUid', { email: 'ceo@burnoutmeter.demo' }).firestore();
+      
+      await assertSucceeds(db.collection('memberships').doc('demoAdmUid').set({
+        userId: 'demoAdmUid',
+        role: 'admin',
+        orgId: 'org123'
+      }));
+    });
+
+    it('❌ User CANNOT update their role after creation', async () => {
+      // Seed legit employee profile
+      await seedDoc('memberships', 'empSpoof', {
+        userId: 'empSpoof',
+        role: 'employee',
+        orgId: 'org123'
+      });
+
+      const db = testEnv.authenticatedContext('empSpoof', { email: 'hacker@gmail.com' }).firestore();
+      
+      // Attempting to escalate privileges
+      await assertFails(db.collection('memberships').doc('empSpoof').update({
+        role: 'manager',
+        managedTeamIds: ['team1']
+      }));
+    });
+  });
+
   describe('3. Multi-Tenant Separation', () => {
     it('✅ Admin can read memberships within own organization', async () => {
       // Seed the admin membership
@@ -241,6 +280,39 @@ describe('Firestore Security Rules Compliance Tests', () => {
 
       const db = testEnv.authenticatedContext('adm789').firestore();
       await assertFails(db.collection('memberships').doc('otherUser').get());
+    });
+
+    it('❌ Manager CANNOT read scores from other organization (Tenant Bypass Prevention)', async () => {
+      // 1. Seed manager in OrgA
+      await seedDoc('memberships', 'mgrOrgA', {
+        userId: 'mgrOrgA',
+        orgId: 'OrgA',
+        role: 'manager',
+        managedTeamIds: ['teamAlpha']
+      });
+
+      // 2. Seed Employee in OrgB with the same teamId (spoof) and sharingEnabled
+      await seedDoc('memberships', 'empOrgB', {
+        userId: 'empOrgB',
+        orgId: 'OrgB',
+        role: 'employee',
+        teamId: 'teamAlpha'
+      });
+      await seedDoc('consents', 'empOrgB', {
+        userId: 'empOrgB',
+        sharingEnabled: true
+      });
+      await seedDoc('scores', 'scoreOrgB', {
+        id: 'scoreOrgB',
+        userId: 'empOrgB',
+        teamId: 'teamAlpha',
+        orgId: 'OrgB',
+        burnoutIndex: 50.0
+      });
+
+      // Manager from OrgA attempts to read score from OrgB due to matching teamId
+      const db = testEnv.authenticatedContext('mgrOrgA').firestore();
+      await assertFails(db.collection('scores').doc('scoreOrgB').get());
     });
   });
 

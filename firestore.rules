@@ -11,6 +11,11 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
+    // Checks if the user is a valid demonstrator
+    function isDemoEmail() {
+      return request.auth.token.email.matches('.*@burnoutmeter\\.demo');
+    }
+
     // Fetches the dynamic membership profile of the active operator
     function getMembership() {
       return get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data;
@@ -52,7 +57,12 @@ service cloud.firestore {
     // 1. Memberships (RBAC mappings)
     match /memberships/{userId} {
       allow read: if isAuthenticated() && (isOwner(userId) || ((isAdmin() || isManager()) && sameOrg(resource.data.orgId)));
-      allow write: if isAuthenticated() && (isAdmin() || isOwner(userId)); // Admins or the user themselves during dynamic seeding
+      allow create: if isAuthenticated() && isOwner(userId) && (
+        request.resource.data.role == 'employee' || isDemoEmail()
+      );
+      allow update: if isAuthenticated() && isOwner(userId) && (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt'])
+      );
     }
 
     // 2. Privacy Consents
@@ -78,7 +88,7 @@ service cloud.firestore {
       // Managers can read if the employee has granted sharing consent AND is on their team.
       allow read: if isAuthenticated() && (
         isOwner(resource.data.userId) || 
-        (isManager() && hasSharingConsent(resource.data.userId) && resource.data.teamId in getMembership().managedTeamIds) ||
+        (isManager() && hasSharingConsent(resource.data.userId) && resource.data.teamId in getMembership().managedTeamIds && sameOrg(resource.data.orgId)) ||
         (isAdmin() && sameOrg(resource.data.orgId))
       );
       // Allowed for local prototype demonstration. Owner employee can write their own score.
