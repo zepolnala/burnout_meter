@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,20 +16,23 @@ Future<void> main() async {
     AppLogger.info('⚡ [FIREBASE] Initializing Firebase Core...');
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'demo-burnoutmeter-api-key',
-        authDomain: 'demo-burnoutmeter.firebaseapp.com',
-        projectId: 'demo-burnoutmeter',
-        storageBucket: 'demo-burnoutmeter.appspot.com',
-        messagingSenderId: '1234567890',
-        appId: '1:1234567890:web:1234567890',
+        apiKey: 'AIzaSyAKOFkCWQ14vp_tkTydQXjWe2ovYGDgZOo',
+        authDomain: 'burnoutmeter-zepolnala.firebaseapp.com',
+        projectId: 'burnoutmeter-zepolnala',
+        storageBucket: 'burnoutmeter-zepolnala.appspot.com',
+        messagingSenderId: '515645476384',
+        appId: '1:515645476384:web:7ef1ebc4282d108bb83645',
       ),
     );
 
-    if (kDebugMode) {
+    const bool useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: false);
+    if (useEmulator) {
       const host = '127.0.0.1';
       await FirebaseAuth.instance.useAuthEmulator(host, 9099);
       FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
       AppLogger.info('🔥 [EMULATOR] Connected to Firebase Emulators: Auth (9099), Firestore (8080)');
+    } else {
+      AppLogger.info('☁️ [CLOUD] Connected directly to Firebase Cloud services: burnoutmeter-zepolnala');
     }
     
     AppLogger.info('✅ [FIREBASE] Initialization sequence complete');

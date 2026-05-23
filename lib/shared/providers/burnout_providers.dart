@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../data/sources/health/synthetic_health_data_source.dart';
@@ -23,7 +24,7 @@ final consentProvider = StateNotifierProvider.autoDispose.family<ConsentNotifier
 class ConsentNotifier extends StateNotifier<AsyncValue<Consent?>> {
   final Ref _ref;
   final String _userId;
-  StreamSubscription? _subscription;
+  StreamSubscription<Consent?>? _subscription;
 
   ConsentNotifier(this._ref, this._userId) : super(const AsyncValue.loading()) {
     _init();

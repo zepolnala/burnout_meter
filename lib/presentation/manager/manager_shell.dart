@@ -5,6 +5,8 @@ import '../../shared/providers/auth_provider.dart';
 import '../../shared/providers/burnout_providers.dart';
 
 import '../../shared/theme/app_theme.dart';
+import '../shared/vector_icons.dart';
+import '../shared/burnout_radial_score.dart';
 
 class ManagerShell extends ConsumerStatefulWidget {
   const ManagerShell({super.key});
@@ -356,10 +358,10 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                                                     child: const Row(
                                                       mainAxisSize: MainAxisSize.min,
                                                       children: [
-                                                        Icon(Icons.lock_outline, color: AppTheme.softText, size: 12),
+                                                        ShieldVectorIcon(size: 12, color: AppTheme.softText),
                                                         SizedBox(width: 6),
                                                         Text(
-                                                          '🔒 Privado',
+                                                          'Privado',
                                                           style: TextStyle(
                                                             color: AppTheme.softText,
                                                             fontWeight: FontWeight.bold,
@@ -491,6 +493,14 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                       'Destinatario: $selectedEmployeeName',
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                     ),
+                    if (scoresAsync.value != null && 
+                        scoresAsync.value!.where((s) => s.userId == _selectedEmployeeId).firstOrNull != null) ...[
+                      const SizedBox(height: 16),
+                      BurnoutRadialScore(
+                        score: scoresAsync.value!.where((s) => s.userId == _selectedEmployeeId).first.burnoutIndex,
+                        size: 110,
+                      ),
+                    ],
                     const SizedBox(height: 24),
                     
                     const Text('1. Selecciona tipo de intervención:', style: TextStyle(color: Colors.white, fontSize: 12)),

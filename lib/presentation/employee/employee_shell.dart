@@ -7,6 +7,8 @@ import '../../shared/providers/burnout_providers.dart';
 import '../../shared/providers/repository_providers.dart';
 import '../../domain/models/action.dart';
 import '../../shared/theme/app_theme.dart';
+import '../shared/vector_icons.dart';
+import '../shared/burnout_radial_score.dart';
 
 class EmployeeShell extends ConsumerStatefulWidget {
   const EmployeeShell({super.key});
@@ -208,9 +210,16 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0F172A),
+                  color: const Color(0xFF1E293B).withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: const Color(0xFF334155)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.05),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    )
+                  ],
                 ),
                 child: Column(
                   children: [
@@ -218,42 +227,10 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                       'ÍNDICE DE CARGA DIARIA',
                       style: TextStyle(color: AppTheme.softText, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1),
                     ),
-                    const SizedBox(height: 20),
-                    // Simulated gauge
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          width: 140,
-                          height: 140,
-                          child: CircularProgressIndicator(
-                            value: idx / 100.0,
-                            strokeWidth: 12,
-                            backgroundColor: const Color(0xFF1E293B),
-                            valueColor: AlwaysStoppedAnimation<Color>(color),
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              idx.toStringAsFixed(0),
-                              style: const TextStyle(fontSize: 42, fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            const Text(
-                              '/ 100',
-                              style: TextStyle(color: AppTheme.softText, fontSize: 12),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      idx < 40 ? 'Carga Óptima' : idx < 75 ? 'Carga Elevada (Stress)' : 'Riesgo Crítico de Burnout',
-                      style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 24),
+                    // Beautiful Custom Radial Score Dial
+                    BurnoutRadialScore(score: idx, size: 160),
+                    const SizedBox(height: 24),
                     const Text(
                       'Biometría cargada de Wearable E500. Tu manager nunca accede a tus datos biológicos crudos.',
                       textAlign: TextAlign.center,
@@ -312,13 +289,13 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                 style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
-              _buildSubscoreRow('Sueño (Calidad & Horas)', score.subscores.sleep, true),
+              _buildSubscoreRow('Sueño (Calidad & Horas)', score.subscores.sleep, true, const SleepVectorIcon(size: 20)),
               const SizedBox(height: 10),
-              _buildSubscoreRow('Recuperación (HRV)', score.subscores.recovery, true),
+              _buildSubscoreRow('Recuperación (HRV)', score.subscores.recovery, true, const RecoveryVectorIcon(size: 20)),
               const SizedBox(height: 10),
-              _buildSubscoreRow('Estrés Interno (Frecuencia)', score.subscores.stress, false),
+              _buildSubscoreRow('Estrés Interno (Frecuencia)', score.subscores.stress, false, const StressVectorIcon(size: 20)),
               const SizedBox(height: 10),
-              _buildSubscoreRow('Carga Física Diaria', score.subscores.load, false),
+              _buildSubscoreRow('Carga Física Diaria', score.subscores.load, false, const LoadVectorIcon(size: 20)),
               const SizedBox(height: 24),
 
               // Trend section
@@ -337,9 +314,9 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A),
+        color: const Color(0xFF1E293B).withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF334155)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,7 +362,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     );
   }
 
-  Widget _buildSubscoreRow(String label, double value, bool invertColor) {
+  Widget _buildSubscoreRow(String label, double value, bool invertColor, Widget vectorIcon) {
     // invertColor means higher score = healthier (green). E.g. Sleep & Recovery
     final bool isHealthy = invertColor ? value >= 60 : value < 50;
     final color = isHealthy ? AppTheme.activeGreen : AppTheme.activeOrange;
@@ -393,11 +370,14 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A),
+        color: const Color(0xFF1E293B).withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
       ),
       child: Row(
         children: [
+          vectorIcon,
+          const SizedBox(width: 12),
           Expanded(
             child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 13)),
           ),
@@ -437,7 +417,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                 text: 'GDPR en Acción: Al apagar "Compartir mi Burnout Index", el sistema ejecuta una transacción que actualiza tu perfil en Firestore. La regla de base de datos se activa en el acto, bloqueando de raíz cualquier lectura externa.',
               ),
               const SizedBox(height: 20),
-              const Icon(Icons.shield_outlined, color: AppTheme.accentTeal, size: 64),
+              const ShieldVectorIcon(size: 64),
               const SizedBox(height: 16),
               const Text(
                 'Centro de Consentimientos',
@@ -618,7 +598,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
         children: [
           Row(
             children: [
-              const Icon(Icons.lightbulb_outline, color: AppTheme.accentTeal, size: 20),
+              const WellnessSparkles(size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(

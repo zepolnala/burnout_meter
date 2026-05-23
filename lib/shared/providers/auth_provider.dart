@@ -86,6 +86,67 @@ class AuthNotifier extends StateNotifier<AsyncValue<Membership?>> {
     }
   }
 
+  /// Register a new user and transacted membership/consent templates
+  Future<void> register({
+    required String email,
+    required String password,
+    required String role,
+    required String orgId,
+    String? teamId,
+    List<String>? managedTeamIds,
+  }) async {
+    AppLogger.auth('Registering new user email: $email (Role: $role)...');
+    state = const AsyncValue.loading();
+    try {
+      // 1. Create account
+      final creds = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      final uid = creds.user!.uid;
+
+      // 2. Seed Membership in Firestore
+      await _db.collection('memberships').doc(uid).set({
+        'userId': uid,
+        'email': email,
+        'orgId': orgId,
+        'teamId': teamId,
+        'role': role,
+        'managedTeamIds': managedTeamIds,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      // 3. Set standard consent and initial scores for employees
+      if (role == 'employee') {
+        await _db.collection('consents').doc(uid).set({
+          'userId': uid,
+          'sharingEnabled': true,
+          'actionsEnabled': true,
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
+
+        final scoreId = 'score_${uid}_initial';
+        await _db.collection('scores').doc(scoreId).set({
+          'id': scoreId,
+          'userId': uid,
+          'orgId': orgId,
+          'teamId': teamId ?? 'teamEng',
+          'burnoutIndex': 35.0,
+          'subscores': {
+            'sleep': 80.0,
+            'recovery': 70.0,
+            'stress': 35.0,
+            'load': 40.0,
+          },
+          'calculatedAt': FieldValue.serverTimestamp(),
+        });
+      }
+
+      AppLogger.auth('Successfully registered new user: $email (UID: $uid)');
+    } catch (e, stack) {
+      AppLogger.auth('Failed registration for email: $email. Error: $e');
+      state = AsyncValue.error(e, stack);
+      rethrow;
+    }
+  }
+
   /// Tear down active session
   Future<void> logout() async {
     AppLogger.auth('Attempting sign-out active session...');
