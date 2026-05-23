@@ -27,12 +27,12 @@ class AppShell extends ConsumerWidget {
               margin: const EdgeInsets.all(24),
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: AppTheme.cardSlate.withOpacity(0.9),
+                color: AppTheme.cardSlate.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: const Color(0xFF334155)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 30,
                     offset: const Offset(0, 15),
                   )
@@ -48,7 +48,7 @@ class AppShell extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppTheme.accentTeal.withOpacity(0.15),
+                          color: AppTheme.accentTeal.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Icon(Icons.shield_outlined, color: AppTheme.accentTeal, size: 36),

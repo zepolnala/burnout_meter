@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:uuid/uuid.dart';
 import '../../domain/models/audit_log.dart';
 import '../../domain/models/membership.dart';
@@ -61,9 +61,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.accentTeal.withOpacity(0.08),
+        color: AppTheme.accentTeal.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.accentTeal.withOpacity(0.25)),
+        border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +107,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.activeRed.withOpacity(0.15),
+                color: AppTheme.activeRed.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.admin_panel_settings_outlined, color: AppTheme.activeRed, size: 20),
@@ -248,7 +248,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                                                   : m.role == 'manager'
                                                       ? AppTheme.activeOrange
                                                       : AppTheme.activeGreen)
-                                              .withOpacity(0.12),
+                                              .withValues(alpha: 0.12),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         child: Text(
@@ -313,7 +313,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                                           Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withOpacity(0.06),
+                                              color: Colors.white.withValues(alpha: 0.06),
                                               borderRadius: BorderRadius.circular(6),
                                             ),
                                             child: Text(
@@ -380,7 +380,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 24),

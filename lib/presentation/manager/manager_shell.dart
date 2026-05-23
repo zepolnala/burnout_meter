@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/providers/burnout_providers.dart';
-import '../../shared/providers/repository_providers.dart';
+
 import '../../shared/theme/app_theme.dart';
 
 class ManagerShell extends ConsumerStatefulWidget {
@@ -32,9 +32,9 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.accentTeal.withOpacity(0.08),
+        color: AppTheme.accentTeal.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.accentTeal.withOpacity(0.25)),
+        border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTheme.activeOrange.withOpacity(0.15),
+                color: AppTheme.activeOrange.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.dashboard_outlined, color: AppTheme.activeOrange, size: 20),
@@ -177,9 +177,9 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: AppTheme.accentTeal.withOpacity(0.08),
+                          color: AppTheme.accentTeal.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppTheme.accentTeal.withOpacity(0.2)),
+                          border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.2)),
                         ),
                         child: const Row(
                           children: [
@@ -225,9 +225,9 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                               padding: const EdgeInsets.all(16),
                               margin: const EdgeInsets.only(bottom: 24),
                               decoration: BoxDecoration(
-                                color: AppTheme.activeOrange.withOpacity(0.08),
+                                color: AppTheme.activeOrange.withValues(alpha: 0.08),
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: AppTheme.activeOrange.withOpacity(0.3)),
+                                border: Border.all(color: AppTheme.activeOrange.withValues(alpha: 0.3)),
                               ),
                               child: Row(
                                 children: [
@@ -303,7 +303,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                                 decoration: BoxDecoration(
-                                                  color: AppTheme.getScoreColor(score.burnoutIndex).withOpacity(0.15),
+                                                  color: AppTheme.getScoreColor(score.burnoutIndex).withValues(alpha: 0.15),
                                                   borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: Text(
@@ -328,9 +328,9 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.white.withOpacity(0.04),
+                                                  color: Colors.white.withValues(alpha: 0.04),
                                                   borderRadius: BorderRadius.circular(8),
-                                                  border: Border.all(color: Colors.white.withOpacity(0.08)),
+                                                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                                                 ),
                                                 child: const Row(
                                                   mainAxisSize: MainAxisSize.min,
@@ -417,7 +417,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                             trailing: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: statusColor.withOpacity(0.12),
+                                color: statusColor.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
@@ -478,7 +478,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                         children: templates.map((tmpl) {
                           final isSelected = _selectedActionType == tmpl.type;
                           return Card(
-                            color: isSelected ? AppTheme.accentTeal.withOpacity(0.12) : const Color(0xFF1E293B),
+                            color: isSelected ? AppTheme.accentTeal.withValues(alpha: 0.12) : const Color(0xFF1E293B),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                               side: BorderSide(color: isSelected ? AppTheme.accentTeal : const Color(0xFF334155)),

@@ -153,12 +153,20 @@ class MockConsentRepository implements ConsentRepository {
 
   @override
   Stream<Consent?> watchConsent(String userId) {
+    // ignore: close_sinks
     final controller = _getOrCreateController(userId);
     // Emit current value immediately if available
     Future.microtask(() {
       controller.add(_consents[userId]);
     });
     return controller.stream;
+  }
+
+  void dispose() {
+    for (final controller in _controllers.values) {
+      controller.close();
+    }
+    _controllers.clear();
   }
 }
 

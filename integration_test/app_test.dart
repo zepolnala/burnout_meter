@@ -13,7 +13,7 @@ void main() {
       await FirebaseAuth.instance.signOut();
 
       // 1. Boot up the app
-      app.main();
+      await app.main();
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // 2. Trigger Seeding

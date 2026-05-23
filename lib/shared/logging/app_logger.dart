@@ -31,6 +31,16 @@ class AppLogger {
     _print('ℹ️ [INFO] $message');
   }
 
+  /// Warning logger
+  static void warning(String message) {
+    _print('⚠️ [WARNING] $message');
+  }
+
+  /// Error logger
+  static void error(String message) {
+    _print('❌ [ERROR] $message');
+  }
+
   static void _print(String formatted) {
     if (kDebugMode) {
       print(formatted);

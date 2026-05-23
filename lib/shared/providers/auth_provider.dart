@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/membership.dart';
 import '../logging/app_logger.dart';
@@ -9,8 +9,8 @@ import '../logging/app_logger.dart';
 class AuthNotifier extends StateNotifier<AsyncValue<Membership?>> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  StreamSubscription? _authSubscription;
-  StreamSubscription? _membershipSubscription;
+  StreamSubscription<User?>? _authSubscription;
+  StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _membershipSubscription;
 
   AuthNotifier() : super(const AsyncValue.loading()) {
     _init();

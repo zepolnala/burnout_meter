@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+
 import '../../data/sources/health/replay_health_data_source.dart';
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/providers/burnout_providers.dart';
@@ -38,7 +38,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
             borderRadius: BorderRadius.circular(32),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 blurRadius: 40,
                 offset: const Offset(0, 20),
               )
@@ -143,9 +143,9 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.accentTeal.withOpacity(0.08),
+        color: AppTheme.accentTeal.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.accentTeal.withOpacity(0.25)),
+        border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,9 +475,9 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.03),
+                  color: Colors.white.withValues(alpha: 0.03),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withOpacity(0.08)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                 ),
                 child: const Text(
                   'Cumplimiento GDPR: Cada cambio en estas opciones genera un "Audit Log" inmutable que valida el cumplimiento normativo en backend.',
@@ -518,7 +518,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
               Switch(
                 value: value,
                 onChanged: onChanged,
-                activeColor: AppTheme.accentTeal,
+                activeThumbColor: AppTheme.accentTeal,
               ),
             ],
           ),
@@ -603,7 +603,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.accentTeal.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -663,7 +663,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.black.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -676,7 +676,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(

@@ -111,7 +111,6 @@ final teamScoresProvider = FutureProvider.family<List<Score>, String>((ref, team
   }
 
   final membershipRepo = ref.read(membershipRepositoryProvider);
-  final healthRepo = ref.read(healthRepositoryProvider);
   final auditRepo = ref.read(auditRepositoryProvider);
 
   // Load all team members
