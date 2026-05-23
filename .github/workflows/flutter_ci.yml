@@ -52,7 +52,7 @@ jobs:
         run: cd firestore-tests && npm ci
 
       - name: Run Firestore Security Rules Tests
-        run: cd firestore-tests && npm test
+        run: firebase emulators:exec --project demo-burnoutmeter "cd firestore-tests && npm test"
 
       # 5. Unit & Widget Tests
       - name: Run Standard Tests
