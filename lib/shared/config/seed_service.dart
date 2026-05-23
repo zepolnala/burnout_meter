@@ -15,7 +15,7 @@ class SeedService {
       // ADMIN
       {
         'uid': 'adm789',
-        'email': 'admin@burnoutmeter.com',
+        'email': 'admin@burnoutmeter.demo',
         'password': 'password123',
         'role': 'admin',
         'orgId': 'org789',
@@ -25,7 +25,7 @@ class SeedService {
       // MANAGERS
       {
         'uid': 'mgrEng',
-        'email': 'manager_eng@burnoutmeter.com',
+        'email': 'manager_eng@burnoutmeter.demo',
         'password': 'password123',
         'role': 'manager',
         'orgId': 'org789',
@@ -34,7 +34,7 @@ class SeedService {
       },
       {
         'uid': 'mgrCS',
-        'email': 'manager_cs@burnoutmeter.com',
+        'email': 'manager_cs@burnoutmeter.demo',
         'password': 'password123',
         'role': 'manager',
         'orgId': 'org789',
@@ -44,7 +44,7 @@ class SeedService {
       // EMPLOYEES
       {
         'uid': 'emp123', // Alan
-        'email': 'employee_eng1@burnoutmeter.com',
+        'email': 'employee_eng1@burnoutmeter.demo',
         'password': 'password123',
         'role': 'employee',
         'orgId': 'org789',
@@ -55,7 +55,7 @@ class SeedService {
       },
       {
         'uid': 'empEng2', // Sofía (sharing turned off!)
-        'email': 'employee_eng2@burnoutmeter.com',
+        'email': 'employee_eng2@burnoutmeter.demo',
         'password': 'password123',
         'role': 'employee',
         'orgId': 'org789',

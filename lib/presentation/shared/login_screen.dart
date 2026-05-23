@@ -165,7 +165,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   style: const TextStyle(color: Colors.white, fontSize: 14),
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.email_outlined, color: AppTheme.softText, size: 18),
-                    hintText: 'email@burnoutmeter.com',
+                    hintText: 'email@burnoutmeter.demo',
                     hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                     filled: true,
                     fillColor: const Color(0xFF0F172A),
@@ -214,25 +214,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 _buildQuickAccessButton(
                   label: 'Alan (Empleado • teamEng)',
-                  email: 'employee_eng1@burnoutmeter.com',
+                  email: 'employee_eng1@burnoutmeter.demo',
                   color: AppTheme.activeGreen,
                 ),
                 const SizedBox(height: 8),
                 _buildQuickAccessButton(
                   label: 'Sofía (Empleado • teamEng • Sin compartir)',
-                  email: 'employee_eng2@burnoutmeter.com',
+                  email: 'employee_eng2@burnoutmeter.demo',
                   color: AppTheme.softText,
                 ),
                 const SizedBox(height: 8),
                 _buildQuickAccessButton(
                   label: 'Victor (Manager • teamEng)',
-                  email: 'manager_eng@burnoutmeter.com',
+                  email: 'manager_eng@burnoutmeter.demo',
                   color: AppTheme.activeOrange,
                 ),
                 const SizedBox(height: 8),
                 _buildQuickAccessButton(
                   label: 'Admin (Global multi-tenant)',
-                  email: 'admin@burnoutmeter.com',
+                  email: 'admin@burnoutmeter.demo',
                   color: AppTheme.activeRed,
                 ),
               ],
