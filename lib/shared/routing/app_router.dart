@@ -19,11 +19,11 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: navigatorKey,
     initialLocation: '/login',
     redirect: (context, state) {
-      final user = authState.value;
-      final location = state.uri.path;
+      // 1. If auth is loading, has an error, or we are seeding the database, hold redirection
+      if (authState.isLoading || authState.hasError || SeedService.isSeeding) return null;
 
-      // 1. If auth is loading or we are seeding the database, hold redirection
-      if (authState.isLoading || SeedService.isSeeding) return null;
+      final user = authState.valueOrNull;
+      final location = state.uri.path;
 
       // 2. Unauthenticated state: Force redirection to login
       if (user == null) {
