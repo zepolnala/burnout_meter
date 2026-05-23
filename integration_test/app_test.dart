@@ -9,12 +9,13 @@ void main() {
 
   group('BurnoutMeter E2E Flow Validation', () {
     testWidgets('Full verification of all roles and routing', (WidgetTester tester) async {
-      // 0. Ensure deterministic state by logging out any residual cached sessions
-      await FirebaseAuth.instance.signOut();
-
-      // 1. Boot up the app
+      // 1. Boot up the app (Initializes Firebase)
       await app.main();
       await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // 2. Ensure deterministic state by logging out any residual cached sessions
+      await FirebaseAuth.instance.signOut();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
       // 2. Trigger Seeding
       final seedButton = find.text('Inicializar DB Local (Seed)');
