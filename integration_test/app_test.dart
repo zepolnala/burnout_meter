@@ -47,7 +47,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Verify routing landed in Manager Dashboard
-      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MANAGER'), findsWidgets);
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
       
       // Logout
       await tester.tap(logoutButton);
@@ -60,7 +60,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Verify routing landed in Admin Dashboard
-      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMIN'), findsWidgets);
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR'), findsWidgets);
       
       // Logout
       await tester.tap(logoutButton);
