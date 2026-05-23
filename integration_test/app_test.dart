@@ -32,7 +32,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Verify routing landed in Employee Dashboard
-      expect(find.textContaining('Tu estado actual'), findsWidgets);
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
       
       // Perform Logout
       final logoutButton = find.byIcon(Icons.logout);
@@ -47,7 +47,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Verify routing landed in Manager Dashboard
-      expect(find.textContaining('BurnoutMeter Manager Console'), findsWidgets);
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MANAGER'), findsWidgets);
       
       // Logout
       await tester.tap(logoutButton);
@@ -60,7 +60,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Verify routing landed in Admin Dashboard
-      expect(find.textContaining('Admin Overview'), findsWidgets);
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMIN'), findsWidgets);
       
       // Logout
       await tester.tap(logoutButton);
