@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/config/seed_service.dart';
 import '../../shared/providers/auth_provider.dart';
@@ -37,14 +38,143 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
+  void _showConfigErrorDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: AppTheme.cardSlate,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          elevation: 24,
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 480),
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: AppTheme.cardSlate,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppTheme.activeOrange.withValues(alpha: 0.2)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.activeOrange.withValues(alpha: 0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.warning_amber_rounded, color: AppTheme.activeOrange, size: 28),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Text(
+                        'Autenticación Requerida',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'El proveedor de inicio de sesión con "Correo electrónico y contraseña" está desactivado en tu proyecto Firebase Cloud (burnoutmeter-zepolnala).\n\nPara activarlo y poder loguearte o registrar usuarios, sigue estos pasos:',
+                  style: TextStyle(color: Colors.white, fontSize: 13, height: 1.5),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                  ),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Paso 1: Entra al panel de proveedores de Firebase:',
+                        style: TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11),
+                      ),
+                      SizedBox(height: 6),
+                      SelectableText(
+                        'https://console.firebase.google.com/project/burnoutmeter-zepolnala/authentication/providers',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'monospace',
+                          fontSize: 11,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        'Paso 2: Haz clic en "Agregar nuevo proveedor" (o "Add new provider"), elige "Correo electrónico/contraseña" (Email/Password), actívalo y guarda los cambios.',
+                        style: TextStyle(color: AppTheme.softText, fontSize: 11, height: 1.4),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppTheme.softText,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Entendido', style: TextStyle(fontWeight: FontWeight.w600)),
+                    ),
+                    const SizedBox(width: 12),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.accentTeal,
+                        foregroundColor: AppTheme.darkSlate,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                      onPressed: () async {
+                        final messenger = ScaffoldMessenger.of(context);
+                        final navigator = Navigator.of(context);
+                        await Clipboard.setData(const ClipboardData(text: 'https://console.firebase.google.com/project/burnoutmeter-zepolnala/authentication/providers'));
+                        messenger.showSnackBar(
+                          const SnackBar(content: Text('Enlace copiado al portapapeles.'), backgroundColor: AppTheme.activeGreen),
+                        );
+                        navigator.pop();
+                      },
+                      icon: const Icon(Icons.copy, size: 16),
+                      label: const Text('Copiar Enlace', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _handleLogin(String email, String password) async {
     try {
       await ref.read(authStateProvider.notifier).login(email, password);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al iniciar sesión: $e'), backgroundColor: AppTheme.activeRed),
-        );
+        final errStr = e.toString();
+        if (errStr.contains('configuration-not-found')) {
+          _showConfigErrorDialog();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al iniciar sesión: $e'), backgroundColor: AppTheme.activeRed),
+          );
+        }
       }
     }
   }
@@ -79,9 +209,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al registrar usuario: $e'), backgroundColor: AppTheme.activeRed),
-        );
+        final errStr = e.toString();
+        if (errStr.contains('configuration-not-found')) {
+          _showConfigErrorDialog();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al registrar usuario: $e'), backgroundColor: AppTheme.activeRed),
+          );
+        }
       }
     }
   }

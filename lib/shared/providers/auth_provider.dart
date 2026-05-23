@@ -83,6 +83,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<Membership?>> {
     } catch (e, stack) {
       AppLogger.auth('Failed sign-in for email: $email. Error: $e');
       state = AsyncValue.error(e, stack);
+      rethrow;
     }
   }
 
