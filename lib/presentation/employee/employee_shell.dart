@@ -285,6 +285,12 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    final actionsAsync = ref.watch(employeeActionsProvider(user.userId));
+    final int pendingCount = actionsAsync.maybeWhen(
+      data: (actions) => actions.where((a) => a.status == 'sent' || a.status == 'received').length,
+      orElse: () => 0,
+    );
+
     return Scaffold(
       backgroundColor: AppTheme.darkSlate,
       body: Center(
@@ -368,20 +374,32 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                 selectedFontSize: 12,
                 unselectedFontSize: 12,
                 type: BottomNavigationBarType.fixed,
-                items: const [
-                  BottomNavigationBarItem(
+                items: [
+                  const BottomNavigationBarItem(
                     icon: Icon(Icons.favorite_border),
                     activeIcon: Icon(Icons.favorite),
                     label: 'Mi Estado',
                   ),
-                  BottomNavigationBarItem(
+                  const BottomNavigationBarItem(
                     icon: Icon(Icons.privacy_tip_outlined),
                     activeIcon: Icon(Icons.privacy_tip),
                     label: 'Privacidad',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications_none_outlined),
-                    activeIcon: Icon(Icons.notifications),
+                    icon: pendingCount > 0 
+                      ? Badge(
+                          label: Text(pendingCount.toString()),
+                          backgroundColor: AppTheme.activeRed,
+                          child: const Icon(Icons.notifications_none_outlined),
+                        )
+                      : const Icon(Icons.notifications_none_outlined),
+                    activeIcon: pendingCount > 0
+                      ? Badge(
+                          label: Text(pendingCount.toString()),
+                          backgroundColor: AppTheme.activeRed,
+                          child: const Icon(Icons.notifications),
+                        )
+                      : const Icon(Icons.notifications),
                     label: 'Acciones',
                   ),
                 ],
@@ -665,7 +683,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                 text: 'GDPR en Acción: Al apagar "Compartir mi Burnout Index", el sistema ejecuta una transacción que actualiza tu perfil en Firestore. La regla de base de datos se activa en el acto, bloqueando de raíz cualquier lectura externa.',
               ),
               const SizedBox(height: 20),
-              const ShieldVectorIcon(size: 64),
+              const Center(child: ShieldVectorIcon(size: 64)),
               const SizedBox(height: 16),
               const Text(
                 'Centro de Consentimientos',

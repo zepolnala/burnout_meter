@@ -20,14 +20,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   // Registration Controllers
   final TextEditingController _regEmailController = TextEditingController();
   final TextEditingController _regPasswordController = TextEditingController();
-  final TextEditingController _regOrgController = TextEditingController(text: 'org789');
-  final TextEditingController _regTeamController = TextEditingController(text: 'teamEng');
+  final TextEditingController _regOrgController = TextEditingController();
+  final TextEditingController _regTeamController = TextEditingController();
   
   bool _seeding = false;
   bool _isRegisterMode = false;
   String _selectedRole = 'employee'; // 'employee' or 'manager'
-  String _selectedOrg = 'org789';
-  String _selectedTeam = 'teamEng';
+  String _selectedOrg = 'select';
+  String _selectedTeam = 'select';
 
   final Map<String, Map<String, dynamic>> _predefinedOrgs = const {
     'org789': {
@@ -204,6 +204,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final org = _regOrgController.text.trim();
     final team = _selectedRole == 'employee' ? _regTeamController.text.trim() : null;
     final managedTeams = _selectedRole == 'manager' ? [_regTeamController.text.trim()] : null;
+
+    if (_selectedOrg == 'select') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, selecciona una organización B2B.'), backgroundColor: AppTheme.activeOrange),
+      );
+      return;
+    }
+
+    if (_selectedTeam == 'select') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, selecciona un equipo para continuar.'), backgroundColor: AppTheme.activeOrange),
+      );
+      return;
+    }
 
     if (email.isEmpty || password.isEmpty || org.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -478,12 +492,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Org Input (Dropdown + Custom TextField)
                     DropdownButtonFormField<String>(
                       // ignore: deprecated_member_use
-                      value: _selectedOrg,
+                      value: _selectedOrg == 'select' ? null : _selectedOrg,
                       dropdownColor: AppTheme.cardSlate,
                       style: const TextStyle(color: Colors.white, fontSize: 14),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.business_outlined, color: AppTheme.softText, size: 18),
                         labelText: 'Organización B2B',
+                        hintText: 'Selecciona una organización...',
+                        hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                         labelStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                         filled: true,
                         fillColor: const Color(0xFF0F172A),
@@ -532,60 +548,65 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ],
-                    const SizedBox(height: 12),
 
-                    // Team Input (Dropdown + Custom TextField)
-                    DropdownButtonFormField<String>(
-                      // ignore: deprecated_member_use
-                      value: _selectedTeam,
-                      dropdownColor: AppTheme.cardSlate,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.softText, size: 18),
-                        labelText: _selectedRole == 'employee' ? 'Equipo asignado' : 'Equipo a liderar',
-                        labelStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
-                        filled: true,
-                        fillColor: const Color(0xFF0F172A),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                      ),
-                      items: [
-                        if (_selectedOrg != 'custom')
-                          ...(_predefinedOrgs[_selectedOrg]!['teams'] as Map<String, String>).entries.map((e) => DropdownMenuItem(
-                            value: e.key,
-                            child: Text(e.value),
-                          )),
-                        const DropdownMenuItem(
-                          value: 'custom',
-                          child: Text('Otro equipo / Crear nuevo...'),
-                        ),
-                      ],
-                      onChanged: (val) {
-                        if (val != null) {
-                          setState(() {
-                            _selectedTeam = val;
-                            if (val == 'custom') {
-                              _regTeamController.clear();
-                            } else {
-                              _regTeamController.text = val;
-                            }
-                          });
-                        }
-                      },
-                    ),
-                    if (_selectedTeam == 'custom') ...[
+                    if (_selectedOrg != 'select') ...[
                       const SizedBox(height: 12),
-                      TextField(
-                        controller: _regTeamController,
+
+                      // Team Input (Dropdown + Custom TextField)
+                      DropdownButtonFormField<String>(
+                        // ignore: deprecated_member_use
+                        value: _selectedTeam == 'select' ? null : _selectedTeam,
+                        dropdownColor: AppTheme.cardSlate,
                         style: const TextStyle(color: Colors.white, fontSize: 14),
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.accentTeal, size: 18),
-                          hintText: _selectedRole == 'employee' ? 'ID del Nuevo Equipo (Ej: teamEng)' : 'ID del Equipo a Liderar (Ej: teamEng)',
+                          prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.softText, size: 18),
+                          labelText: _selectedRole == 'employee' ? 'Equipo asignado' : 'Equipo a liderar',
+                          hintText: 'Selecciona un equipo...',
                           hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                          labelStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
                           filled: true,
                           fillColor: const Color(0xFF0F172A),
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                         ),
+                        items: [
+                          if (_selectedOrg != 'custom')
+                            ...(_predefinedOrgs[_selectedOrg]!['teams'] as Map<String, String>).entries.map((e) => DropdownMenuItem(
+                              value: e.key,
+                              child: Text(e.value),
+                            )),
+                          const DropdownMenuItem(
+                            value: 'custom',
+                            child: Text('Otro equipo / Crear nuevo...'),
+                          ),
+                        ],
+                        onChanged: (val) {
+                          if (val != null) {
+                            setState(() {
+                              _selectedTeam = val;
+                              if (val == 'custom') {
+                                _regTeamController.clear();
+                              } else {
+                                _regTeamController.text = val;
+                              }
+                            });
+                          }
+                        },
                       ),
+                      if (_selectedTeam == 'custom') ...[
+                        const SizedBox(height: 12),
+                        TextField(
+                          controller: _regTeamController,
+                          style: const TextStyle(color: Colors.white, fontSize: 14),
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.groups_outlined, color: AppTheme.accentTeal, size: 18),
+                            hintText: _selectedRole == 'employee' ? 'ID del Nuevo Equipo (Ej: teamEng)' : 'ID del Equipo a Liderar (Ej: teamEng)',
+                            hintStyle: const TextStyle(color: AppTheme.softText, fontSize: 13),
+                            filled: true,
+                            fillColor: const Color(0xFF0F172A),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ],
                     ],
                     const SizedBox(height: 16),
 
