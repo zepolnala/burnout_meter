@@ -31,12 +31,15 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     final auditRepo = ref.read(auditRepositoryProvider);
     final memberRepo = ref.read(membershipRepositoryProvider);
 
+    final currentUser = ref.read(authStateProvider).value;
+    if (currentUser == null) return;
+
     final listMembers = await memberRepo.getOrgMemberships('org789');
     
     // Simulate some standard seed logs for presentation
     await auditRepo.logAccess(AuditLog(
       id: const Uuid().v4(),
-      actorUserId: 'adm789',
+      actorUserId: currentUser.userId,
       actorRole: 'admin',
       actionType: 'read_security_audit_logs',
       orgId: 'org789',
