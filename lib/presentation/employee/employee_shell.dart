@@ -20,6 +20,254 @@ class EmployeeShell extends ConsumerStatefulWidget {
 class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   int _activeTab = 0; // 0: Dashboard, 1: Privacy, 2: Actions
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWearableOnboardingModal();
+    });
+  }
+
+  void _showWearableOnboardingModal() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: AppTheme.cardSlate,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          elevation: 24,
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 480),
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              color: AppTheme.cardSlate,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.15)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accentTeal.withValues(alpha: 0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.watch_rounded, color: AppTheme.accentTeal, size: 28),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Text(
+                        'Vincular tu Wearable',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Para calcular tu Índice de Burnout en tiempo real de manera científica, BurnoutMeter puede conectarse de forma segura con tus cuentas de salud de Apple Health, Google Health Connect, Fitbit o Garmin.',
+                  style: TextStyle(color: Colors.white, fontSize: 13, height: 1.5),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  '🔒 Privacidad de Datos Garantizada: Los datos biométricos crudos (sueño, HRV) permanecen en el almacenamiento local seguro de tu dispositivo (Drift). Tu organización solo recibe el Score de Burnout procesado (0-100), si autorizas compartirlo.',
+                  style: TextStyle(color: AppTheme.softText, fontSize: 12, height: 1.4),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildIntegrationRow(
+                        icon: Icons.apple,
+                        name: 'Apple Health',
+                        color: Colors.white,
+                      ),
+                      const Divider(color: Colors.white12, height: 16),
+                      _buildIntegrationRow(
+                        icon: Icons.fitbit,
+                        name: 'Google Health Connect / Fitbit',
+                        color: const Color(0xFF00B0B9),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.accentTeal,
+                        foregroundColor: AppTheme.darkSlate,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: () async {
+                        final navigator = Navigator.of(context);
+                        final messenger = ScaffoldMessenger.of(context);
+                        navigator.pop();
+                        
+                        messenger.showSnackBar(
+                          const SnackBar(
+                            content: Row(
+                              children: [
+                                CircularProgressIndicator(color: AppTheme.accentTeal),
+                                SizedBox(width: 16),
+                                Text('Vinculando con Apple Health / Google Connect...'),
+                              ],
+                            ),
+                            backgroundColor: AppTheme.cardSlate,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        
+                        await Future<void>.delayed(const Duration(seconds: 2));
+                        
+                        final authState = ref.read(authStateProvider);
+                        final userId = authState.value?.userId;
+                        if (userId != null) {
+                          final healthRepo = ref.read(healthRepositoryProvider);
+                          final replaySource = ReplayHealthDataSource();
+                          final end = DateTime.now();
+                          final start = end.subtract(const Duration(days: 7));
+                          
+                          final samples = await replaySource.fetchSamples(userId: userId, start: start, end: end);
+                          await healthRepo.saveSamples(samples);
+                          
+                          final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
+                          final orgId = member?.orgId ?? 'org789';
+                          final teamId = member?.teamId ?? 'teamEng';
+                          
+                          final calculated = ref.read(scoringEngineProvider).calculateScore(
+                            userId: userId,
+                            orgId: orgId,
+                            teamId: teamId,
+                            samples: samples,
+                          );
+                          
+                          await healthRepo.saveScore(calculated);
+                          ref.invalidate(personalScoreProvider(userId));
+                          
+                          messenger.showSnackBar(
+                            const SnackBar(
+                              content: Text('¡Wearable vinculado y sincronizado con éxito! Métricas cargadas.'),
+                              backgroundColor: AppTheme.activeGreen,
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.watch_rounded),
+                      label: const Text('Vincular y Sincronizar Wearable', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF334155),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      onPressed: () async {
+                        final navigator = Navigator.of(context);
+                        final messenger = ScaffoldMessenger.of(context);
+                        navigator.pop();
+                        
+                        final authState = ref.read(authStateProvider);
+                        final userId = authState.value?.userId;
+                        if (userId != null) {
+                          final healthRepo = ref.read(healthRepositoryProvider);
+                          final replaySource = ReplayHealthDataSource();
+                          final end = DateTime.now();
+                          final start = end.subtract(const Duration(days: 7));
+                          
+                          final samples = await replaySource.fetchSamples(userId: userId, start: start, end: end);
+                          await healthRepo.saveSamples(samples);
+                          
+                          final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
+                          final orgId = member?.orgId ?? 'org789';
+                          final teamId = member?.teamId ?? 'teamEng';
+                          
+                          final calculated = ref.read(scoringEngineProvider).calculateScore(
+                            userId: userId,
+                            orgId: orgId,
+                            teamId: teamId,
+                            samples: samples,
+                          );
+                          
+                          await healthRepo.saveScore(calculated);
+                          ref.invalidate(personalScoreProvider(userId));
+                          
+                          messenger.showSnackBar(
+                            const SnackBar(
+                              content: Text('Datos demo simulados de forma local.'),
+                              backgroundColor: AppTheme.activeGreen,
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Simular datos (Demo)', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(height: 4),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Decidir más tarde / Cancelar',
+                        style: TextStyle(color: AppTheme.softText, fontSize: 12, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIntegrationRow({required IconData icon, required String name, required Color color}) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 24),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            name,
+            style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: AppTheme.accentTeal.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppTheme.accentTeal.withValues(alpha: 0.2)),
+          ),
+          child: const Text(
+            'Disponible',
+            style: TextStyle(color: AppTheme.accentTeal, fontSize: 10, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
+  }
+
   String _getNameFromEmail(String email) {
     if (email.startsWith('employee_eng1')) return 'Alan (Empleado Demo)';
     if (email.startsWith('employee_eng2')) return 'Sofía Martín';

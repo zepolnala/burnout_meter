@@ -668,25 +668,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 10),
 
                   _buildQuickAccessButton(
-                    label: 'Alan (Empleado • teamEng)',
+                    label: 'Alan (Empleado • Acme Corp: teamEng)',
                     email: 'employee_eng1@burnoutmeter.demo',
                     color: AppTheme.activeGreen,
                   ),
                   const SizedBox(height: 8),
                   _buildQuickAccessButton(
-                    label: 'Sofía (Empleado • teamEng • Privado)',
+                    label: 'Sofía (Empleado • Acme Corp: teamEng • Privado)',
                     email: 'employee_eng2@burnoutmeter.demo',
                     color: AppTheme.softText,
                   ),
                   const SizedBox(height: 8),
                   _buildQuickAccessButton(
-                    label: 'Victor (Manager • teamEng)',
+                    label: 'Victor (Manager • Acme Corp: lidera teamEng)',
                     email: 'manager_eng@burnoutmeter.demo',
                     color: AppTheme.activeOrange,
                   ),
                   const SizedBox(height: 8),
                   _buildQuickAccessButton(
-                    label: 'Admin (Global multi-tenant)',
+                    label: 'Admin (Global • Acme Corp: multi-tenant)',
                     email: 'admin@burnoutmeter.demo',
                     color: AppTheme.activeRed,
                   ),
