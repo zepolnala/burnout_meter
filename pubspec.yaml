@@ -35,9 +35,6 @@ dependencies:
   firebase_auth: ^4.17.8
   firebase_messaging: ^14.7.19
 
-  # Health Data Stubs
-  health: ^10.1.0
-
   # Visualizations
   fl_chart: ^0.66.0
 
