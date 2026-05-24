@@ -58,7 +58,11 @@ jobs:
       - name: Run Standard Tests
         run: flutter test
 
-      # 6. E2E Web Integration Tests (against Emulators)
+      # 6. Install Functions Dependencies (needed for emulator)
+      - name: Install Functions Dependencies
+        run: cd functions && npm install
+
+      # 7. E2E Web Integration Tests (against Emulators)
       - name: Run Web E2E Integration Tests
         run: |
           chromedriver --port=4444 &

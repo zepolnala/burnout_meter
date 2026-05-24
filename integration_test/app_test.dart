@@ -121,6 +121,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         admRetries--;
       }
+      
+      if (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR').evaluate().isEmpty) {
+        debugPrint('ADMIN DASHBOARD NOT FOUND! DUMPING WIDGET TREE:');
+        debugDumpApp();
+      }
+      
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR'), findsWidgets);
       
       // Logout
