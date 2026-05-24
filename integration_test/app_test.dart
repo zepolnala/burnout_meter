@@ -27,6 +27,7 @@ void main() {
       // 2. Trigger Seeding
       final seedButton = find.text('Sembrar Base de Datos');
       expect(seedButton, findsOneWidget);
+      await tester.ensureVisible(seedButton);
       await tester.tap(seedButton);
       
       // Wait dynamically for seeding to complete and write memberships to Firestore (handles async latency in CI)
@@ -40,6 +41,7 @@ void main() {
       // 3. Employee Flow (Alan)
       final alanButton = find.textContaining('Alan (Empleado', skipOffstage: false);
       expect(alanButton, findsOneWidget);
+      await tester.ensureVisible(alanButton);
       await tester.tap(alanButton);
       await tester.pump(); // Kick off the async login
 
@@ -117,10 +119,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         empLogoutRetries--;
       }
+      await tester.pumpAndSettle();
 
       // 4. Manager Flow (Victor)
       final victorButton = find.text('Victor (Manager • Acme Corp: lidera teamEng)');
       expect(victorButton, findsOneWidget);
+      await tester.ensureVisible(victorButton);
       await tester.tap(victorButton);
       await tester.pump();
 
@@ -188,10 +192,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 500));
         mgrLogoutRetries--;
       }
+      await tester.pumpAndSettle();
 
       // 5. Admin Flow (Admin)
       final adminButton = find.text('Admin (Global • Acme Corp: multi-tenant)');
       expect(adminButton, findsOneWidget);
+      await tester.ensureVisible(adminButton);
       await tester.tap(adminButton);
       await tester.pump();
 
