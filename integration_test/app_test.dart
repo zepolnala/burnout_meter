@@ -11,11 +11,11 @@ void main() {
     testWidgets('Full verification of all roles and routing', (WidgetTester tester) async {
       // 1. Boot up the app (Initializes Firebase)
       await app.main();
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // 2. Ensure deterministic state by logging out any residual cached sessions
       await FirebaseAuth.instance.signOut();
-      await tester.pumpAndSettle(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
 
       // 2. Trigger Seeding
       final seedButton = find.text('Sembrar Base de Datos');
@@ -34,19 +34,24 @@ void main() {
       final alanButton = find.text('Alan (Empleado • Acme Corp: teamEng)');
       expect(alanButton, findsOneWidget);
       await tester.tap(alanButton);
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
-      // Close the OnboardingDialog first
+      // Close the OnboardingDialog first (handles transitions cleanly)
       final closeIntroButton = find.byTooltip('Cerrar introducción');
       expect(closeIntroButton, findsOneWidget);
       await tester.tap(closeIntroButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Close the Wearable Onboarding modal next
+      int wearableRetries = 10;
+      while (find.text('Decidir más tarde / Cancelar').evaluate().isEmpty && wearableRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        wearableRetries--;
+      }
       final closeWearableButton = find.text('Decidir más tarde / Cancelar');
       expect(closeWearableButton, findsOneWidget);
       await tester.tap(closeWearableButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify routing landed in Employee Dashboard
       int empRetries = 10;
@@ -60,18 +65,18 @@ void main() {
       final logoutButton = find.byIcon(Icons.exit_to_app);
       expect(logoutButton, findsOneWidget);
       await tester.tap(logoutButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // 4. Manager Flow (Victor)
       final victorButton = find.text('Victor (Manager • Acme Corp: lidera teamEng)');
       expect(victorButton, findsOneWidget);
       await tester.tap(victorButton);
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Close the OnboardingDialog for manager
       expect(closeIntroButton, findsOneWidget);
       await tester.tap(closeIntroButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // Verify routing landed in Manager Dashboard
       int mgrRetries = 10;
@@ -91,13 +96,13 @@ void main() {
       
       // Logout
       await tester.tap(logoutButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
 
       // 5. Admin Flow (Admin)
       final adminButton = find.text('Admin (Global • Acme Corp: multi-tenant)');
       expect(adminButton, findsOneWidget);
       await tester.tap(adminButton);
-      await tester.pumpAndSettle(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Verify routing landed in Admin Dashboard (handles async Firestore lag in CI)
       int admRetries = 10;
@@ -109,7 +114,7 @@ void main() {
       
       // Logout
       await tester.tap(logoutButton);
-      await tester.pumpAndSettle(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
     });
   });
 }
