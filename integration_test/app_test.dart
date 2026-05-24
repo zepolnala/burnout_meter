@@ -4,6 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:burnout_meter_app/main.dart' as app;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:burnout_meter_app/presentation/shared/onboarding_dialog.dart';
+import 'package:burnout_meter_app/presentation/shared/login_screen.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +44,7 @@ void main() {
       // may settle before the stream emits the membership.
       int loginRetries = 30;
       while (
-        find.textContaining('Alan (Empleado', skipOffstage: false).evaluate().isNotEmpty &&
+        find.byType(LoginScreen).evaluate().isNotEmpty &&
         loginRetries > 0
       ) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -51,7 +52,7 @@ void main() {
       }
 
       // Verify we navigated away from LoginScreen after authentication.
-      if (find.textContaining('Alan (Empleado', skipOffstage: false).evaluate().isNotEmpty) {
+      if (find.byType(LoginScreen).evaluate().isNotEmpty) {
         fail(
           'Employee login did not redirect away from /login after 15 seconds. '
           'Check GoRouter redirect() logic and auth state propagation.',
@@ -104,7 +105,7 @@ void main() {
       await tester.pump();
       // Wait to return to login screen
       int empLogoutRetries = 20;
-      while (find.text('Victor (Manager • Acme Corp: lidera teamEng)').evaluate().isEmpty && empLogoutRetries > 0) {
+      while (find.byType(LoginScreen).evaluate().isEmpty && empLogoutRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         empLogoutRetries--;
       }
@@ -118,7 +119,7 @@ void main() {
       // Wait for manager redirect
       int mgrLoginRetries = 30;
       while (
-        find.text('Victor (Manager • Acme Corp: lidera teamEng)').evaluate().isNotEmpty &&
+        find.byType(LoginScreen).evaluate().isNotEmpty &&
         mgrLoginRetries > 0
       ) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -164,7 +165,7 @@ void main() {
       await tester.tap(logoutButton);
       await tester.pump();
       int mgrLogoutRetries = 20;
-      while (find.text('Victor (Manager • Acme Corp: lidera teamEng)').evaluate().isEmpty && mgrLogoutRetries > 0) {
+      while (find.byType(LoginScreen).evaluate().isEmpty && mgrLogoutRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         mgrLogoutRetries--;
       }
@@ -178,7 +179,7 @@ void main() {
       // Wait for admin redirect
       int admLoginRetries = 30;
       while (
-        find.text('Admin (Global • Acme Corp: multi-tenant)').evaluate().isNotEmpty &&
+        find.byType(LoginScreen).evaluate().isNotEmpty &&
         admLoginRetries > 0
       ) {
         await tester.pump(const Duration(milliseconds: 500));
