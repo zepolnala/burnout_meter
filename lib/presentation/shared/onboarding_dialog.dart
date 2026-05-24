@@ -103,11 +103,11 @@ class _OnboardingDialogState extends State<OnboardingDialog> {
                 children: [
                   const SizedBox(height: 12),
                   // App Branding Header
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const WellnessSparkles(size: 20),
-                      const SizedBox(width: 8),
+                      WellnessSparkles(size: 20),
+                      SizedBox(width: 8),
                       Text(
                         'BURNOUT METER B2B',
                         style: TextStyle(
@@ -367,7 +367,7 @@ class _OnboardingDialogState extends State<OnboardingDialog> {
           child: const Row(
             children: [
               Icon(Icons.gpp_good_outlined, color: AppTheme.activeGreen, size: 20),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Si desactivas el consentimiento en la pestaña Privacidad, tu manager solo verá "Consentimiento Denegado" sin acceso a tus métricas.',

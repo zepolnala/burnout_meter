@@ -21,7 +21,7 @@ void main() async {
       password: 'password123',
     );
     final user = FirebaseAuth.instance.currentUser;
-    print('✅ Logged in as: \${user?.uid}');
+    print('✅ Logged in as: ${user?.uid}');
 
     // 2. Fetch team members (burnout_memberships)
     print('📋 Fetching team members for teamEng...');
@@ -30,7 +30,7 @@ void main() async {
         .where('teamId', isEqualTo: 'teamEng')
         .get();
     
-    print('✅ Found \${membersQuery.docs.length} members.');
+    print('✅ Found ${membersQuery.docs.length} members.');
 
     // 3. Fetch scores
     print('📊 Fetching burnout scores for teamEng...');
@@ -40,11 +40,11 @@ void main() async {
         .where('sharingEnabled', isEqualTo: true)
         .get();
 
-    print('✅ Found \${scoresQuery.docs.length} scores without permission errors!');
+    print('✅ Found ${scoresQuery.docs.length} scores without permission errors!');
     print('🎉 SUCCESS: The Manager flow data can be loaded successfully!');
     
   } catch (e, stack) {
-    print('❌ ERROR: \$e');
+    print('❌ ERROR: $e');
     print(stack);
   } finally {
     await FirebaseAuth.instance.signOut();
