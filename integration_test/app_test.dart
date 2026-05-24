@@ -26,7 +26,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
       // 3. Employee Flow (Alan)
-      final alanButton = find.text('Alan (Empleado • teamEng)');
+      final alanButton = find.text('Alan (Empleado • Acme Corp: teamEng)');
       expect(alanButton, findsOneWidget);
       await tester.tap(alanButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
@@ -41,7 +41,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // 4. Manager Flow (Victor)
-      final victorButton = find.text('Victor (Manager • teamEng)');
+      final victorButton = find.text('Victor (Manager • Acme Corp: lidera teamEng)');
       expect(victorButton, findsOneWidget);
       await tester.tap(victorButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
@@ -62,7 +62,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // 5. Admin Flow (Admin)
-      final adminButton = find.text('Admin (Global multi-tenant)');
+      final adminButton = find.text('Admin (Global • Acme Corp: multi-tenant)');
       expect(adminButton, findsOneWidget);
       await tester.tap(adminButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
