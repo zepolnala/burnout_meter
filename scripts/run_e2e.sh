@@ -36,6 +36,6 @@ sleep 3
 
 # Run tests using firebase emulators:exec
 echo "🔥 Starting Firebase Emulators and running flutter drive..."
-firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server"
+firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true"
 
 echo "✅ E2E Testing Complete!"

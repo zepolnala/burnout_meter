@@ -62,7 +62,7 @@ jobs:
       - name: Run Web E2E Integration Tests
         run: |
           chromedriver --port=4444 &
-          firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server"
+          firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true"
           
       # 7. Production Build Verification
       - name: Build Web Target
