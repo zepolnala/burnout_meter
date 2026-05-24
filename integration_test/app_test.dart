@@ -31,6 +31,18 @@ void main() {
       await tester.tap(alanButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
+      // Close the OnboardingDialog first
+      final closeIntroButton = find.byTooltip('Cerrar introducción');
+      expect(closeIntroButton, findsOneWidget);
+      await tester.tap(closeIntroButton);
+      await tester.pumpAndSettle(const Duration(seconds: 2));
+
+      // Close the Wearable Onboarding modal next
+      final closeWearableButton = find.text('Decidir más tarde / Cancelar');
+      expect(closeWearableButton, findsOneWidget);
+      await tester.tap(closeWearableButton);
+      await tester.pumpAndSettle(const Duration(seconds: 2));
+
       // Verify routing landed in Employee Dashboard
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
       
@@ -45,6 +57,11 @@ void main() {
       expect(victorButton, findsOneWidget);
       await tester.tap(victorButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // Close the OnboardingDialog for manager
+      expect(closeIntroButton, findsOneWidget);
+      await tester.tap(closeIntroButton);
+      await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Verify routing landed in Manager Dashboard
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
