@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:burnout_meter_app/presentation/shared/onboarding_dialog.dart';
 import 'package:burnout_meter_app/presentation/shared/login_screen.dart';
 import 'package:burnout_meter_app/presentation/admin/admin_shell.dart';
+import 'package:burnout_meter_app/presentation/employee/employee_shell.dart';
+import 'package:burnout_meter_app/presentation/manager/manager_shell.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -208,7 +210,11 @@ void main() {
         debugDumpApp();
         
         if (find.byType(AdminShell).evaluate().isEmpty) {
-          if (find.textContaining('No autorizado').evaluate().isNotEmpty) {
+          if (find.byType(EmployeeShell).evaluate().isNotEmpty) {
+            fail('Navigated to EmployeeShell instead of AdminShell! Admin was treated as Employee!');
+          } else if (find.byType(ManagerShell).evaluate().isNotEmpty) {
+            fail('Navigated to ManagerShell instead of AdminShell! Admin was treated as Manager!');
+          } else if (find.textContaining('No autorizado').evaluate().isNotEmpty) {
             fail('Navigated to /unauthorized instead of /admin. Role guard rejected Admin!');
           } else {
             fail('Failed to navigate to AdminShell. Active screen is unknown.');
