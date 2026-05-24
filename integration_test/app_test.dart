@@ -36,8 +36,13 @@ void main() {
       await tester.tap(alanButton);
       await tester.pumpAndSettle();
 
-      // Close the OnboardingDialog first (handles transitions cleanly)
-      final closeIntroButton = find.byTooltip('Cerrar introducción');
+      // Close the OnboardingDialog first (handles post-frame push transition cleanly)
+      int onboardingRetries = 10;
+      while (find.byIcon(Icons.close).evaluate().isEmpty && onboardingRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        onboardingRetries--;
+      }
+      final closeIntroButton = find.byIcon(Icons.close);
       expect(closeIntroButton, findsOneWidget);
       await tester.tap(closeIntroButton);
       await tester.pumpAndSettle();
@@ -73,9 +78,15 @@ void main() {
       await tester.tap(victorButton);
       await tester.pumpAndSettle();
 
-      // Close the OnboardingDialog for manager
-      expect(closeIntroButton, findsOneWidget);
-      await tester.tap(closeIntroButton);
+      // Close the OnboardingDialog for manager (handles post-frame push transition cleanly)
+      int mgrOnboardingRetries = 10;
+      while (find.byIcon(Icons.close).evaluate().isEmpty && mgrOnboardingRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        mgrOnboardingRetries--;
+      }
+      final closeMgrIntroButton = find.byIcon(Icons.close);
+      expect(closeMgrIntroButton, findsOneWidget);
+      await tester.tap(closeMgrIntroButton);
       await tester.pumpAndSettle();
 
       // Verify routing landed in Manager Dashboard
