@@ -145,10 +145,28 @@ class SeedService {
       }
     }
 
+    // D. Mark database as seeded in public metadata
+    await _db.collection('seed_status').doc('seeded').set({
+      'isSeeded': true,
+      'seededAt': FieldValue.serverTimestamp(),
+    });
+    debugPrint('✅ Public seed status updated in seed_status/seeded');
+
     // 2. Always sign out at the end of the seed to let the user select any demo profile cleanly
     await _auth.signOut();
 
     isSeeding = false;
     debugPrint('🌱 Seeding process complete!');
+  }
+
+  /// Check if the database has already been seeded.
+  static Future<bool> isDatabaseSeeded() async {
+    try {
+      final doc = await _db.collection('seed_status').doc('seeded').get();
+      return doc.exists && doc.data()?['isSeeded'] == true;
+    } catch (e) {
+      debugPrint('Error checking if database is seeded: $e');
+      return false;
+    }
   }
 }

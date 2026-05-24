@@ -9,6 +9,7 @@ import '../../domain/models/action.dart';
 import '../../shared/theme/app_theme.dart';
 import '../shared/vector_icons.dart';
 import '../shared/burnout_radial_score.dart';
+import '../shared/onboarding_dialog.dart';
 
 class EmployeeShell extends ConsumerStatefulWidget {
   const EmployeeShell({super.key});
@@ -23,8 +24,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showWearableOnboardingModal();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await OnboardingDialog.show(context);
+      if (mounted) {
+        _showWearableOnboardingModal();
+      }
     });
   }
 

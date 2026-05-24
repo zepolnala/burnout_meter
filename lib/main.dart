@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,16 +15,20 @@ Future<void> main() async {
   
   try {
     AppLogger.info('⚡ [FIREBASE] Initializing Firebase Core...');
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: 'AIzaSyAKOFkCWQ14vp_tkTydQXjWe2ovYGDgZOo',
-        authDomain: 'burnoutmeter-zepolnala.firebaseapp.com',
-        projectId: 'burnoutmeter-zepolnala',
-        storageBucket: 'burnoutmeter-zepolnala.appspot.com',
-        messagingSenderId: '515645476384',
-        appId: '1:515645476384:web:7ef1ebc4282d108bb83645',
-      ),
-    );
+    if (kIsWeb) {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyAKOFkCWQ14vp_tkTydQXjWe2ovYGDgZOo',
+          authDomain: 'burnoutmeter-zepolnala.firebaseapp.com',
+          projectId: 'burnoutmeter-zepolnala',
+          storageBucket: 'burnoutmeter-zepolnala.appspot.com',
+          messagingSenderId: '515645476384',
+          appId: '1:515645476384:web:7ef1ebc4282d108bb83645',
+        ),
+      );
+    } else {
+      await Firebase.initializeApp();
+    }
 
     const bool useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: false);
     if (useEmulator) {

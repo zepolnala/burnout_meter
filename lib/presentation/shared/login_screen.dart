@@ -28,6 +28,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String _selectedRole = 'employee'; // 'employee' or 'manager'
   String _selectedOrg = 'select';
   String _selectedTeam = 'select';
+  bool? _isDatabaseSeeded;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfDatabaseSeeded();
+  }
+
+  Future<void> _checkIfDatabaseSeeded() async {
+    try {
+      final isSeeded = await SeedService.isDatabaseSeeded();
+      if (mounted) {
+        setState(() {
+          _isDatabaseSeeded = isSeeded;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error checking database seed status: $e');
+      if (mounted) {
+        setState(() {
+          _isDatabaseSeeded = false;
+        });
+      }
+    }
+  }
 
   final Map<String, Map<String, dynamic>> _predefinedOrgs = const {
     'org789': {
@@ -261,7 +286,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Base de datos local inicializada con datos demo.'),
+            content: Text('Base de datos inicializada con datos demo.'),
             backgroundColor: AppTheme.activeGreen,
           ),
         );
@@ -274,9 +299,54 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     } finally {
       if (mounted) {
-        setState(() => _seeding = false);
+        setState(() {
+          _seeding = false;
+          _isDatabaseSeeded = true;
+        });
       }
     }
+  }
+
+  Widget _buildStatusChip() {
+    if (_isDatabaseSeeded == null) {
+      return const SizedBox(
+        width: 12,
+        height: 12,
+        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.accentTeal),
+      );
+    }
+
+    final bool isSeeded = _isDatabaseSeeded!;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: isSeeded ? AppTheme.activeGreen.withValues(alpha: 0.12) : AppTheme.activeOrange.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isSeeded ? AppTheme.activeGreen.withValues(alpha: 0.4) : AppTheme.activeOrange.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isSeeded ? Icons.check_circle_outline : Icons.info_outline,
+            size: 12,
+            color: isSeeded ? AppTheme.activeGreen : AppTheme.activeOrange,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            isSeeded ? 'REALIZADO' : 'PENDIENTE',
+            style: TextStyle(
+              color: isSeeded ? AppTheme.activeGreen : AppTheme.activeOrange,
+              fontWeight: FontWeight.bold,
+              fontSize: 9,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -650,13 +720,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Text(
-                          'CONFIGURACIÓN INICIAL',
-                          style: TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'CONFIGURACIÓN INICIAL',
+                              style: TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1),
+                            ),
+                            _buildStatusChip(),
+                          ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         const Text(
-                          'Inicializa el emulador local con las membresías y consentimientos demo:',
+                          'Inicializa la base de datos con las membresías y consentimientos demo:',
                           style: TextStyle(color: AppTheme.softText, fontSize: 11, height: 1.4),
                         ),
                         const SizedBox(height: 12),
@@ -674,7 +750,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 onPressed: _triggerSeed,
                                 icon: const Icon(Icons.play_circle_outline, size: 18),
-                                label: const Text('Sembrar Base de Datos Local', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                                label: const Text('Sembrar Base de Datos', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                               ),
                       ],
                     ),
