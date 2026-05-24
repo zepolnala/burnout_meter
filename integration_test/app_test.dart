@@ -18,7 +18,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 1));
 
       // 2. Trigger Seeding
-      final seedButton = find.text('Inicializar DB Local (Seed)');
+      final seedButton = find.text('Sembrar Base de Datos');
       expect(seedButton, findsOneWidget);
       await tester.tap(seedButton);
       
