@@ -19,6 +19,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   List<AuditLog> _logs = [];
   List<Membership> _members = [];
   bool _loading = true;
+  String? _loadedAdminUid;
 
   @override
   void initState() {
@@ -27,33 +28,50 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   }
 
   Future<void> _loadAdminData() async {
-    setState(() => _loading = true);
-    final auditRepo = ref.read(auditRepositoryProvider);
-    final memberRepo = ref.read(membershipRepositoryProvider);
-
     final currentUser = ref.read(authStateProvider).value;
-    if (currentUser == null) return;
+    if (currentUser == null) {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+      return;
+    }
 
-    final listMembers = await memberRepo.getOrgMemberships('org789');
-    
-    // Simulate some standard seed logs for presentation
-    await auditRepo.logAccess(AuditLog(
-      id: const Uuid().v4(),
-      actorUserId: currentUser.userId,
-      actorRole: 'admin',
-      actionType: 'read_security_audit_logs',
-      orgId: 'org789',
-      timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
-      details: 'Consulted global compliance ledger.',
-    ));
+    if (mounted) {
+      setState(() => _loading = true);
+    }
 
-    final listLogs = await auditRepo.getLogsForOrg('org789');
+    try {
+      final auditRepo = ref.read(auditRepositoryProvider);
+      final memberRepo = ref.read(membershipRepositoryProvider);
 
-    setState(() {
-      _members = listMembers;
-      _logs = listLogs.reversed.toList(); // Newest first
-      _loading = false;
-    });
+      final listMembers = await memberRepo.getOrgMemberships('org789');
+      
+      // Simulate some standard seed logs for presentation
+      await auditRepo.logAccess(AuditLog(
+        id: const Uuid().v4(),
+        actorUserId: currentUser.userId,
+        actorRole: 'admin',
+        actionType: 'read_security_audit_logs',
+        orgId: 'org789',
+        timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
+        details: 'Consulted global compliance ledger.',
+      ));
+
+      final listLogs = await auditRepo.getLogsForOrg('org789');
+
+      if (mounted) {
+        setState(() {
+          _members = listMembers;
+          _logs = listLogs.reversed.toList(); // Newest first
+        });
+      }
+    } catch (e) {
+      debugPrint('❌ Error loading admin data: $e');
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
   }
 
   Widget _buildDemoNarrativeCard({
@@ -263,6 +281,11 @@ class _AdminShellState extends ConsumerState<AdminShell> {
 
     if (admin == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (_loadedAdminUid != admin.userId) {
+      _loadedAdminUid = admin.userId;
+      Future.microtask(() => _loadAdminData());
     }
 
     final isMobileWidth = MediaQuery.of(context).size.width < 800;
