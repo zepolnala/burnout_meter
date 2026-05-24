@@ -22,8 +22,13 @@ void main() {
       expect(seedButton, findsOneWidget);
       await tester.tap(seedButton);
       
-      // Wait for seeding to complete and snackbar to appear
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      // Wait dynamically for seeding to complete and write memberships to Firestore (handles async latency in CI)
+      int seedRetries = 20;
+      while (find.text('REALIZADO').evaluate().isEmpty && seedRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        seedRetries--;
+      }
+      expect(find.text('REALIZADO'), findsOneWidget);
 
       // 3. Employee Flow (Alan)
       final alanButton = find.text('Alan (Empleado • Acme Corp: teamEng)');
