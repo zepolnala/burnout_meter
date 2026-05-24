@@ -47,6 +47,12 @@ class _AdminShellState extends ConsumerState<AdminShell> {
       return;
     }
 
+    if (_loadedAdminUid == currentUser.userId && !_loading) {
+      return;
+    }
+
+    _loadedAdminUid = currentUser.userId;
+
     if (mounted) {
       setState(() => _loading = true);
     }
@@ -295,7 +301,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     }
 
     if (_loadedAdminUid != admin.userId) {
-      _loadedAdminUid = admin.userId;
       Future.microtask(() => _loadAdminData());
     }
 

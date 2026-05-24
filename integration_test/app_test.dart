@@ -60,15 +60,14 @@ void main() {
       }
 
       // Verify routing landed in Employee Dashboard FIRST
-      // Close the OnboardingDialog if it appears
-      int onboardingRetries = 10;
-      while (find.byType(OnboardingDialog).evaluate().isEmpty && onboardingRetries > 0) {
+      // Close the OnboardingDialog reactively the moment it appears
+      for (int i = 0; i < 15; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        onboardingRetries--;
-      }
-      if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
-        await tester.tap(find.byIcon(Icons.close).first);
-        await tester.pumpAndSettle();
+        if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
+          await tester.tap(find.byIcon(Icons.close).first);
+          await tester.pumpAndSettle();
+          break;
+        }
       }
 
       // Verify routing landed in Employee Dashboard FIRST
@@ -126,15 +125,14 @@ void main() {
         mgrLoginRetries--;
       }
 
-      // Close the OnboardingDialog if it appears
-      int mgrOnboardingRetries = 10;
-      while (find.byType(OnboardingDialog).evaluate().isEmpty && mgrOnboardingRetries > 0) {
+      // Close the OnboardingDialog reactively the moment it appears
+      for (int i = 0; i < 15; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        mgrOnboardingRetries--;
-      }
-      if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
-        await tester.tap(find.byIcon(Icons.close).first);
-        await tester.pumpAndSettle();
+        if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
+          await tester.tap(find.byIcon(Icons.close).first);
+          await tester.pumpAndSettle();
+          break;
+        }
       }
 
       // Verify routing landed in Manager Dashboard FIRST
@@ -186,15 +184,14 @@ void main() {
         admLoginRetries--;
       }
 
-      // Close the OnboardingDialog if it appears
-      int adminOnboardingRetries = 10;
-      while (find.byType(OnboardingDialog).evaluate().isEmpty && adminOnboardingRetries > 0) {
+      // Close the OnboardingDialog reactively the moment it appears
+      for (int i = 0; i < 15; i++) {
         await tester.pump(const Duration(milliseconds: 500));
-        adminOnboardingRetries--;
-      }
-      if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
-        await tester.tap(find.byIcon(Icons.close).first);
-        await tester.pumpAndSettle();
+        if (find.byType(OnboardingDialog).evaluate().isNotEmpty) {
+          await tester.tap(find.byIcon(Icons.close).first);
+          await tester.pumpAndSettle();
+          break;
+        }
       }
 
       // Verify routing landed in Admin Dashboard (handles async Firestore lag in CI)
