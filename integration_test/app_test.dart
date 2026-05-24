@@ -37,7 +37,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify routing landed in Employee Dashboard FIRST (proves redirection completed before dialog pops)
-      int empRetries = 10;
+      int empRetries = 30;
       while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO').evaluate().isEmpty && empRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         empRetries--;
@@ -45,7 +45,7 @@ void main() {
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
 
       // Close the OnboardingDialog first (handles post-frame push transition cleanly)
-      int onboardingRetries = 10;
+      int onboardingRetries = 30;
       while (find.byIcon(Icons.close).evaluate().isEmpty && onboardingRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         onboardingRetries--;
@@ -56,7 +56,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Close the Wearable Onboarding modal next
-      int wearableRetries = 10;
+      int wearableRetries = 30;
       while (find.text('Decidir más tarde / Cancelar').evaluate().isEmpty && wearableRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         wearableRetries--;
@@ -79,7 +79,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify routing landed in Manager Dashboard FIRST (proves redirection completed before dialog pops)
-      int mgrRetries = 10;
+      int mgrRetries = 30;
       while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER').evaluate().isEmpty && mgrRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         mgrRetries--;
@@ -87,7 +87,7 @@ void main() {
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
 
       // Close the OnboardingDialog for manager (handles post-frame push transition cleanly)
-      int mgrOnboardingRetries = 10;
+      int mgrOnboardingRetries = 30;
       while (find.byIcon(Icons.close).evaluate().isEmpty && mgrOnboardingRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         mgrOnboardingRetries--;
@@ -116,7 +116,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify routing landed in Admin Dashboard (handles async Firestore lag in CI)
-      int admRetries = 10;
+      int admRetries = 30;
       while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR').evaluate().isEmpty && admRetries > 0) {
         await tester.pump(const Duration(milliseconds: 500));
         admRetries--;
