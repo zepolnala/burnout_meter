@@ -300,9 +300,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    if (_loadedAdminUid != admin.userId) {
-      Future.microtask(() => _loadAdminData());
-    }
+
 
     final isMobileWidth = MediaQuery.of(context).size.width < 800;
     final isSmallMobile = MediaQuery.of(context).size.width < 600;

@@ -1,0 +1,1277 @@
+Build & Verify	Set up job	﻿2026-05-24T19:12:48.9206867Z Current runner version: '2.334.0'
+Build & Verify	Set up job	2026-05-24T19:12:48.9240170Z ##[group]Runner Image Provisioner
+Build & Verify	Set up job	2026-05-24T19:12:48.9241340Z Hosted Compute Agent
+Build & Verify	Set up job	2026-05-24T19:12:48.9242094Z Version: 20260213.493
+Build & Verify	Set up job	2026-05-24T19:12:48.9243132Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+Build & Verify	Set up job	2026-05-24T19:12:48.9244200Z Build Date: 2026-02-13T00:28:41Z
+Build & Verify	Set up job	2026-05-24T19:12:48.9245483Z Worker ID: {3048a5ce-cb35-4e4b-a376-289d4522b3e0}
+Build & Verify	Set up job	2026-05-24T19:12:48.9246458Z Azure Region: eastus
+Build & Verify	Set up job	2026-05-24T19:12:48.9247439Z ##[endgroup]
+Build & Verify	Set up job	2026-05-24T19:12:48.9249908Z ##[group]Operating System
+Build & Verify	Set up job	2026-05-24T19:12:48.9250797Z Ubuntu
+Build & Verify	Set up job	2026-05-24T19:12:48.9251630Z 24.04.4
+Build & Verify	Set up job	2026-05-24T19:12:48.9252256Z LTS
+Build & Verify	Set up job	2026-05-24T19:12:48.9252928Z ##[endgroup]
+Build & Verify	Set up job	2026-05-24T19:12:48.9253752Z ##[group]Runner Image
+Build & Verify	Set up job	2026-05-24T19:12:48.9254590Z Image: ubuntu-24.04
+Build & Verify	Set up job	2026-05-24T19:12:48.9255602Z Version: 20260518.149.1
+Build & Verify	Set up job	2026-05-24T19:12:48.9257382Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260518.149/images/ubuntu/Ubuntu2404-Readme.md
+Build & Verify	Set up job	2026-05-24T19:12:48.9259977Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260518.149
+Build & Verify	Set up job	2026-05-24T19:12:48.9261398Z ##[endgroup]
+Build & Verify	Set up job	2026-05-24T19:12:48.9263009Z ##[group]GITHUB_TOKEN Permissions
+Build & Verify	Set up job	2026-05-24T19:12:48.9265957Z Contents: read
+Build & Verify	Set up job	2026-05-24T19:12:48.9266768Z Metadata: read
+Build & Verify	Set up job	2026-05-24T19:12:48.9267495Z Packages: read
+Build & Verify	Set up job	2026-05-24T19:12:48.9268322Z ##[endgroup]
+Build & Verify	Set up job	2026-05-24T19:12:48.9271721Z Secret source: Actions
+Build & Verify	Set up job	2026-05-24T19:12:48.9273097Z Prepare workflow directory
+Build & Verify	Set up job	2026-05-24T19:12:48.9714809Z Prepare all required actions
+Build & Verify	Set up job	2026-05-24T19:12:48.9766836Z Getting action download info
+Build & Verify	Set up job	2026-05-24T19:12:49.3641597Z Download action repository 'actions/checkout@v3' (SHA:f43a0e5ff2bd294095638e18286ca9a3d1956744)
+Build & Verify	Set up job	2026-05-24T19:12:49.4848718Z Download action repository 'actions/setup-java@v3' (SHA:17f84c3641ba7b8f6deff6309fc4c864478f5d62)
+Build & Verify	Set up job	2026-05-24T19:12:49.6826129Z Download action repository 'subosito/flutter-action@v2' (SHA:1a449444c387b1966244ae4d4f8c696479add0b2)
+Build & Verify	Set up job	2026-05-24T19:12:49.7649054Z Download action repository 'actions/setup-node@v3' (SHA:3235b876344d2a9aa001b8d1453c930bba69e610)
+Build & Verify	Set up job	2026-05-24T19:12:49.9806249Z Getting action download info
+Build & Verify	Set up job	2026-05-24T19:12:50.1153697Z Download action repository 'actions/cache@v5' (SHA:27d5ce7f107fe9357f9df03efb73ab90386fccae)
+Build & Verify	Set up job	2026-05-24T19:12:50.2909280Z Complete job name: Build & Verify
+Build & Verify	Checkout Code	﻿2026-05-24T19:12:50.3764548Z ##[group]Run actions/checkout@v3
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3766008Z with:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3766767Z   repository: zepolnala/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3767991Z   token: ***
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3768709Z   ssh-strict: true
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3769503Z   persist-credentials: true
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3770355Z   clean: true
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3771115Z   sparse-checkout-cone-mode: true
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3772063Z   fetch-depth: 1
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3772815Z   fetch-tags: false
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3773554Z   lfs: false
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3774263Z   submodules: false
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3775175Z   set-safe-directory: true
+Build & Verify	Checkout Code	2026-05-24T19:12:50.3776238Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4689452Z Syncing repository: zepolnala/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4692146Z ##[group]Getting Git version info
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4693450Z Working directory is '/home/runner/work/burnout_meter/burnout_meter'
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4695541Z [command]/usr/bin/git version
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4731102Z git version 2.54.0
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4757378Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4772656Z Temporarily overriding HOME='/home/runner/work/_temp/51029934-0966-4e53-ab8e-04feb16230fc' before making global git config changes
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4776869Z Adding repository directory to the temporary git global config as a safe directory
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4780203Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/burnout_meter/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4816552Z Deleting the contents of '/home/runner/work/burnout_meter/burnout_meter'
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4820296Z ##[group]Initializing the repository
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4824325Z [command]/usr/bin/git init /home/runner/work/burnout_meter/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4892727Z hint: Using 'master' as the name for the initial branch. This default branch name
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4979864Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4982938Z hint: to use in all of your new repositories, which will suppress this warning,
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4985363Z hint: call:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4986332Z hint:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4987225Z hint: 	git config --global init.defaultBranch <name>
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4988317Z hint:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4989332Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4991563Z hint: 'development'. The just-created branch can be renamed via this command:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4993584Z hint:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4994606Z hint: 	git branch -m <name>
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4996252Z hint:
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4997384Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Build & Verify	Checkout Code	2026-05-24T19:12:50.4999357Z Initialized empty Git repository in /home/runner/work/burnout_meter/burnout_meter/.git/
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5002814Z [command]/usr/bin/git remote add origin https://github.com/zepolnala/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5007502Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5009458Z ##[group]Disabling automatic garbage collection
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5011210Z [command]/usr/bin/git config --local gc.auto 0
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5014877Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5016953Z ##[group]Setting up auth
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5018190Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5022324Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5307350Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5333743Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5556392Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5588392Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5589978Z ##[group]Fetching the repository
+Build & Verify	Checkout Code	2026-05-24T19:12:50.5597036Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +9885ff9b95fe0fc11ebf7add5a9a1da74e8fe16c:refs/remotes/origin/main
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7278498Z remote: Enumerating objects: 10087, done.        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7279905Z remote: Counting objects:   0% (1/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7283995Z remote: Counting objects:   1% (101/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7285847Z remote: Counting objects:   2% (202/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7287223Z remote: Counting objects:   3% (303/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7288675Z remote: Counting objects:   4% (404/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7290094Z remote: Counting objects:   5% (505/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7291363Z remote: Counting objects:   6% (606/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7292851Z remote: Counting objects:   7% (707/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7294384Z remote: Counting objects:   8% (807/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7295944Z remote: Counting objects:   9% (908/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7297555Z remote: Counting objects:  10% (1009/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7298848Z remote: Counting objects:  11% (1110/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7300565Z remote: Counting objects:  12% (1211/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7302248Z remote: Counting objects:  13% (1312/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7303843Z remote: Counting objects:  14% (1413/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7305785Z remote: Counting objects:  15% (1514/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7307055Z remote: Counting objects:  16% (1614/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7308502Z remote: Counting objects:  17% (1715/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7309703Z remote: Counting objects:  18% (1816/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7310795Z remote: Counting objects:  19% (1917/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7311971Z remote: Counting objects:  20% (2018/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7313153Z remote: Counting objects:  21% (2119/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7314254Z remote: Counting objects:  22% (2220/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7315560Z remote: Counting objects:  23% (2321/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7316914Z remote: Counting objects:  24% (2421/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7318330Z remote: Counting objects:  25% (2522/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7319447Z remote: Counting objects:  26% (2623/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7320532Z remote: Counting objects:  27% (2724/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7321672Z remote: Counting objects:  28% (2825/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7322784Z remote: Counting objects:  29% (2926/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7323867Z remote: Counting objects:  30% (3027/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7324957Z remote: Counting objects:  31% (3127/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7326195Z remote: Counting objects:  32% (3228/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7327283Z remote: Counting objects:  33% (3329/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7328400Z remote: Counting objects:  34% (3430/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7329478Z remote: Counting objects:  35% (3531/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7330572Z remote: Counting objects:  36% (3632/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7331661Z remote: Counting objects:  37% (3733/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7332744Z remote: Counting objects:  38% (3834/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7333825Z remote: Counting objects:  39% (3934/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7334923Z remote: Counting objects:  40% (4035/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7336112Z remote: Counting objects:  41% (4136/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7337227Z remote: Counting objects:  42% (4237/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7338320Z remote: Counting objects:  43% (4338/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7339409Z remote: Counting objects:  44% (4439/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7340506Z remote: Counting objects:  45% (4540/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7341848Z remote: Counting objects:  46% (4641/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7342939Z remote: Counting objects:  47% (4741/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7344026Z remote: Counting objects:  48% (4842/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7345214Z remote: Counting objects:  49% (4943/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7346305Z remote: Counting objects:  50% (5044/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7347385Z remote: Counting objects:  51% (5145/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7348478Z remote: Counting objects:  52% (5246/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7349557Z remote: Counting objects:  53% (5347/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7350659Z remote: Counting objects:  54% (5447/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7351740Z remote: Counting objects:  55% (5548/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7352831Z remote: Counting objects:  56% (5649/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7354017Z remote: Counting objects:  57% (5750/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7355304Z remote: Counting objects:  58% (5851/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7356463Z remote: Counting objects:  59% (5952/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7357551Z remote: Counting objects:  60% (6053/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7358636Z remote: Counting objects:  61% (6154/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7359719Z remote: Counting objects:  62% (6254/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7360804Z remote: Counting objects:  63% (6355/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7361906Z remote: Counting objects:  64% (6456/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7362992Z remote: Counting objects:  65% (6557/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7364085Z remote: Counting objects:  66% (6658/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7365481Z remote: Counting objects:  67% (6759/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7366582Z remote: Counting objects:  68% (6860/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7367675Z remote: Counting objects:  69% (6961/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7368758Z remote: Counting objects:  70% (7061/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7369844Z remote: Counting objects:  71% (7162/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7370928Z remote: Counting objects:  72% (7263/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7372015Z remote: Counting objects:  73% (7364/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7373093Z remote: Counting objects:  74% (7465/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7374179Z remote: Counting objects:  75% (7566/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7375339Z remote: Counting objects:  76% (7667/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7376440Z remote: Counting objects:  77% (7767/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7377536Z remote: Counting objects:  78% (7868/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7378650Z remote: Counting objects:  79% (7969/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7379751Z remote: Counting objects:  80% (8070/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7380825Z remote: Counting objects:  81% (8171/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7381936Z remote: Counting objects:  82% (8272/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7383026Z remote: Counting objects:  83% (8373/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7384130Z remote: Counting objects:  84% (8474/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7385303Z remote: Counting objects:  85% (8574/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7386404Z remote: Counting objects:  86% (8675/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7387495Z remote: Counting objects:  87% (8776/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7388584Z remote: Counting objects:  88% (8877/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7389671Z remote: Counting objects:  89% (8978/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7390740Z remote: Counting objects:  90% (9079/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7391827Z remote: Counting objects:  91% (9180/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7392918Z remote: Counting objects:  92% (9281/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7394001Z remote: Counting objects:  93% (9381/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7395180Z remote: Counting objects:  94% (9482/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7396248Z remote: Counting objects:  95% (9583/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7397336Z remote: Counting objects:  96% (9684/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7398586Z remote: Counting objects:  97% (9785/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7399676Z remote: Counting objects:  98% (9886/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7400760Z remote: Counting objects:  99% (9987/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7401860Z remote: Counting objects: 100% (10087/10087)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7403033Z remote: Counting objects: 100% (10087/10087), done.        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7442606Z remote: Compressing objects:   0% (1/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7451092Z remote: Compressing objects:   1% (72/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7452462Z remote: Compressing objects:   2% (143/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7458237Z remote: Compressing objects:   3% (214/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7459907Z remote: Compressing objects:   4% (286/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7461581Z remote: Compressing objects:   5% (357/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7463068Z remote: Compressing objects:   6% (428/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7464378Z remote: Compressing objects:   7% (499/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7465770Z remote: Compressing objects:   8% (571/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7466929Z remote: Compressing objects:   9% (642/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7468074Z remote: Compressing objects:  10% (713/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7469547Z remote: Compressing objects:  11% (785/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7470913Z remote: Compressing objects:  12% (856/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7472656Z remote: Compressing objects:  13% (927/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7474076Z remote: Compressing objects:  14% (998/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7475607Z remote: Compressing objects:  15% (1070/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7476758Z remote: Compressing objects:  16% (1141/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7477912Z remote: Compressing objects:  17% (1212/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7479077Z remote: Compressing objects:  18% (1284/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7480471Z remote: Compressing objects:  19% (1355/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7482328Z remote: Compressing objects:  20% (1426/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7483532Z remote: Compressing objects:  21% (1497/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7485172Z remote: Compressing objects:  22% (1569/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7487016Z remote: Compressing objects:  23% (1640/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7488547Z remote: Compressing objects:  24% (1711/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7490168Z remote: Compressing objects:  25% (1782/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7491463Z remote: Compressing objects:  26% (1854/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7492605Z remote: Compressing objects:  27% (1925/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7493768Z remote: Compressing objects:  28% (1996/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7494915Z remote: Compressing objects:  29% (2068/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7496279Z remote: Compressing objects:  30% (2139/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7497430Z remote: Compressing objects:  31% (2210/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7498593Z remote: Compressing objects:  32% (2281/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7499730Z remote: Compressing objects:  33% (2353/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7500878Z remote: Compressing objects:  34% (2424/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7502002Z remote: Compressing objects:  35% (2495/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7503141Z remote: Compressing objects:  36% (2567/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7504270Z remote: Compressing objects:  37% (2638/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7505503Z remote: Compressing objects:  38% (2709/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7506649Z remote: Compressing objects:  39% (2780/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7507789Z remote: Compressing objects:  40% (2852/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7508927Z remote: Compressing objects:  41% (2923/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7510062Z remote: Compressing objects:  42% (2994/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7511205Z remote: Compressing objects:  43% (3066/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7512339Z remote: Compressing objects:  44% (3137/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7513700Z remote: Compressing objects:  45% (3208/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7514843Z remote: Compressing objects:  46% (3279/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7516080Z remote: Compressing objects:  47% (3351/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7517228Z remote: Compressing objects:  48% (3422/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7518399Z remote: Compressing objects:  49% (3493/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7519570Z remote: Compressing objects:  50% (3564/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7520723Z remote: Compressing objects:  51% (3636/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7521893Z remote: Compressing objects:  52% (3707/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7523060Z remote: Compressing objects:  53% (3778/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7524199Z remote: Compressing objects:  54% (3850/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7525454Z remote: Compressing objects:  55% (3921/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7526601Z remote: Compressing objects:  56% (3992/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7527764Z remote: Compressing objects:  57% (4063/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7529003Z remote: Compressing objects:  58% (4135/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7530159Z remote: Compressing objects:  59% (4206/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7531343Z remote: Compressing objects:  60% (4277/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7532491Z remote: Compressing objects:  61% (4349/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7533642Z remote: Compressing objects:  62% (4420/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7534784Z remote: Compressing objects:  63% (4491/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7536044Z remote: Compressing objects:  64% (4562/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7537350Z remote: Compressing objects:  65% (4634/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7538490Z remote: Compressing objects:  66% (4705/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7539633Z remote: Compressing objects:  67% (4776/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7540766Z remote: Compressing objects:  68% (4848/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7541936Z remote: Compressing objects:  69% (4919/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7543070Z remote: Compressing objects:  70% (4990/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7544216Z remote: Compressing objects:  71% (5061/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7545464Z remote: Compressing objects:  72% (5133/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7546608Z remote: Compressing objects:  73% (5204/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7547742Z remote: Compressing objects:  74% (5275/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7548887Z remote: Compressing objects:  75% (5346/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7558345Z remote: Compressing objects:  76% (5418/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7587047Z remote: Compressing objects:  77% (5489/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7641955Z remote: Compressing objects:  78% (5560/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7643620Z remote: Compressing objects:  79% (5632/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7645556Z remote: Compressing objects:  80% (5703/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7647160Z remote: Compressing objects:  81% (5774/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7649042Z remote: Compressing objects:  82% (5845/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7650898Z remote: Compressing objects:  83% (5917/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7652771Z remote: Compressing objects:  84% (5988/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7654460Z remote: Compressing objects:  85% (6059/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7656415Z remote: Compressing objects:  86% (6131/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7657703Z remote: Compressing objects:  87% (6202/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7658866Z remote: Compressing objects:  88% (6273/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7660042Z remote: Compressing objects:  89% (6344/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7661206Z remote: Compressing objects:  90% (6416/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7662654Z remote: Compressing objects:  91% (6487/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7664426Z remote: Compressing objects:  92% (6558/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7666496Z remote: Compressing objects:  93% (6630/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7668059Z remote: Compressing objects:  94% (6701/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7669211Z remote: Compressing objects:  95% (6772/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7670367Z remote: Compressing objects:  96% (6843/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7671661Z remote: Compressing objects:  97% (6915/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7672814Z remote: Compressing objects:  98% (6986/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7673962Z remote: Compressing objects:  99% (7057/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7675326Z remote: Compressing objects: 100% (7128/7128)        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7676682Z remote: Compressing objects: 100% (7128/7128), done.        
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7725979Z Receiving objects:   0% (1/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.7988470Z Receiving objects:   1% (101/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8089033Z Receiving objects:   2% (202/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8161243Z Receiving objects:   3% (303/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8250097Z Receiving objects:   4% (404/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8321477Z Receiving objects:   5% (505/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8632119Z Receiving objects:   6% (606/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8655305Z Receiving objects:   7% (707/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.8678716Z Receiving objects:   8% (807/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.9042092Z Receiving objects:   9% (908/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.9268334Z Receiving objects:  10% (1009/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:50.9973598Z Receiving objects:  11% (1110/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.0052292Z Receiving objects:  12% (1211/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.0111141Z Receiving objects:  13% (1312/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.0132811Z Receiving objects:  14% (1413/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.0897428Z Receiving objects:  15% (1514/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.1867972Z Receiving objects:  16% (1614/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.1941006Z Receiving objects:  17% (1715/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.1987836Z Receiving objects:  18% (1816/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2079437Z Receiving objects:  19% (1917/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2340856Z Receiving objects:  20% (2018/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2534555Z Receiving objects:  21% (2119/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2648370Z Receiving objects:  22% (2220/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2755449Z Receiving objects:  23% (2321/10087)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2796199Z Receiving objects:  24% (2421/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2827356Z Receiving objects:  25% (2522/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2837656Z Receiving objects:  26% (2623/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2843917Z Receiving objects:  27% (2724/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2851580Z Receiving objects:  28% (2825/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2880333Z Receiving objects:  29% (2926/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2928238Z Receiving objects:  30% (3027/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2959811Z Receiving objects:  31% (3127/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.2999333Z Receiving objects:  32% (3228/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3017497Z Receiving objects:  33% (3329/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3158345Z Receiving objects:  34% (3430/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3246550Z Receiving objects:  35% (3531/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3330353Z Receiving objects:  36% (3632/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3358379Z Receiving objects:  37% (3733/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3406886Z Receiving objects:  38% (3834/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3457351Z Receiving objects:  39% (3934/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3494907Z Receiving objects:  40% (4035/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3516151Z Receiving objects:  41% (4136/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3576194Z Receiving objects:  42% (4237/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3611436Z Receiving objects:  43% (4338/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3653872Z Receiving objects:  44% (4439/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3703380Z Receiving objects:  45% (4540/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3716808Z Receiving objects:  46% (4641/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3721295Z Receiving objects:  47% (4741/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.3725566Z Receiving objects:  48% (4842/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5027759Z Receiving objects:  49% (4943/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5056217Z Receiving objects:  50% (5044/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5099432Z Receiving objects:  51% (5145/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5171017Z Receiving objects:  52% (5246/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5219253Z Receiving objects:  53% (5347/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5281491Z Receiving objects:  54% (5447/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5317107Z Receiving objects:  55% (5548/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5325535Z Receiving objects:  56% (5649/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5462152Z Receiving objects:  57% (5750/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5496164Z Receiving objects:  58% (5851/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5528882Z Receiving objects:  59% (5952/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5544753Z Receiving objects:  60% (6053/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5559811Z Receiving objects:  61% (6154/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5570925Z Receiving objects:  62% (6254/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5612157Z Receiving objects:  63% (6355/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5656408Z Receiving objects:  64% (6456/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5739921Z Receiving objects:  65% (6557/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5769396Z Receiving objects:  66% (6658/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5786061Z Receiving objects:  67% (6759/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5801079Z Receiving objects:  68% (6860/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5812349Z Receiving objects:  69% (6961/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5841779Z Receiving objects:  70% (7061/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5846036Z Receiving objects:  71% (7162/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5849500Z Receiving objects:  72% (7263/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5852161Z Receiving objects:  73% (7364/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5855801Z Receiving objects:  74% (7465/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5916742Z Receiving objects:  75% (7566/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5932297Z Receiving objects:  76% (7667/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.5971616Z Receiving objects:  77% (7767/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6078864Z Receiving objects:  78% (7868/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6116903Z Receiving objects:  79% (7969/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6284786Z Receiving objects:  80% (8070/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6320959Z Receiving objects:  81% (8171/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6463943Z Receiving objects:  82% (8272/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6492601Z Receiving objects:  83% (8373/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6526187Z Receiving objects:  84% (8474/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6604749Z Receiving objects:  85% (8574/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6682204Z Receiving objects:  86% (8675/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6792099Z Receiving objects:  87% (8776/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6815695Z Receiving objects:  88% (8877/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6824014Z Receiving objects:  89% (8978/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6832183Z Receiving objects:  90% (9079/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6838608Z Receiving objects:  91% (9180/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6862372Z Receiving objects:  92% (9281/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6914064Z Receiving objects:  93% (9381/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.6980286Z Receiving objects:  94% (9482/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7002341Z Receiving objects:  95% (9583/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7054078Z Receiving objects:  96% (9684/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7090225Z Receiving objects:  97% (9785/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7116145Z Receiving objects:  98% (9886/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7158089Z Receiving objects:  99% (9987/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7160431Z remote: Total 10087 (delta 2526), reused 10036 (delta 2515), pack-reused 0 (from 0)        
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7172492Z Receiving objects: 100% (10087/10087), 13.85 MiB | 27.69 MiB/s
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7174146Z Receiving objects: 100% (10087/10087), 27.38 MiB | 28.90 MiB/s, done.
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7182081Z Resolving deltas:   0% (0/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7184445Z Resolving deltas:   1% (26/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7189620Z Resolving deltas:   2% (51/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7194217Z Resolving deltas:   3% (76/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7198164Z Resolving deltas:   4% (102/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7201460Z Resolving deltas:   5% (127/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7203940Z Resolving deltas:   6% (152/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7209409Z Resolving deltas:   7% (177/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7232631Z Resolving deltas:   8% (203/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7238679Z Resolving deltas:   9% (228/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7248870Z Resolving deltas:  10% (253/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7253602Z Resolving deltas:  11% (278/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7276947Z Resolving deltas:  12% (304/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7406870Z Resolving deltas:  13% (329/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7428903Z Resolving deltas:  14% (354/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7441268Z Resolving deltas:  15% (379/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7449088Z Resolving deltas:  16% (405/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7453630Z Resolving deltas:  17% (431/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7456765Z Resolving deltas:  18% (455/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7462250Z Resolving deltas:  19% (480/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7467195Z Resolving deltas:  20% (506/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7604712Z Resolving deltas:  21% (531/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7610408Z Resolving deltas:  22% (556/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.7638478Z Resolving deltas:  23% (581/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8133590Z Resolving deltas:  24% (607/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8161901Z Resolving deltas:  25% (632/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8170598Z Resolving deltas:  26% (657/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8176305Z Resolving deltas:  27% (683/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8205306Z Resolving deltas:  28% (708/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8206787Z Resolving deltas:  29% (733/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8698324Z Resolving deltas:  30% (759/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8781663Z Resolving deltas:  31% (784/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8815175Z Resolving deltas:  32% (809/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8868547Z Resolving deltas:  33% (834/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8930203Z Resolving deltas:  34% (860/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8942936Z Resolving deltas:  35% (885/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8963714Z Resolving deltas:  36% (910/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8969269Z Resolving deltas:  37% (935/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8976199Z Resolving deltas:  38% (960/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8986995Z Resolving deltas:  39% (986/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8992310Z Resolving deltas:  40% (1011/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.8997305Z Resolving deltas:  41% (1036/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9000568Z Resolving deltas:  42% (1061/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9002554Z Resolving deltas:  43% (1087/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9006119Z Resolving deltas:  44% (1112/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9009274Z Resolving deltas:  45% (1137/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9012398Z Resolving deltas:  46% (1162/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9013860Z Resolving deltas:  47% (1188/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9021825Z Resolving deltas:  48% (1214/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9030232Z Resolving deltas:  49% (1238/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9044667Z Resolving deltas:  50% (1263/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9054387Z Resolving deltas:  51% (1289/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9063981Z Resolving deltas:  52% (1314/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9067932Z Resolving deltas:  53% (1339/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9084804Z Resolving deltas:  54% (1365/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9093137Z Resolving deltas:  55% (1390/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9100842Z Resolving deltas:  56% (1415/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9105290Z Resolving deltas:  57% (1440/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9111451Z Resolving deltas:  58% (1466/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9122006Z Resolving deltas:  59% (1491/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9129589Z Resolving deltas:  60% (1516/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9137140Z Resolving deltas:  61% (1541/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9142684Z Resolving deltas:  62% (1568/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9144184Z Resolving deltas:  63% (1592/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9145758Z Resolving deltas:  64% (1617/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9149222Z Resolving deltas:  65% (1643/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9318072Z Resolving deltas:  66% (1669/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9567676Z Resolving deltas:  67% (1693/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9584266Z Resolving deltas:  68% (1718/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9632181Z Resolving deltas:  69% (1743/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9665833Z Resolving deltas:  70% (1769/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9698065Z Resolving deltas:  71% (1794/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9715873Z Resolving deltas:  72% (1819/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9722868Z Resolving deltas:  73% (1844/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9729374Z Resolving deltas:  74% (1870/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9736544Z Resolving deltas:  75% (1895/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9752799Z Resolving deltas:  76% (1920/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9755550Z Resolving deltas:  77% (1946/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9757291Z Resolving deltas:  78% (1971/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9759050Z Resolving deltas:  79% (1996/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9760747Z Resolving deltas:  80% (2021/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9762104Z Resolving deltas:  81% (2049/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9763697Z Resolving deltas:  82% (2072/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9766740Z Resolving deltas:  83% (2097/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9771540Z Resolving deltas:  84% (2122/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9780906Z Resolving deltas:  85% (2148/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9795610Z Resolving deltas:  86% (2173/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9807236Z Resolving deltas:  87% (2199/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9810730Z Resolving deltas:  88% (2223/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9814468Z Resolving deltas:  89% (2249/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9817792Z Resolving deltas:  90% (2274/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9839056Z Resolving deltas:  91% (2299/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9843628Z Resolving deltas:  92% (2324/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9848261Z Resolving deltas:  93% (2350/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9850523Z Resolving deltas:  94% (2375/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9854281Z Resolving deltas:  95% (2400/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9859227Z Resolving deltas:  96% (2425/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9868186Z Resolving deltas:  97% (2451/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9882157Z Resolving deltas:  98% (2476/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9895293Z Resolving deltas:  99% (2501/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9896297Z Resolving deltas: 100% (2526/2526)
+Build & Verify	Checkout Code	2026-05-24T19:12:51.9897215Z Resolving deltas: 100% (2526/2526), done.
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0201857Z From https://github.com/zepolnala/burnout_meter
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0203784Z  * [new ref]         9885ff9b95fe0fc11ebf7add5a9a1da74e8fe16c -> origin/main
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0238510Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0240101Z ##[group]Determining the checkout info
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0241445Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0242574Z ##[group]Checking out the ref
+Build & Verify	Checkout Code	2026-05-24T19:12:52.0244598Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0476064Z Updating files:  76% (12853/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0547616Z Updating files:  77% (12948/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0632139Z Updating files:  78% (13116/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0749852Z Updating files:  79% (13284/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0823483Z Updating files:  80% (13452/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0893404Z Updating files:  81% (13621/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.0968303Z Updating files:  82% (13789/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1027190Z Updating files:  83% (13957/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1092016Z Updating files:  84% (14125/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1182548Z Updating files:  85% (14293/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1261043Z Updating files:  86% (14461/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1389396Z Updating files:  87% (14630/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1547761Z Updating files:  88% (14798/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1689428Z Updating files:  89% (14966/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1788384Z Updating files:  90% (15134/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.1893620Z Updating files:  91% (15302/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2066445Z Updating files:  92% (15470/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2129974Z Updating files:  93% (15638/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2186313Z Updating files:  94% (15807/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2270831Z Updating files:  95% (15975/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2374842Z Updating files:  96% (16143/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2458612Z Updating files:  97% (16311/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2567891Z Updating files:  98% (16479/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2709356Z Updating files:  99% (16647/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2709866Z Updating files: 100% (16815/16815)
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2906647Z Updating files: 100% (16815/16815), done.
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2907149Z Switched to a new branch 'main'
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2909801Z branch 'main' set up to track 'origin/main'.
+Build & Verify	Checkout Code	2026-05-24T19:12:53.2963283Z ##[endgroup]
+Build & Verify	Checkout Code	2026-05-24T19:12:53.3003364Z [command]/usr/bin/git log -1 --format='%H'
+Build & Verify	Checkout Code	2026-05-24T19:12:53.3025458Z '9885ff9b95fe0fc11ebf7add5a9a1da74e8fe16c'
+Build & Verify	Setup Java JDK	﻿2026-05-24T19:12:53.3279496Z ##[group]Run actions/setup-java@v3
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3279788Z with:
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3279975Z   distribution: zulu
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3280187Z   java-version: 21
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3280384Z   java-package: jdk
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3280590Z   check-latest: false
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3280791Z   server-id: github
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3281004Z   server-username: GITHUB_ACTOR
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3281260Z   server-password: GITHUB_TOKEN
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3281493Z   overwrite-settings: true
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3281717Z   job-status: success
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3282039Z   token: ***
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.3282248Z ##[endgroup]
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.5334657Z ##[group]Installed distributions
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.5358319Z Trying to resolve the latest version from remote
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.6103356Z Resolved latest version as 21.0.11+10
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.6103839Z Trying to download...
+Build & Verify	Setup Java JDK	2026-05-24T19:12:53.6104618Z Downloading Java 21.0.11+10 (Zulu) from https://cdn.azul.com/zulu/bin/zulu21.50.19-ca-crac-jdk21.0.11-linux_x64.tar.gz ...
+Build & Verify	Setup Java JDK	2026-05-24T19:12:56.4984226Z Extracting Java archive...
+Build & Verify	Setup Java JDK	2026-05-24T19:12:56.5089678Z [command]/usr/bin/tar xz --warning=no-unknown-keyword -C /home/runner/work/_temp/129b70f4-cb41-4c42-ab52-63d80223d6c8 -f /home/runner/work/_temp/a46872c6-e7f6-4c0f-a568-bcfcec26add3
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5441889Z Java 21.0.11+10 was downloaded
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5442341Z Setting Java 21.0.11+10 as the default
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5453488Z Creating toolchains.xml for JDK version 21 from zulu
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5533021Z Writing to /home/runner/.m2/toolchains.xml
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5533602Z 
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5533848Z Java configuration:
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5534195Z   Distribution: zulu
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5534533Z   Version: 21.0.11+10
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5535143Z   Path: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5535524Z 
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5536050Z ##[endgroup]
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5558745Z Creating settings.xml with server-id: github
+Build & Verify	Setup Java JDK	2026-05-24T19:12:59.5559207Z Writing to /home/runner/.m2/settings.xml
+Build & Verify	Setup Flutter	﻿2026-05-24T19:12:59.5823225Z ##[group]Run subosito/flutter-action@v2
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5823502Z with:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5823684Z   channel: stable
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5823868Z   cache: true
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5824058Z   architecture: X64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5824273Z   pub-cache-path: default
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5824484Z   dry-run: false
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5824738Z   git-source: https://github.com/flutter/flutter.git
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5825369Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5825628Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5826027Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5826351Z ##[endgroup]
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5925334Z ##[group]Run chmod +x "$GITHUB_ACTION_PATH/setup.sh"
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5925722Z [36;1mchmod +x "$GITHUB_ACTION_PATH/setup.sh"[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5968348Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5968694Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5968954Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5969412Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.5969736Z ##[endgroup]
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6104720Z ##[group]Run $GITHUB_ACTION_PATH/setup.sh -p \
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6105457Z [36;1m$GITHUB_ACTION_PATH/setup.sh -p \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6105764Z [36;1m  -n '' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6105976Z [36;1m  -f '' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6106157Z [36;1m  -a 'X64' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6106356Z [36;1m  -k '' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6106721Z [36;1m  -c '' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6106899Z [36;1m  -l '' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6107080Z [36;1m  -d 'default' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6107404Z [36;1m  -g 'https://github.com/flutter/flutter.git' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6107728Z [36;1m  stable[0m
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6141730Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6142052Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6142317Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6142717Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.6143033Z ##[endgroup]
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9462520Z ##[group]Run actions/cache@v5
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9462770Z with:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9463012Z   path: /opt/hostedtoolcache/flutter/stable-3.44.0-x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9463446Z   key: flutter-linux-stable-3.44.0-x64-559ffa3f75e7402d65a8def9c28389a9b2e6fe42
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9463853Z   enableCrossOsArchive: false
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9464085Z   fail-on-cache-miss: false
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9464320Z   lookup-only: false
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9464519Z   save-always: false
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9464699Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9464936Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9465584Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:12:59.9465902Z ##[endgroup]
+Build & Verify	Setup Flutter	2026-05-24T19:13:00.1372536Z Cache hit for: flutter-linux-stable-3.44.0-x64-559ffa3f75e7402d65a8def9c28389a9b2e6fe42
+Build & Verify	Setup Flutter	2026-05-24T19:13:01.1886818Z Received 264241152 of 1687231646 (15.7%), 251.7 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:02.1880802Z Received 541065216 of 1687231646 (32.1%), 257.5 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:03.1905987Z Received 872415232 of 1687231646 (51.7%), 276.9 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:04.1895435Z Received 1191182336 of 1687231646 (70.6%), 283.6 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:05.1972461Z Received 1476395008 of 1687231646 (87.5%), 281.0 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:05.8249342Z Received 1687231646 of 1687231646 (100.0%), 285.2 MBs/sec
+Build & Verify	Setup Flutter	2026-05-24T19:13:05.8251706Z Cache Size: ~1609 MB (1687231646 B)
+Build & Verify	Setup Flutter	2026-05-24T19:13:05.8376076Z [command]/usr/bin/tar -xf /home/runner/work/_temp/f1ad7c52-ea1f-43a0-8297-b7f27379af90/cache.tzst -P -C /home/runner/work/burnout_meter/burnout_meter --use-compress-program unzstd
+Build & Verify	Setup Flutter	2026-05-24T19:13:10.3649722Z Cache restored successfully
+Build & Verify	Setup Flutter	2026-05-24T19:13:10.5473662Z Cache restored from key: flutter-linux-stable-3.44.0-x64-559ffa3f75e7402d65a8def9c28389a9b2e6fe42
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1716365Z ##[group]Run actions/cache@v5
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1716853Z with:
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1717067Z   path: /home/runner/.pub-cache
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1717778Z   key: flutter-pub-linux-stable-3.44.0-x64-559ffa3f75e7402d65a8def9c28389a9b2e6fe42-e0d25576f79e7804df1542f5cd49f1e000db148e8fa086916ad3c05b91b2d2f4
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1718513Z   enableCrossOsArchive: false
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1718757Z   fail-on-cache-miss: false
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1718985Z   lookup-only: false
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1719191Z   save-always: false
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1719373Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1719638Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1720041Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.1720365Z ##[endgroup]
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3580454Z Cache not found for input keys: flutter-pub-linux-stable-3.44.0-x64-559ffa3f75e7402d65a8def9c28389a9b2e6fe42-e0d25576f79e7804df1542f5cd49f1e000db148e8fa086916ad3c05b91b2d2f4
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3667916Z ##[group]Run $GITHUB_ACTION_PATH/setup.sh \
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3668277Z [36;1m$GITHUB_ACTION_PATH/setup.sh \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3668551Z [36;1m  -n '3.44.0' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3668778Z [36;1m  -a 'x64' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3669076Z [36;1m  -c '/opt/hostedtoolcache/flutter/stable-3.44.0-x64' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3669423Z [36;1m  -d '/home/runner/.pub-cache' \[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3669679Z [36;1m  stable[0m
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3705602Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3706129Z env:
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3706387Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3706795Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Flutter	2026-05-24T19:13:12.3707117Z ##[endgroup]
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	﻿2026-05-24T19:13:12.6953996Z ##[group]Run actions/setup-node@v3
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6954280Z with:
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6954471Z   node-version: 18
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6954676Z   always-auth: false
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6954881Z   check-latest: false
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6955421Z   token: ***
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6955609Z env:
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6955863Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6956283Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6956712Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6957070Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:12.6957313Z ##[endgroup]
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:13.2369872Z Attempting to download 18...
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:13.6595854Z Acquiring 18.20.8 - x64 from https://github.com/actions/node-versions/releases/download/18.20.8-14110393767/node-18.20.8-linux-x64.tar.gz
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:14.1173830Z Extracting ...
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:14.1311469Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword -C /home/runner/work/_temp/035550e2-1cb7-4ca2-82ff-074b46731a87 -f /home/runner/work/_temp/df5a6c4a-f5f6-4a7f-8fbf-7ac31a4f61b8
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:15.1479780Z Adding to the cache ...
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:16.6290554Z ##[group]Environment details
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:16.8509526Z node: v18.20.8
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:16.8509917Z npm: 10.8.2
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:16.8510122Z yarn: 1.22.22
+Build & Verify	Setup Node.js (for Firebase Emulators & Rules Tests)	2026-05-24T19:13:16.8510710Z ##[endgroup]
+Build & Verify	Install Firebase CLI	﻿2026-05-24T19:13:16.8660110Z ##[group]Run npm install -g firebase-tools
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8660477Z [36;1mnpm install -g firebase-tools[0m
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8697330Z shell: /usr/bin/bash -e {0}
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8697580Z env:
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8697852Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8698286Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8698704Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8699065Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:16.8699316Z ##[endgroup]
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:28.0402310Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.4848729Z npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.4888500Z npm warn deprecated tar@6.2.1: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.6436458Z npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.6596926Z npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.6926901Z npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.7282647Z npm warn deprecated json-ptr@3.1.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:29.7629645Z npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:31.6276650Z 
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:31.6277277Z added 607 packages in 15s
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:31.6277606Z 
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:31.6277846Z 77 packages are looking for funding
+Build & Verify	Install Firebase CLI	2026-05-24T19:13:31.6278279Z   run `npm fund` for details
+Build & Verify	Install Dependencies	﻿2026-05-24T19:13:31.6638546Z ##[group]Run flutter pub get
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6639030Z [36;1mflutter pub get[0m
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6683097Z shell: /usr/bin/bash -e {0}
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6683368Z env:
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6683652Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6684073Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6684499Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6684858Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Install Dependencies	2026-05-24T19:13:31.6685324Z ##[endgroup]
+Build & Verify	Install Dependencies	2026-05-24T19:13:35.0283238Z Resolving dependencies...
+Build & Verify	Install Dependencies	2026-05-24T19:13:35.5691910Z Downloading packages...
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5996690Z   _fe_analyzer_shared 67.0.0 (100.0.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5997394Z   _flutterfire_internals 1.3.35 (1.3.71 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5997906Z   analyzer 6.4.1 (13.0.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5998324Z   analyzer_plugin 0.11.3 (0.14.9 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5998751Z   build 2.4.1 (4.0.6 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5999245Z   build_config 1.1.2 (1.3.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.5999662Z   build_resolvers 2.4.2 (3.0.4 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6000099Z   build_runner 2.4.13 (2.15.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6000531Z   build_runner_core 7.3.2 (9.3.2 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6000944Z   cli_util 0.4.2 (0.5.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6001360Z   cloud_firestore 4.17.5 (6.4.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6001903Z   cloud_firestore_platform_interface 6.2.5 (8.0.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6002439Z   cloud_firestore_web 3.12.5 (5.4.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6002921Z   custom_lint_core 0.6.3 (0.8.2 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6003342Z   dart_style 2.3.6 (3.1.9 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6003754Z   drift 2.19.1+1 (2.33.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6004146Z   drift_dev 2.19.1 (2.33.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6004570Z   firebase_auth 4.20.0 (6.5.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6005261Z   firebase_auth_platform_interface 7.3.0 (9.0.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6005820Z   firebase_auth_web 5.12.0 (6.2.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6006265Z   firebase_core 2.32.0 (4.9.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6006763Z   firebase_core_platform_interface 5.4.2 (7.0.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6007287Z   firebase_core_web 2.17.5 (3.7.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6007762Z   firebase_messaging 14.9.4 (16.2.2 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6008362Z   firebase_messaging_platform_interface 4.5.37 (4.7.11 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6009010Z   firebase_messaging_web 3.8.7 (4.1.7 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6009488Z   fl_chart 0.66.2 (1.2.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6009890Z   flutter_lints 3.0.2 (6.0.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6010310Z   flutter_riverpod 2.6.1 (3.3.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6010759Z   freezed 2.5.2 (3.2.5 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6011204Z   freezed_annotation 2.4.4 (3.1.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6011685Z   go_router 13.2.5 (17.2.3 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6012145Z   json_annotation 4.9.0 (4.12.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6012635Z   json_serializable 6.8.0 (6.14.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6013088Z   lints 3.0.0 (6.1.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6013505Z   matcher 0.12.19 (0.12.20 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6013919Z   meta 1.18.0 (1.18.2 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6014343Z   riverpod 2.6.1 (3.2.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6014840Z   riverpod_analyzer_utils 0.5.1 (0.5.10 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6015646Z   riverpod_annotation 2.6.1 (4.0.2 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6016144Z   riverpod_generator 2.4.0 (4.0.3 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6016622Z   shelf_web_socket 2.0.1 (3.0.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6017473Z   source_gen 1.5.0 (4.2.3 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6017921Z   source_helper 1.3.5 (1.3.12 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6018370Z   sqlite3 2.4.5 (3.3.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6018854Z   sqlite3_flutter_libs 0.5.42 (0.6.0+eol available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6019361Z   sqlparser 0.37.1 (0.44.4 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6019790Z   test_api 0.7.11 (0.7.12 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6020466Z   vector_math 2.2.0 (2.3.0 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6020863Z   web 0.5.1 (1.1.1 available)
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6021333Z Got dependencies!
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6022005Z 50 packages have newer versions incompatible with dependency constraints.
+Build & Verify	Install Dependencies	2026-05-24T19:13:39.6022776Z Try `flutter pub outdated` for more information.
+Build & Verify	Run Build Runner	﻿2026-05-24T19:13:40.2084369Z ##[group]Run flutter pub run build_runner build --delete-conflicting-outputs
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2084942Z [36;1mflutter pub run build_runner build --delete-conflicting-outputs[0m
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2121130Z shell: /usr/bin/bash -e {0}
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2121380Z env:
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2121649Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2122049Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2122467Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2122818Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Run Build Runner	2026-05-24T19:13:40.2123064Z ##[endgroup]
+Build & Verify	Run Build Runner	2026-05-24T19:13:44.8166121Z [INFO] Generating build script...
+Build & Verify	Run Build Runner	2026-05-24T19:13:45.0796630Z [INFO] Generating build script completed, took 271ms
+Build & Verify	Run Build Runner	2026-05-24T19:13:45.0796989Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:45.1160978Z [INFO] Precompiling build script......
+Build & Verify	Run Build Runner	2026-05-24T19:13:50.3807513Z [INFO] Precompiling build script... completed, took 5.3s
+Build & Verify	Run Build Runner	2026-05-24T19:13:50.3808048Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:50.8672644Z [INFO] Initializing inputs
+Build & Verify	Run Build Runner	2026-05-24T19:13:51.2058118Z [INFO] Building new asset graph...
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3835809Z [INFO] Building new asset graph completed, took 1.2s
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3836311Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3836703Z [INFO] Checking for unexpected pre-existing outputs....
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3846849Z [INFO] Deleting 13 declared outputs which already existed on disk.
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3861278Z [INFO] Checking for unexpected pre-existing outputs. completed, took 2ms
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3861766Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.3930433Z [INFO] Running build...
+Build & Verify	Run Build Runner	2026-05-24T19:13:52.4272475Z [INFO] Generating SDK summary...
+Build & Verify	Run Build Runner	2026-05-24T19:13:54.4014911Z [INFO] 2.0s elapsed, 0/16 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.2346083Z [INFO] 3.8s elapsed, 0/16 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5816205Z [WARNING] riverpod_generator on test/verify_manager_flow.dart:
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5820181Z Your current `analyzer` version may not fully support your current SDK version.
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5820779Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5821055Z Analyzer language version: 3.4.0
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5821531Z SDK language version: 3.12.0
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5821753Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5822125Z Please update to the latest `analyzer` version (13.0.0) by running
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5822668Z `flutter packages upgrade`.
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5822916Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5823331Z If you are not getting the latest version by running the above command, you
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5824158Z can try adding a constraint like the following to your pubspec to start
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5824836Z diagnosing why you can't get the latest version:
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5825452Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5825610Z dev_dependencies:
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5825906Z   analyzer: ^13.0.0
+Build & Verify	Run Build Runner	2026-05-24T19:13:56.5826109Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:57.1312148Z [INFO] Generating SDK summary completed, took 4.7s
+Build & Verify	Run Build Runner	2026-05-24T19:13:57.1313043Z 
+Build & Verify	Run Build Runner	2026-05-24T19:13:58.1957121Z [INFO] 5.8s elapsed, 52/59 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:00.1677018Z [INFO] 7.8s elapsed, 61/62 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:01.1936330Z [INFO] 8.8s elapsed, 105/131 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:01.4402032Z [WARNING] json_serializable on lib/domain/models/health_sample.dart:
+Build & Verify	Run Build Runner	2026-05-24T19:14:01.4403259Z The version constraint "^4.8.1" on json_annotation allows versions before 4.9.0 which is not allowed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:02.5716395Z [INFO] 10.2s elapsed, 137/160 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:08.9259929Z [INFO] 16.5s elapsed, 155/177 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:09.9693559Z [INFO] 17.6s elapsed, 176/194 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.0125510Z [INFO] 18.6s elapsed, 198/201 actions completed.
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6014460Z [INFO] Running build completed, took 19.2s
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6014889Z 
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6015469Z [INFO] Caching finalized dependency graph...
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6790119Z [INFO] Caching finalized dependency graph completed, took 77ms
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6790635Z 
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6817352Z [INFO] Succeeded after 19.3s with 147 outputs (468 actions)
+Build & Verify	Run Build Runner	2026-05-24T19:14:11.6818192Z 
+Build & Verify	Run Lints Analyzer	﻿2026-05-24T19:14:11.7952768Z ##[group]Run flutter analyze
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7953075Z [36;1mflutter analyze[0m
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7989239Z shell: /usr/bin/bash -e {0}
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7989501Z env:
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7989772Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7990209Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7990631Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7990987Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.7991237Z ##[endgroup]
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:11.9542090Z Resolving dependencies...
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1315935Z Downloading packages...
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1410445Z   _fe_analyzer_shared 67.0.0 (100.0.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1411130Z   _flutterfire_internals 1.3.35 (1.3.71 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1411612Z   analyzer 6.4.1 (13.0.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1411976Z   analyzer_plugin 0.11.3 (0.14.9 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1412446Z   build 2.4.1 (4.0.6 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1412979Z   build_config 1.1.2 (1.3.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1413433Z   build_resolvers 2.4.2 (3.0.4 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1413911Z   build_runner 2.4.13 (2.15.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1414375Z   build_runner_core 7.3.2 (9.3.2 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1414853Z   cli_util 0.4.2 (0.5.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1415465Z   cloud_firestore 4.17.5 (6.4.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1416049Z   cloud_firestore_platform_interface 6.2.5 (8.0.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1416640Z   cloud_firestore_web 3.12.5 (5.4.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1417135Z   custom_lint_core 0.6.3 (0.8.2 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1417597Z   dart_style 2.3.6 (3.1.9 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1418019Z   drift 2.19.1+1 (2.33.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1418428Z   drift_dev 2.19.1 (2.33.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1418876Z   firebase_auth 4.20.0 (6.5.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1419426Z   firebase_auth_platform_interface 7.3.0 (9.0.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1419997Z   firebase_auth_web 5.12.0 (6.2.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1420475Z   firebase_core 2.32.0 (4.9.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1421022Z   firebase_core_platform_interface 5.4.2 (7.0.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1421525Z   firebase_core_web 2.17.5 (3.7.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1422053Z   firebase_messaging 14.9.4 (16.2.2 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1422679Z   firebase_messaging_platform_interface 4.5.37 (4.7.11 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1423154Z   firebase_messaging_web 3.8.7 (4.1.7 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1423626Z   fl_chart 0.66.2 (1.2.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1424067Z   flutter_lints 3.0.2 (6.0.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1424539Z   flutter_riverpod 2.6.1 (3.3.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1425127Z   freezed 2.5.2 (3.2.5 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1425576Z   freezed_annotation 2.4.4 (3.1.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1426023Z   go_router 13.2.5 (17.2.3 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1426417Z   json_annotation 4.9.0 (4.12.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1426906Z   json_serializable 6.8.0 (6.14.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1427347Z   lints 3.0.0 (6.1.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1428184Z   matcher 0.12.19 (0.12.20 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1428611Z   meta 1.18.0 (1.18.2 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1429039Z   riverpod 2.6.1 (3.2.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1429535Z   riverpod_analyzer_utils 0.5.1 (0.5.10 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1430075Z   riverpod_annotation 2.6.1 (4.0.2 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1430592Z   riverpod_generator 2.4.0 (4.0.3 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1431082Z   shelf_web_socket 2.0.1 (3.0.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1431541Z   source_gen 1.5.0 (4.2.3 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1431982Z   source_helper 1.3.5 (1.3.12 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1432435Z   sqlite3 2.4.5 (3.3.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1432928Z   sqlite3_flutter_libs 0.5.42 (0.6.0+eol available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1433428Z   sqlparser 0.37.1 (0.44.4 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1433879Z   test_api 0.7.11 (0.7.12 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1434634Z   vector_math 2.2.0 (2.3.0 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1435205Z   web 0.5.1 (1.1.1 available)
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1435634Z Got dependencies!
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1436321Z 50 packages have newer versions incompatible with dependency constraints.
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:12.1437101Z Try `flutter pub outdated` for more information.
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:23.3807890Z Analyzing burnout_meter...                                      
+Build & Verify	Run Lints Analyzer	2026-05-24T19:14:23.3824256Z No issues found! (ran in 10.6s)
+Build & Verify	Install Firestore Tests Dependencies	﻿2026-05-24T19:14:23.4008712Z ##[group]Run cd firestore-tests && npm ci
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4009406Z [36;1mcd firestore-tests && npm ci[0m
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4061154Z shell: /usr/bin/bash -e {0}
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4061538Z env:
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4061938Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4062587Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4063255Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4063833Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:23.4064249Z ##[endgroup]
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:25.4543359Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:25.4855974Z npm warn deprecated glob@8.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:25.5544365Z npm warn deprecated google-p12-pem@4.0.1: Package is no longer maintained
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:26.2079827Z npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:14:26.2345464Z npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.0983013Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.0983711Z added 312 packages, and audited 313 packages in 2m
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.0984060Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.0984424Z 38 packages are looking for funding
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.0984898Z   run `npm fund` for details
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9905263Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9906062Z 21 vulnerabilities (14 moderate, 6 high, 1 critical)
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9906523Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9909882Z To address issues that do not require attention, run:
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9910421Z   npm audit fix
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9910597Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9910919Z To address all issues (including breaking changes), run:
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9911433Z   npm audit fix --force
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9911658Z 
+Build & Verify	Install Firestore Tests Dependencies	2026-05-24T19:16:10.9911846Z Run `npm audit` for details.
+Build & Verify	Run Firestore Security Rules Tests	﻿2026-05-24T19:16:11.0245848Z ##[group]Run firebase emulators:exec --project demo-burnoutmeter "cd firestore-tests && npm test"
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0246771Z [36;1mfirebase emulators:exec --project demo-burnoutmeter "cd firestore-tests && npm test"[0m
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0282869Z shell: /usr/bin/bash -e {0}
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0283127Z env:
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0283421Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0283864Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0284315Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0284688Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:11.0285180Z ##[endgroup]
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:12.6533191Z [33m[1m⚠  emulators:[22m[39m You are not currently authenticated so some features may not work correctly. Please run [1mfirebase login[22m to authenticate the CLI.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:12.6896854Z [36m[1mi  emulators:[22m[39m Starting emulators: auth, functions, firestore, extensions
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:12.6899696Z [36m[1mi  emulators:[22m[39m Detected demo project ID "demo-burnoutmeter", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:12.7103723Z [33m[1m⚠ [22m[39m It appears you are running in a CI environment. You can avoid downloading the Firestore Emulator repeatedly by caching the /home/runner/.cache/firebase/emulators directory.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:12.7105831Z [36m[1mi  firestore:[22m[39m downloading cloud-firestore-emulator-v1.19.8.jar...
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:13.0947786Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:13.2823820Z [36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:14.2893090Z [32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2160340Z [36m[1mi  functions:[22m[39m Watching "/home/runner/work/burnout_meter/burnout_meter/functions" for Cloud Functions...
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2216091Z [33m[1m⚠  functions:[22m[39m Couldn't find firebase-functions package in your source code. Have you run 'npm install'?
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2230427Z [32m[1m✔  functions:[22m[39m Using node@18 from host.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2574250Z [31m[1m⬢  functions:[22m[39m Failed to load function definition from source: FirebaseError: Error parsing triggers: Cannot find module 'firebase-functions'
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2575662Z Require stack:
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2576277Z - /home/runner/work/burnout_meter/burnout_meter/functions/index.js
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2577560Z - /opt/hostedtoolcache/node/18.20.8/x64/lib/node_modules/firebase-tools/lib/deploy/functions/runtimes/node/triggerParser.js
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2578331Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2578751Z Try running "npm install" in your functions directory before deploying.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.2608840Z [36m[1mi [22m[39m Running script: [1mcd firestore-tests && npm test[22m
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.3822661Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.3823207Z > burnout-meter-firestore-tests@1.0.0 test
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.3823866Z > mocha rules.test.js --timeout 15000
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.3824167Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.7381520Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.7387019Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:20.7394526Z   Firestore Security Rules Compliance Tests
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:21.7773905Z     1. Raw Biometrics (healthSamples) Separation
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.1432884Z       ✔ ✅ Employee can read and write their own raw biometrics (348ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.2373647Z       ✔ ❌ Employee CANNOT read another employee's biometrics (81ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.3148048Z       ✔ ❌ Manager CANNOT read employee's raw healthSamples (Privacy-by-Design) (67ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.3149701Z     2. Employee Burnout Scores & Consent Sharing
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.4455368Z       ✔ ✅ Employee can read their own calculated burnout score (68ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.5628056Z       ✔ ❌ Employee CANNOT read another employee's burnout score (55ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.6825936Z       ✔ ✅ Manager can read team employee's score if sharingEnabled == true (65ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.7816655Z       ✔ ❌ Manager CANNOT read team employee's score if sharingEnabled == false (Consent Enforced) (58ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.8979015Z       ✔ ❌ Manager CANNOT read employee score of another team (76ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.8980094Z     2.5 Privilege Escalation Prevention
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.9364850Z [2026-05-24T19:16:22.936Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x79b710e9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.9366990Z false for 'create' @ L64, evaluation error at L67:24 for 'update' @ L67, false for 'create' @ L64
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.9373549Z       ✔ ❌ Normal User CANNOT create Admin membership
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:22.9657223Z       ✔ ✅ Demo User CAN create Admin membership
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.0269468Z [2026-05-24T19:16:23.026Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x79b710ec error. Code: 7 Message: 7 PERMISSION_DENIED: 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.0273281Z       ✔ ❌ User CANNOT update their role after creation (55ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.0275373Z     3. Multi-Tenant Separation
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.0276632Z evaluation error at L67:24 for 'update' @ L67, false for 'update' @ L67
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.0876552Z       ✔ ✅ Admin can read memberships within own organization (53ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.1445861Z       ✔ ❌ Admin CANNOT read memberships from another organization (51ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.2533542Z       ✔ ❌ Manager CANNOT read scores from other organization (Tenant Bypass Prevention) (102ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.2534541Z     4. Security Audit Log Ledger (Write-Once)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.2831236Z       ✔ ✅ Authenticated user can append audit log
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3247195Z [2026-05-24T19:16:23.323Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x79b710fa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3254015Z false for 'update' @ L127
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3329011Z [2026-05-24T19:16:23.332Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x79b710fb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3329812Z false for 'delete' @ L127
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3332273Z       ✔ ❌ NO user can update or delete an audit log (Immutability Enforced) (45ms)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3357268Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3388755Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3389207Z   16 passing (3s)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3389439Z 
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.3626734Z [32m[1m✔ [22m[39m Script exited successfully (code 0)
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.8640265Z [36m[1mi  emulators:[22m[39m Shutting down emulators.
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.8643794Z [36m[1mi  extensions:[22m[39m Stopping Extensions Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.8645953Z [36m[1mi  functions:[22m[39m Stopping Functions Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:23.8652721Z [36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:24.1975643Z [36m[1mi  auth:[22m[39m Stopping Authentication Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:24.1977189Z [36m[1mi  eventarc:[22m[39m Stopping Eventarc Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:24.1980378Z [36m[1mi  tasks:[22m[39m Stopping Cloud Tasks Emulator
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:24.1982516Z [36m[1mi  hub:[22m[39m Stopping emulator hub
+Build & Verify	Run Firestore Security Rules Tests	2026-05-24T19:16:24.1988711Z [36m[1mi  logging:[22m[39m Stopping Logging Emulator
+Build & Verify	Run Standard Tests	﻿2026-05-24T19:16:24.2632954Z ##[group]Run flutter test
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2633379Z [36;1mflutter test[0m
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2684497Z shell: /usr/bin/bash -e {0}
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2684878Z env:
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2685448Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2686104Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2686757Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2687304Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.2687683Z ##[endgroup]
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.4260962Z Resolving dependencies...
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6061090Z Downloading packages...
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6154777Z   _fe_analyzer_shared 67.0.0 (100.0.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6155559Z   _flutterfire_internals 1.3.35 (1.3.71 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6156507Z   analyzer 6.4.1 (13.0.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6156947Z   analyzer_plugin 0.11.3 (0.14.9 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6157380Z   build 2.4.1 (4.0.6 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6157829Z   build_config 1.1.2 (1.3.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6158261Z   build_resolvers 2.4.2 (3.0.4 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6158564Z   build_runner 2.4.13 (2.15.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6158865Z   build_runner_core 7.3.2 (9.3.2 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6159156Z   cli_util 0.4.2 (0.5.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6159438Z   cloud_firestore 4.17.5 (6.4.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6159793Z   cloud_firestore_platform_interface 6.2.5 (8.0.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6160154Z   cloud_firestore_web 3.12.5 (5.4.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6160564Z   custom_lint_core 0.6.3 (0.8.2 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6160995Z   dart_style 2.3.6 (3.1.9 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6161393Z   drift 2.19.1+1 (2.33.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6161761Z   drift_dev 2.19.1 (2.33.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6162038Z   firebase_auth 4.20.0 (6.5.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6162381Z   firebase_auth_platform_interface 7.3.0 (9.0.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6162727Z   firebase_auth_web 5.12.0 (6.2.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6163013Z   firebase_core 2.32.0 (4.9.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6163334Z   firebase_core_platform_interface 5.4.2 (7.0.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6163651Z   firebase_core_web 2.17.5 (3.7.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6163946Z   firebase_messaging 14.9.4 (16.2.2 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6164317Z   firebase_messaging_platform_interface 4.5.37 (4.7.11 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6164693Z   firebase_messaging_web 3.8.7 (4.1.7 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6165200Z   fl_chart 0.66.2 (1.2.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6165475Z   flutter_lints 3.0.2 (6.0.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6165758Z   flutter_riverpod 2.6.1 (3.3.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6166032Z   freezed 2.5.2 (3.2.5 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6166320Z   freezed_annotation 2.4.4 (3.1.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6166599Z   go_router 13.2.5 (17.2.3 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6166877Z   json_annotation 4.9.0 (4.12.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6167170Z   json_serializable 6.8.0 (6.14.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6167444Z   lints 3.0.0 (6.1.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6167794Z   matcher 0.12.19 (0.12.20 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6168182Z   meta 1.18.0 (1.18.2 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6168566Z   riverpod 2.6.1 (3.2.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6168978Z   riverpod_analyzer_utils 0.5.1 (0.5.10 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6169301Z   riverpod_annotation 2.6.1 (4.0.2 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6169604Z   riverpod_generator 2.4.0 (4.0.3 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6169904Z   shelf_web_socket 2.0.1 (3.0.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6170184Z   source_gen 1.5.0 (4.2.3 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6170460Z   source_helper 1.3.5 (1.3.12 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6170743Z   sqlite3 2.4.5 (3.3.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6171043Z   sqlite3_flutter_libs 0.5.42 (0.6.0+eol available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6171347Z   sqlparser 0.37.1 (0.44.4 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6171606Z   test_api 0.7.11 (0.7.12 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6172146Z   vector_math 2.2.0 (2.3.0 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6172388Z   web 0.5.1 (1.1.1 available)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6172656Z Got dependencies!
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6173073Z 50 packages have newer versions incompatible with dependency constraints.
+Build & Verify	Run Standard Tests	2026-05-24T19:16:24.6173533Z Try `flutter pub outdated` for more information.
+Build & Verify	Run Standard Tests	2026-05-24T19:16:26.3387226Z 
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6134445Z ##[group]✅ ScoringEngine physiological equations Optimal biometrics should produce a very low burnout risk score
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6136804Z 🧮 [SCORING] Calculating consolidated Burnout Index for user: user1
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6137658Z 🧮 [SCORING] Parsed Biometrics -> Sleep: 8.0h, HR: 60.0bpm, HRV: 80.0ms, RR: 12.0bpm
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6138371Z 🧮 [SCORING] Calculated Burnout Index: 4.9 (Stress Subscore: 6.7%, Sleep Debt: 0.0%)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6139382Z ##[endgroup]
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6167589Z ##[group]✅ ScoringEngine physiological equations Oversleeping or sleep deprivation should reduce the sleep subscore
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6168924Z 🧮 [SCORING] Calculating consolidated Burnout Index for user: user1
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6170000Z 🧮 [SCORING] Parsed Biometrics -> Sleep: 4.0h, HR: 70.0bpm, HRV: 55.0ms, RR: 15.0bpm
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6170796Z 🧮 [SCORING] Calculated Burnout Index: 41.6 (Stress Subscore: 35.0%, Sleep Debt: 69.1%)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6171366Z ##[endgroup]
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6206596Z ##[group]✅ ScoringEngine physiological equations Critical physiological stress biometrics should trigger a high burnout warning score
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6207658Z 🧮 [SCORING] Calculating consolidated Burnout Index for user: user1
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6208336Z 🧮 [SCORING] Parsed Biometrics -> Sleep: 4.5h, HR: 92.0bpm, HRV: 20.0ms, RR: 19.5bpm
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6209063Z 🧮 [SCORING] Calculated Burnout Index: 78.8 (Stress Subscore: 86.8%, Sleep Debt: 60.9%)
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6209603Z ##[endgroup]
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6362082Z 
+Build & Verify	Run Standard Tests	2026-05-24T19:16:33.6365399Z 🎉 3 tests passed.
+Build & Verify	Install Functions Dependencies	﻿2026-05-24T19:16:33.7005698Z ##[group]Run cd functions && npm install
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7006055Z [36;1mcd functions && npm install[0m
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7042120Z shell: /usr/bin/bash -e {0}
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7042361Z env:
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7042623Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7043026Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7043434Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7043783Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:33.7044036Z ##[endgroup]
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.2396804Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.4251275Z npm warn deprecated glob@8.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.5359871Z npm warn deprecated google-p12-pem@4.0.1: Package is no longer maintained
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.5661944Z npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.5849439Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.6041802Z npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.7240285Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.8694228Z npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:39.8814223Z npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.3990215Z npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6429809Z 
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6430910Z added 356 packages, and audited 357 packages in 7s
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6431626Z 
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6432145Z 55 packages are looking for funding
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6433242Z   run `npm fund` for details
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6607848Z 
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6608379Z 9 vulnerabilities (4 moderate, 4 high, 1 critical)
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6608770Z 
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6609066Z To address all issues (including breaking changes), run:
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6609434Z   npm audit fix --force
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6609585Z 
+Build & Verify	Install Functions Dependencies	2026-05-24T19:16:40.6609703Z Run `npm audit` for details.
+Build & Verify	Run Web E2E Integration Tests	﻿2026-05-24T19:16:40.6886363Z ##[group]Run chromedriver --port=4444 &
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6886755Z [36;1mchromedriver --port=4444 &[0m
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6887481Z [36;1mfirebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true"[0m
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6924027Z shell: /usr/bin/bash -e {0}
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6924273Z env:
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6924538Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6924939Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Zulu_jdk/21.0.11-10/x64
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6925635Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.44.0-x64/flutter
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6926011Z   PUB_CACHE: /home/runner/.pub-cache
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.6926262Z ##[endgroup]
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.8945733Z Starting ChromeDriver 148.0.7778.167 (65db666ac2cf205fcc36db8bb5b9cd87f94808ac-refs/branch-heads/7778@{#2783}) on port 4444
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.8946807Z Only local connections are allowed.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:40.8947966Z Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:41.1552768Z ChromeDriver was started successfully on port 4444.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:42.2562210Z [33m[1m⚠  emulators:[22m[39m You are not currently authenticated so some features may not work correctly. Please run [1mfirebase login[22m to authenticate the CLI.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:42.2928039Z [36m[1mi  emulators:[22m[39m Starting emulators: auth, functions, firestore, extensions
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:42.2930283Z [36m[1mi  emulators:[22m[39m Detected demo project ID "demo-burnoutmeter", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:42.3169276Z [36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:43.3270221Z [32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:48.7230093Z [36m[1mi  functions:[22m[39m Watching "/home/runner/work/burnout_meter/burnout_meter/functions" for Cloud Functions...
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.1305644Z [33m[1m⚠ [22m[39m [1m[33mfunctions: [39m[22mpackage.json indicates an outdated version of firebase-functions. Please upgrade using [1mnpm install --save firebase-functions@latest[22m in your functions directory.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.1307556Z [33m[1m⚠ [22m[39m [1m[33mfunctions: [39m[22mPlease note that there will be breaking changes when you upgrade.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.1319878Z [32m[1m✔  functions:[22m[39m Using node@18 from host.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.1330850Z [36m[1mi  functions:[22m[39m You are using a version of firebase-functions SDK (4.9.0) that does not have support for the newest Firebase Extensions features. Please update firebase-functions SDK to >=5.1.0 to use them correctly
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.2643764Z Serving at port 8081
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.2644112Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:49.4388896Z [32m[1m✔  functions:[22m[39m Loaded functions definitions from source: sendActionNotification, aggregateTeamScores.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.2725950Z [32m[1m✔  functions[us-central1-sendActionNotification]:[22m[39m [1mfirestore[22m function initialized.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.2881419Z [32m[1m✔  functions[us-central1-aggregateTeamScores]:[22m[39m [1mfirestore[22m function initialized.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.2911078Z [36m[1mi [22m[39m Running script: [1mflutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true[22m
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.4862615Z Resolving dependencies...
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6598388Z Downloading packages...
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6692399Z   _fe_analyzer_shared 67.0.0 (100.0.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6692995Z   _flutterfire_internals 1.3.35 (1.3.71 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6693448Z   analyzer 6.4.1 (13.0.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6693866Z   analyzer_plugin 0.11.3 (0.14.9 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6694294Z   build 2.4.1 (4.0.6 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6695542Z   build_config 1.1.2 (1.3.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6695971Z   build_resolvers 2.4.2 (3.0.4 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6696397Z   build_runner 2.4.13 (2.15.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6696828Z   build_runner_core 7.3.2 (9.3.2 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6697256Z   cli_util 0.4.2 (0.5.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6697675Z   cloud_firestore 4.17.5 (6.4.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6698182Z   cloud_firestore_platform_interface 6.2.5 (8.0.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6698744Z   cloud_firestore_web 3.12.5 (5.4.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6699166Z   custom_lint_core 0.6.3 (0.8.2 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6699606Z   dart_style 2.3.6 (3.1.9 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6699958Z   drift 2.19.1+1 (2.33.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6700312Z   drift_dev 2.19.1 (2.33.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6700695Z   firebase_auth 4.20.0 (6.5.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6701156Z   firebase_auth_platform_interface 7.3.0 (9.0.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6701652Z   firebase_auth_web 5.12.0 (6.2.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6702054Z   firebase_core 2.32.0 (4.9.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6702571Z   firebase_core_platform_interface 5.4.2 (7.0.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6703085Z   firebase_core_web 2.17.5 (3.7.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6703529Z   firebase_messaging 14.9.4 (16.2.2 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6704057Z   firebase_messaging_platform_interface 4.5.37 (4.7.11 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6704601Z   firebase_messaging_web 3.8.7 (4.1.7 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6705450Z   fl_chart 0.66.2 (1.2.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6705864Z   flutter_lints 3.0.2 (6.0.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6706299Z   flutter_riverpod 2.6.1 (3.3.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6706748Z   freezed 2.5.2 (3.2.5 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6707170Z   freezed_annotation 2.4.4 (3.1.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6707598Z   go_router 13.2.5 (17.2.3 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6708020Z   json_annotation 4.9.0 (4.12.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6708480Z   json_serializable 6.8.0 (6.14.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6708897Z   lints 3.0.0 (6.1.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6709281Z   matcher 0.12.19 (0.12.20 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6709675Z   meta 1.18.0 (1.18.2 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6710058Z   riverpod 2.6.1 (3.2.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6710508Z   riverpod_analyzer_utils 0.5.1 (0.5.10 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6711010Z   riverpod_annotation 2.6.1 (4.0.2 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6711484Z   riverpod_generator 2.4.0 (4.0.3 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6711809Z   shelf_web_socket 2.0.1 (3.0.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6712081Z   source_gen 1.5.0 (4.2.3 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6712349Z   source_helper 1.3.5 (1.3.12 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6712615Z   sqlite3 2.4.5 (3.3.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6712904Z   sqlite3_flutter_libs 0.5.42 (0.6.0+eol available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6713207Z   sqlparser 0.37.1 (0.44.4 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6713470Z   test_api 0.7.11 (0.7.12 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6713722Z   vector_math 2.2.0 (2.3.0 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6713963Z   web 0.5.1 (1.1.1 available)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6714230Z Got dependencies!
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6714635Z 50 packages have newer versions incompatible with dependency constraints.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:50.6715337Z Try `flutter pub outdated` for more information.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:16:51.0606648Z Launching integration_test/app_test.dart on Web Server in debug mode...
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:18.4355459Z Waiting for connection from debug service on Web Server...         26.3s
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:18.4591575Z integration_test/app_test.dart is being served at http://localhost:42499
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:18.4594694Z The web-server device requires the Dart Debug Chrome extension for debugging. Consider using the Chrome or Edge devices for an improved development workflow.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:30.8336381Z Debug service listening on ws://127.0.0.1:35863/naaur1LfiTo=/ws
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:30.8342513Z A Dart VM Service on Web Server is available at: http://127.0.0.1:35863/naaur1LfiTo=
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:17:30.8347443Z The Flutter DevTools debugger and profiler on Web Server is available at: http://127.0.0.1:35863/naaur1LfiTo=/devtools/?uri=ws://127.0.0.1:35863/naaur1LfiTo=/ws
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4009919Z Failure Details:
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4011016Z Failure in method: Full verification of all roles and routing
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4019744Z ══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞═════════════════
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4020438Z The following TestFailure was thrown running a test:
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4034219Z Expected: at least one matching candidate
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4035497Z   Actual: _TextContainingWidgetFinder:<Found 0 widgets with text
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4038119Z containing GUÍA DE EVALUACIÓN CTO: []>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4038774Z    Which: means none were found but some were expected
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4039138Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4039459Z When the exception was thrown, this was the stack:
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4040380Z dart-sdk/lib/_internal/js_dev_runtime/private/ddc_runtime/errors.dart 274:3       throw_
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4041451Z package:matcher/src/expect/expect.dart 187:31                                     fail
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4042500Z package:matcher/src/expect/expect.dart 182:3                                      _expect
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4043522Z package:matcher/src/expect/expect.dart 65:3                                       expect$
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4044560Z package:flutter_test/src/widget_tester.dart 473:18                                expect$
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4045710Z app_test.dart 211:7                                                               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4046646Z dart-sdk/lib/_internal/js_dev_runtime/patch/async_patch.dart 618:19               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4047647Z dart-sdk/lib/_internal/js_dev_runtime/patch/async_patch.dart 643:23               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4048646Z dart-sdk/lib/_internal/js_dev_runtime/patch/async_patch.dart 589:19               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4049674Z dart-sdk/lib/async/zone_root.dart 48:47                                           _rootRunUnary
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4050892Z dart-sdk/lib/_internal/js_dev_runtime/private/ddc_runtime/operations.dart 118:77  tear
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4051894Z dart-sdk/lib/async/zone.dart 733:19                                               runUnary
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4052886Z dart-sdk/lib/async/future_impl.dart 222:18                                        handleValue
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4054002Z dart-sdk/lib/async/future_impl.dart 948:44                                        handleValueCallback
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4055248Z dart-sdk/lib/async/future_impl.dart 977:13                                        _propagateToListeners
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4056297Z dart-sdk/lib/async/future_impl.dart 711:7                                         [_complete]
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4057293Z dart-sdk/lib/async/future.dart 436:15                                             <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4058256Z dart-sdk/lib/async/zone_root.dart 27:47                                           _rootRun
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4059243Z dart-sdk/lib/_internal/js_dev_runtime/private/ddc_runtime/operations.dart 118:77  tear
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4060203Z dart-sdk/lib/async/zone.dart 726:19                                               run
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4061125Z dart-sdk/lib/async/zone.dart 625:7                                                runGuarded
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4062035Z dart-sdk/lib/async/zone.dart 666:23                                               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4063281Z dart-sdk/lib/async/zone_root.dart 35:13                                           _rootRun
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4064266Z dart-sdk/lib/_internal/js_dev_runtime/private/ddc_runtime/operations.dart 118:77  tear
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4065349Z dart-sdk/lib/async/zone.dart 726:19                                               run
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4066231Z dart-sdk/lib/async/zone.dart 649:23                                               <fn>
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4067512Z dart-sdk/lib/_internal/js_dev_runtime/private/isolate_helper.dart 47:11           internalCallback
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4068108Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4068277Z The test description was:
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4068708Z   Full verification of all roles and routing
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4069557Z ═════════════════════════════════════════════════════════════════
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4069914Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4070039Z end of failure 1
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4070226Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4070236Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4070244Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.4740733Z Application finished.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:24.5165555Z [33m[1m⚠ [22m[39m Script exited unsuccessfully (code 1)
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.0176979Z [36m[1mi  emulators:[22m[39m Shutting down emulators.
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.0180865Z [36m[1mi  extensions:[22m[39m Stopping Extensions Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.0183166Z [36m[1mi  functions:[22m[39m Stopping Functions Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.0189093Z [36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3564237Z [36m[1mi  auth:[22m[39m Stopping Authentication Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3568268Z [36m[1mi  eventarc:[22m[39m Stopping Eventarc Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3570610Z [36m[1mi  tasks:[22m[39m Stopping Cloud Tasks Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3573185Z [36m[1mi  hub:[22m[39m Stopping emulator hub
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3580123Z [36m[1mi  logging:[22m[39m Stopping Logging Emulator
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3601659Z 
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:25.3603482Z [1m[31mError:[39m[22m Script "[1mflutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true[22m" exited with code 1
+Build & Verify	Run Web E2E Integration Tests	2026-05-24T19:18:30.6538376Z ##[error]Process completed with exit code 1.
+Build & Verify	Post Setup Flutter	﻿2026-05-24T19:18:30.6698473Z Post job cleanup.
+Build & Verify	Post Setup Java JDK	﻿2026-05-24T19:18:30.6752584Z Post job cleanup.
+Build & Verify	Post Checkout Code	﻿2026-05-24T19:18:30.8551808Z Post job cleanup.
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9319125Z [command]/usr/bin/git version
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9372787Z git version 2.54.0
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9395896Z Temporarily overriding HOME='/home/runner/work/_temp/f466e553-2509-4dab-ba9e-f8de0364e630' before making global git config changes
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9396882Z Adding repository directory to the temporary git global config as a safe directory
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9400089Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/burnout_meter/burnout_meter
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9430660Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9458278Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9711219Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9735339Z http.https://github.com/.extraheader
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9746971Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Build & Verify	Post Checkout Code	2026-05-24T19:18:30.9775969Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build & Verify	Complete job	﻿2026-05-24T19:18:31.0127678Z Cleaning up orphan processes
+Build & Verify	Complete job	2026-05-24T19:18:31.0438732Z Terminate orphan process: pid (3215) (chromedriver)
+Build & Verify	Complete job	2026-05-24T19:18:31.0452896Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v3, actions/setup-java@v3, actions/setup-node@v3. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
