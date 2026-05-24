@@ -21,15 +21,11 @@ class EmployeeShell extends ConsumerStatefulWidget {
 class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   int _activeTab = 0; // 0: Dashboard, 1: Privacy, 2: Actions
 
+  bool _dialogShown = false;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await OnboardingDialog.show(context);
-      if (mounted) {
-        _showWearableOnboardingModal();
-      }
-    });
   }
 
   void _showWearableOnboardingModal() {
@@ -287,6 +283,16 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
 
     if (user == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (!_dialogShown) {
+      _dialogShown = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await OnboardingDialog.show(context);
+        if (mounted) {
+          _showWearableOnboardingModal();
+        }
+      });
     }
 
     final actionsAsync = ref.watch(employeeActionsProvider(user.userId));

@@ -25,12 +25,11 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
   String? _selectedActionType;
   final TextEditingController _notesController = TextEditingController();
 
+  bool _dialogShown = false;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      OnboardingDialog.show(context);
-    });
   }
 
   String _getNameFromEmail(String email) {
@@ -90,6 +89,13 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
 
     if (manager == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (!_dialogShown) {
+      _dialogShown = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        OnboardingDialog.show(context);
+      });
     }
 
     final teamId = manager.teamId ?? 'teamEng';
