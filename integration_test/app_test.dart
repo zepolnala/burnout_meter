@@ -36,6 +36,14 @@ void main() {
       await tester.tap(alanButton);
       await tester.pumpAndSettle();
 
+      // Verify routing landed in Employee Dashboard FIRST (proves redirection completed before dialog pops)
+      int empRetries = 10;
+      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO').evaluate().isEmpty && empRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        empRetries--;
+      }
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
+
       // Close the OnboardingDialog first (handles post-frame push transition cleanly)
       int onboardingRetries = 10;
       while (find.byIcon(Icons.close).evaluate().isEmpty && onboardingRetries > 0) {
@@ -57,14 +65,6 @@ void main() {
       expect(closeWearableButton, findsOneWidget);
       await tester.tap(closeWearableButton);
       await tester.pumpAndSettle();
-
-      // Verify routing landed in Employee Dashboard
-      int empRetries = 10;
-      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO').evaluate().isEmpty && empRetries > 0) {
-        await tester.pump(const Duration(milliseconds: 500));
-        empRetries--;
-      }
-      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
       
       // Perform Logout
       final logoutButton = find.byIcon(Icons.exit_to_app);
@@ -78,6 +78,14 @@ void main() {
       await tester.tap(victorButton);
       await tester.pumpAndSettle();
 
+      // Verify routing landed in Manager Dashboard FIRST (proves redirection completed before dialog pops)
+      int mgrRetries = 10;
+      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER').evaluate().isEmpty && mgrRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        mgrRetries--;
+      }
+      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
+
       // Close the OnboardingDialog for manager (handles post-frame push transition cleanly)
       int mgrOnboardingRetries = 10;
       while (find.byIcon(Icons.close).evaluate().isEmpty && mgrOnboardingRetries > 0) {
@@ -88,14 +96,6 @@ void main() {
       expect(closeMgrIntroButton, findsOneWidget);
       await tester.tap(closeMgrIntroButton);
       await tester.pumpAndSettle();
-
-      // Verify routing landed in Manager Dashboard
-      int mgrRetries = 10;
-      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER').evaluate().isEmpty && mgrRetries > 0) {
-        await tester.pump(const Duration(milliseconds: 500));
-        mgrRetries--;
-      }
-      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
       
       // Explicitly check that there is NO permission denied error for scores
       expect(find.textContaining('Error al cargar scores:'), findsNothing);
