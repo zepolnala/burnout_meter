@@ -44,6 +44,11 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Verify routing landed in Employee Dashboard
+      int empRetries = 10;
+      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO').evaluate().isEmpty && empRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        empRetries--;
+      }
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: EMPLEADO'), findsWidgets);
       
       // Perform Logout
@@ -64,6 +69,11 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
       // Verify routing landed in Manager Dashboard
+      int mgrRetries = 10;
+      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER').evaluate().isEmpty && mgrRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        mgrRetries--;
+      }
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: MÁNAGER'), findsWidgets);
       
       // Explicitly check that there is NO permission denied error for scores
@@ -84,7 +94,12 @@ void main() {
       await tester.tap(adminButton);
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
-      // Verify routing landed in Admin Dashboard
+      // Verify routing landed in Admin Dashboard (handles async Firestore lag in CI)
+      int admRetries = 10;
+      while (find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR').evaluate().isEmpty && admRetries > 0) {
+        await tester.pump(const Duration(milliseconds: 500));
+        admRetries--;
+      }
       expect(find.textContaining('GUÍA DE EVALUACIÓN CTO • ROL: ADMINISTRADOR'), findsWidgets);
       
       // Logout
