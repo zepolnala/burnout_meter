@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:burnout_meter_app/main.dart' as app;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:burnout_meter_app/presentation/shared/onboarding_dialog.dart';
@@ -8,6 +9,7 @@ import 'package:burnout_meter_app/presentation/shared/login_screen.dart';
 import 'package:burnout_meter_app/presentation/admin/admin_shell.dart';
 import 'package:burnout_meter_app/presentation/employee/employee_shell.dart';
 import 'package:burnout_meter_app/presentation/manager/manager_shell.dart';
+import 'package:burnout_meter_app/shared/providers/auth_provider.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -56,8 +58,12 @@ void main() {
 
       // Verify we navigated away from LoginScreen after authentication.
       if (find.byType(LoginScreen).evaluate().isNotEmpty) {
+        final element = tester.element(find.byType(LoginScreen));
+        final container = ProviderScope.containerOf(element);
+        final authState = container.read(authStateProvider);
         fail(
           'Employee login did not redirect away from /login after 15 seconds. '
+          'AuthState: $authState. '
           'Check GoRouter redirect() logic and auth state propagation.',
         );
       }
@@ -128,6 +134,18 @@ void main() {
         mgrLoginRetries--;
       }
 
+      // Verify we navigated away from LoginScreen after manager authentication.
+      if (find.byType(LoginScreen).evaluate().isNotEmpty) {
+        final element = tester.element(find.byType(LoginScreen));
+        final container = ProviderScope.containerOf(element);
+        final authState = container.read(authStateProvider);
+        fail(
+          'Manager login did not redirect away from /login after 15 seconds. '
+          'AuthState: $authState. '
+          'Check GoRouter redirect() logic and auth state propagation.',
+        );
+      }
+
       // Close the OnboardingDialog reactively the moment it appears
       for (int i = 0; i < 15; i++) {
         await tester.pump(const Duration(milliseconds: 500));
@@ -185,6 +203,18 @@ void main() {
       ) {
         await tester.pump(const Duration(milliseconds: 500));
         admLoginRetries--;
+      }
+
+      // Verify we navigated away from LoginScreen after admin authentication.
+      if (find.byType(LoginScreen).evaluate().isNotEmpty) {
+        final element = tester.element(find.byType(LoginScreen));
+        final container = ProviderScope.containerOf(element);
+        final authState = container.read(authStateProvider);
+        fail(
+          'Admin login did not redirect away from /login after 15 seconds. '
+          'AuthState: $authState. '
+          'Check GoRouter redirect() logic and auth state propagation.',
+        );
       }
 
       // Close the OnboardingDialog reactively the moment it appears
