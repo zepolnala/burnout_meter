@@ -5,6 +5,7 @@ import 'package:burnout_meter_app/main.dart' as app;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:burnout_meter_app/presentation/shared/onboarding_dialog.dart';
 import 'package:burnout_meter_app/presentation/shared/login_screen.dart';
+import 'package:burnout_meter_app/presentation/admin/admin_shell.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -205,10 +206,17 @@ void main() {
         print('ADMIN DASHBOARD NOT FOUND!');
         print('Dumping Widget Tree:');
         debugDumpApp();
-        await Future<void>.delayed(const Duration(seconds: 1));
+        
+        if (find.byType(AdminShell).evaluate().isEmpty) {
+          if (find.textContaining('No autorizado').evaluate().isNotEmpty) {
+            fail('Navigated to /unauthorized instead of /admin. Role guard rejected Admin!');
+          } else {
+            fail('Failed to navigate to AdminShell. Active screen is unknown.');
+          }
+        } else {
+          fail('AdminShell is mounted but GUÍA DE EVALUACIÓN CTO was not found.');
+        }
       }
-
-      expect(find.textContaining('GUÍA DE EVALUACIÓN CTO'), findsWidgets);
       
       // Logout
       await tester.tap(logoutButton);
