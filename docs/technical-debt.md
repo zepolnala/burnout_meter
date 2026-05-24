@@ -1,31 +1,105 @@
 # Technical Debt Registry
 
-A professional ledger documenting technical debt accepted during the MVP phase of **BurnoutMeter**. We categorize our debt to ensure maintainability and prioritize future refactoring.
+Registro profesional de deuda técnica aceptada durante la fase MVP de **BurnoutMeter**. Categorizado para garantizar mantenibilidad y priorizar refactorización futura.
+
+**Última revisión:** Mayo 2026
 
 ---
 
 ## 📊 Technical Debt Breakdown
 
-### 1. Accepted Debt (Intentionally Deferred)
-*   **Static Local Fixtures for Wearables**: 
-    *   *Context*: The `ReplayHealthDataSource` reads a static JSON file (`replay_health_data.json`).
-    *   *Impact*: Wearable simulation is identical for all users.
-    *   *Mitigation*: We created a deterministic fallback generator (`_generateDeterministicReplay`) that adds distinct variances based on UIDs. Shifting to physical BLE connections is isolated under `HealthDataSource`.
-*   **Client-Side Score Creation**:
-    *   *Context*: The score is computed client-side and saved directly to `/scores/`.
-    *   *Impact*: A malicious client could write artificial scores.
-    *   *Mitigation*: Firestore rules enforce that a user can only write scores with their own `userId`. In production, scoring is migrated to serverless Firebase functions, and client write permissions are disabled.
+### 1. Deuda Aceptada (Intencionalmente Diferida)
 
-### 2. Intentional Debt (MVP Scope Limitations)
-*   **Mocked Trend Visualizations**:
-    *   *Context*: The weekly heart rate average bars on `EmployeeShell` render static arrays.
-    *   *Impact*: Visually beautiful, but doesn't reflect actual historical queries.
-    *   *Mitigation*: Prepares the UI card for real SQLite/Drift databases without introducing bloated charts or heavy visualization packages.
-*   **Audit Log Creation from Client**:
-    *   *Context*: Audit logs are written by the client application on read requests.
-    *   *Impact*: A user could read without generating a log by bypassing the client.
-    *   *Mitigation*: Security rules make logs strictly **write-once** (creates allowed, edits/deletions blocked). In production, audit ledger logging is moved to backend triggers (Firestore Eventarc or triggers).
+#### Fixtures Sintéticas para Wearables
+- **Contexto**: `SyntheticHealthDataSource` genera biometría determinística en función del UID. Reemplazó al antiguo `ReplayHealthDataSource` que usaba un JSON estático idéntico para todos los usuarios.
+- **Mejora vs anterior**: Ahora cada UID produce valores ligeramente distintos, haciendo los dashboards más realistas.
+- **Deuda restante**: Sigue siendo completamente sintético — no hay integración con iOS HealthKit, Android Health Connect ni ninguna API de wearable real.
+- **Ruta de migración**: La interfaz abstracta `HealthDataSource` ya existe en el dominio. Crear una implementación concreta `HealthKitDataSource` e inyectarla vía `repository_providers.dart`.
 
-### 3. Future Modularization Roadmap
-*   **Microservice Decoupling**: Extract `ScoringEngine` into a standalone Dart package (`burnoutmeter_scoring`) that can be imported both by the client app and the serverless scoring functions, ensuring DRY calculations.
-*   **State Telemetry Integration**: Swap our stdout `AppLogger` hooks for an OpenTelemetry adapter that feeds logs directly to GCP Cloud Logging or Datadog dashboards.
+#### Score Calculado Client-Side
+- **Contexto**: El score se calcula en el cliente (`ScoringEngine`) y se guarda directamente en Firestore `/scores/`.
+- **Regla protectora actual**: Firestore rules permiten que el owner escriba su propio score (`isOwner(request.resource.data.userId)`).
+- **Riesgo**: Un cliente modificado puede escribir scores arbitrarios para su propio userId.
+- **Migración**: Mover `ScoringEngine` a una Cloud Function que se dispare automáticamente al escribir en `/healthSamples/`.
+
+---
+
+### 2. Deuda de Debug Activa (DEBE ELIMINARSE ANTES DE PRODUCCIÓN)
+
+Estos elementos fueron añadidos durante el debugging de la integración E2E y están actualmente presentes en código de producción:
+
+#### `RouterLogs` en `app_router.dart`
+```dart
+class RouterLogs {
+  static final List<String> logs = [];  // Lista estática global, nunca se limpia
+}
+```
+- **Riesgo**: Memory leak — la lista crece indefinidamente durante el runtime.
+- **Acción**: Eliminar la clase completa. Usar `AppLogger` para los logs de routing.
+
+#### Widgets de diagnóstico en `login_screen.dart`
+```dart
+if (authState.hasError) Text('TEST ERROR: ...', key: Key('login_error_text'))
+if (authState.isLoading) Text('TEST STATUS: LOADING...', key: Key('login_status_loading'))
+if (!authState.isLoading && !authState.hasError) Text('TEST STATUS: DATA(...)', key: Key('login_status_data'))
+Text('ROUTER LOGS: ${RouterLogs.logs.join(...)}', key: Key('router_logs_text'))
+```
+- **Riesgo**: Expone información de estado interno en la UI de producción. Viola principio de información mínima expuesta.
+- **Acción**: Eliminar todos estos widgets. Mover la lógica de diagnóstico a los logs del E2E test usando `debugPrint`.
+
+#### Import circular potencial
+- `login_screen.dart` importa `app_router.dart` (para `RouterLogs`). Esto crea acoplamiento entre la capa de Presentation y la capa de Routing.
+- **Acción**: Al eliminar `RouterLogs`, eliminar también este import.
+
+---
+
+### 3. Deuda Intencional (Limitaciones del Scope MVP)
+
+#### Visualizaciones de Tendencia Mockeadas
+- **Contexto**: Las barras de promedio semanal de frecuencia cardíaca en `EmployeeShell` renderizan arrays estáticos.
+- **Estado actual**: La UI del card ya está preparada; usa `fl_chart` para las barras.
+- **Deuda**: No refleja consultas históricas reales desde Firestore.
+- **Migración**: Implementar `FutureProvider` que consulte `/healthSamples/` agrupando por semana.
+
+#### Audit Logs escritos por el cliente
+- **Contexto**: Los audit logs se escriben desde la aplicación cliente en requests de lectura.
+- **Protección actual**: Las reglas Firestore son write-once con verificación `actorUserId == request.auth.uid`.
+- **Deuda**: Un usuario puede leer datos sin generar un log si bypasea el cliente (e.g., via API directa).
+- **Migración**: Mover la escritura de audit logs a Firestore Triggers/Eventarc en backend.
+
+#### OnboardingDialog siempre visible
+- **Contexto**: El `OnboardingDialog` se muestra en cada login (no solo el primero).
+- **Deuda**: La lógica de "primer login" no está implementada — no hay flag de `hasSeenOnboarding` en Firestore.
+- **Migración**: Añadir campo `hasSeenOnboarding: bool` al documento de membership o consent. Leerlo en el shell antes de mostrar el dialog.
+
+#### `orgId` hardcodeada como fallback
+- **Contexto**: En `burnout_providers.dart`, cuando no se puede recuperar la membership, se usa `orgId: 'org789'` como fallback.
+- **Deuda**: En producción, este fallback generaría consultas incorrectas a Firestore.
+- **Migración**: Lanzar un error en lugar de usar un fallback hardcodeado.
+
+---
+
+### 4. Roadmap de Modularización Futura
+
+| Componente | Estado MVP | Estado Producción | Esfuerzo |
+|---|---|---|---|
+| **ScoringEngine** | Dart puro, client-side | Paquete Dart standalone (`burnoutmeter_scoring`) | Medio |
+| **AppLogger** | `print()` wrapper | OpenTelemetry → GCP Cloud Logging / Sentry | Bajo |
+| **RBAC** | Roles en Firestore | JWT Custom Claims via Firebase Admin SDK | Alto |
+| **Scoring trigger** | Cliente escribe score | Cloud Function dispara en `/healthSamples/` write | Alto |
+| **Audit trail** | Cliente escribe log | Firestore Trigger / Eventarc backend | Medio |
+| **Wearable source** | Sintético (UID-based) | HealthKit / Health Connect / OAuth Oura/Fitbit | Alto |
+| **OnboardingDialog** | Siempre visible | Controlado por flag `hasSeenOnboarding` | Bajo |
+| **RouterLogs** | Lista global en memoria | Eliminado | Bajo |
+
+---
+
+## 🛠️ Mitigación de Deuda Activa
+
+Para garantizar que el MVP sea una base de producción sólida:
+
+1. **Aislamiento de contratos**: Los providers de repositorios usan clases abstractas del dominio. Cambiar del emulador a producción real requiere solo añadir una implementación concreta nueva en `/data/` y cambiar el binding en `repository_providers.dart`.
+
+2. **Cálculos deterministas**: El motor clínico está completamente aislado de Flutter. Puede compilarse en Dart puro y ejecutarse en un worker serverless de Node/Dart sin modificar una sola línea de lógica de negocio.
+
+3. **Reglas Firestore como última línea**: Aunque el cliente tenga bugs, las reglas de Firestore bloquean accesos no autorizados a nivel de servidor. Esta doble capa (client guard + server rule) reduce la superficie de ataque.

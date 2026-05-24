@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/config/seed_service.dart';
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/theme/app_theme.dart';
+
 import 'vector_icons.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -730,6 +731,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             _buildStatusChip(),
                           ],
                         ),
+                  
+
+
                         const SizedBox(height: 8),
                         const Text(
                           'Inicializa la base de datos con las membresías y consentimientos demo:',

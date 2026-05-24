@@ -1,108 +1,233 @@
 # Engineering Audit: BurnoutMeter Platform
 
-**Date:** May 2026
-**Type:** Deep Technical & Security Audit
-**Objective:** Expose architectural debt, testing gaps, CI/CD fragility, and security flaws without aspirational language.
+**Fecha:** Mayo 2026
+**Tipo:** Auditoría Técnica y de Seguridad Profunda
+**Objetivo:** Exponer deuda arquitectural, gaps de testing, fragilidad de CI/CD y vulnerabilidades de seguridad sin lenguaje aspiracional. Estado actual tras múltiples iteraciones de corrección.
 
 ---
 
-## 1. CI/CD Reliability & GitHub Actions
+## 1. CI/CD Reliability — GitHub Actions
 
-**Status:** 0% Reliable (Broken in Main)
+**Estado Actual:** ⚠️ Parcialmente Funcional
 
-### Empirical Evidence
-The GitHub Actions workflow `BurnoutMeter CI/CD Pipeline` is currently failing immediately at the `Install Dependencies` step.
+### Configuración Actual del Pipeline (`flutter_ci.yml`)
+El workflow ejecuta los siguientes pasos en orden:
+1. Setup Java JDK 21 (Zulu)
+2. Setup Flutter (canal `stable`, sin pin de versión exacta)
+3. Setup Node.js 18 + Firebase CLI (npm global)
+4. `flutter pub get` + `flutter pub run build_runner build`
+5. `flutter analyze`
+6. Firestore Rules Tests (`cd firestore-tests && npm test`)
+7. `flutter test` (unit tests)
+8. Instalación de Functions Dependencies
+9. **E2E Integration Tests** (`flutter drive` con emuladores Firebase + chromedriver)
+10. `flutter build web --release`
 
-**Log Extract:**
-```text
-The plugin `cloud_firestore` requires your app to be migrated to the Android embedding v2.
-##[error]Process completed with exit code 1.
+### Problema Activo: E2E Tests en CI
+
+El paso de E2E está fallando en CI por la siguiente causa raíz identificada (tras análisis extensivo):
+
+**Síntoma confirmado localmente:**
+```
+Login failed BUT HAS DATA STATE: TEST STATUS: DATA(employee)
 ```
 
-### Root Cause (Version Drift)
-Local development has drifted significantly from the CI environment. The `pubspec.yaml` allows Dart SDK `>=3.0.0 <4.0.0`, and the local machine is running a bleeding-edge/unstable version of Flutter (Web compiler traces show `FLUTTER_VERSION=3.44.0`). 
-However, `.github/workflows/flutter_ci.yml` strictly pins Flutter to `3.19.x`. Flutter 3.19 rejects the modern `cloud_firestore` V2 embedding constraints, immediately killing the pipeline.
+**Diagnóstico:** El estado de autenticación se completa exitosamente (`DATA(employee)`), pero la navegación de GoRouter no redirige fuera de `/login`. Esto se debe a un **bug activo en `app_router.dart`**: el código de RBAC guards contiene un `return null` prematuro que convierte el código de redirección en dead code:
 
-**Actionable Fix:** Align local and CI SDK constraints exactly. Pin CI to `3.24.x` or the exact local equivalent.
+```dart
+RouterLogs.logs.add('✅ Auth user (${user.role}) at $location, allowed');
+return null;  // ← RETURN PREMATURO: las siguientes guardias RBAC nunca se ejecutan
 
----
-
-## 2. E2E Reliability & Browser Fragility
-
-**Status:** Highly Fragile Locally
-
-### Empirical Evidence
-Execution of `scripts/run_e2e.sh` fails on the macOS host environment:
-```text
-Oops; flutter has exited unexpectedly: "SessionNotCreatedException (500):
-session not created: This version of ChromeDriver only supports Chrome version 149
-Current browser version is 148.0.7778.179"
+// Este bloque es dead code inalcanzable:
+if (location.startsWith('/employee') && user.role != 'employee') {
+  return '/unauthorized';
+}
 ```
 
-### Root Cause
-The E2E suite depends on an unpinned, globally installed `chromedriver` (via Homebrew) interfacing with the host OS's auto-updating Google Chrome. When Homebrew upgraded `chromedriver` to v149, but the system Chrome was stuck at v148, the bridge broke.
+Adicionalmente, la lógica de redirección para `/login` (líneas 59-64) debería redirigir al usuario autenticado, pero con el `return null` en línea 67, el router **no rechaza** el acceso a `/login` tras autenticación exitosa.
 
-**Impact:** Tests are not reproducible across different developer machines.
-**Actionable Fix:** E2E tests should execute inside a Docker container (e.g., using Playwright/Puppeteer images) where the browser and driver binaries are strictly matched and immutable.
+**Fix Requerido:**
+```dart
+// Eliminar el return null prematuro. La lógica debería ser:
+if (user == null) {
+  return location != '/login' ? '/login' : null;
+}
+if (location == '/login') {
+  if (user.role == 'admin') return '/admin';
+  if (user.role == 'manager') return '/manager';
+  return '/employee';
+}
+// RBAC Guards activos
+if (location.startsWith('/employee') && user.role != 'employee') return '/unauthorized';
+// ... etc.
+return null;
+```
+
+### Problema Anterior Resuelto: Versión de Flutter
+
+El audit anterior documentaba que CI usaba Flutter `3.19.x` mientras local corría `3.44.x`. Este problema fue resuelto cambiando el CI a `channel: 'stable'` sin pin de versión, lo que permite que el CI use la misma versión estable que el desarrollador.
+
+**Advertencia**: Sin un pin exacto de versión, el pipeline puede romperse cuando Flutter publique una nueva versión estable. Se recomienda pintar con `flutter-version: 3.x.y`.
+
+### Herramienta de Diagnóstico: `RouterLogs` + Keys de Testing
+
+Durante el debugging se añadieron instrumentos de diagnóstico en la UI que deben eliminarse en producción:
+- `RouterLogs.logs` — lista estática global que acumula logs de redirección
+- Keys `login_error_text`, `login_status_loading`, `login_status_data`, `router_logs_text` en `LoginScreen`
+- Widgets de debug con `Key('login_error_text')` visibles en la UI de producción
 
 ---
 
-## 3. Security Audit: Privilege Escalation & Tenant Isolation
+## 2. E2E Reliability — Browser Fragility
 
-**Status:** Critical Vulnerabilities Found
+**Estado:** ⚠️ Mejorado pero aún frágil
 
-### Vulnerability 1: Client-Side Privilege Escalation
-In `firestore.rules`, the `memberships` collection contains the following rule:
+### Situación Actual
+El problema de ChromeDriver vs Chrome version mismatch fue abordado. El pipeline de CI usa `chromedriver` disponible en el runner de GitHub Actions (`ubuntu-latest`), que incluye Chrome y ChromeDriver sincronizados.
+
+En desarrollo local, el problema de versión persiste en algunos entornos. La solución adoptada fue usar `npx chromedriver` en lugar de la instalación global de Homebrew.
+
+### Fragilidad Restante
+Los tests E2E dependen de textos exactos en la UI (e.g., `'Alan (Empleado Demo)'`, `'GUÍA DE EVALUACIÓN CTO'`). Cualquier cambio de texto en los dashboards romperá el test sin advertencia.
+
+**Recomendación:** Reemplazar `find.text('...')` por `find.byKey(const Key('...'))` en los targets críticos del test.
+
+---
+
+## 3. Security Audit — Privilege Escalation & Tenant Isolation
+
+**Estado:** ✅ Vulnerabilidades Críticas Anteriores Mitigadas
+
+### Mitigación Implementada en `firestore.rules`
+
+#### Memberships (antes vulnerable, ahora endurecida):
 ```javascript
-allow write: if isAuthenticated() && (isAdmin() || isOwner(userId)); 
+// ANTES (vulnerable):
+allow write: if isAuthenticated() && (isAdmin() || isOwner(userId));
+
+// AHORA:
+allow create: if isAuthenticated() && isOwner(userId) && (
+  request.resource.data.role == 'employee' || isDemoEmail()
+);
+allow update: if isAuthenticated() && isOwner(userId) && (
+  request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt'])
+);
 ```
-**Impact:** ANY authenticated user can write their own membership document. A malicious employee can simply execute a Firestore `set()` from the browser console:
+
+**Impacto:** Los usuarios normales ya no pueden escribir su propio `role`. Solo pueden crear membresías con rol `employee`, o si son emails demo (`@burnoutmeter.demo`). Las actualizaciones están restringidas al campo `updatedAt`.
+
+#### Scores (tenant isolation con `sameOrg`):
 ```javascript
-db.collection('memberships').doc(myUid).set({ role: 'admin', orgId: 'my-org' })
+allow read: if isAuthenticated() && (
+  isOwner(resource.data.userId) || 
+  (isManager() && hasSharingConsent(resource.data.userId) 
+    && resource.data.teamId in getMembership().get('managedTeamIds', []) 
+    && sameOrg(resource.data.orgId)) ||  // ← sameOrg añadido
+  (isAdmin() && sameOrg(resource.data.orgId))
+);
 ```
-This grants them immediate, system-wide Administrator access. The "dynamic seeding" assumption completely breaks zero-trust architecture.
 
-### Vulnerability 2: Tenant Isolation Bypass
-Because users can write their own memberships, a malicious user can elevate themselves to `manager`, and inject arbitrary `teamId` arrays into their `managedTeamIds` property. 
-Because the `scores` read rule only verifies `resource.data.teamId in getMembership().managedTeamIds` (without enforcing `sameOrg`), the attacker can read burnout scores from *other* organizations.
+#### Audit Logs (write-once con verificación de actor):
+```javascript
+allow create: if isAuthenticated() && request.resource.data.actorUserId == request.auth.uid;
+```
 
-**Actionable Fix:** Client applications must *never* dictate roles. Role assignment must occur via secure Firebase Admin SDK (Cloud Functions) or custom JWT claims. Remove `isOwner(userId)` from membership write rules immediately.
+### Vulnerabilidades Residuales
+
+1. **RBAC client-side vs server-side**: El `role` en Firestore puede ser leído y la lógica de redirección del router depende del valor de Firestore. Si las reglas de Firestore son correctas (lo son), un usuario que eleve su rol en Firestore no obtendrá acceso adicional porque las reglas del servidor lo bloquean. Sin embargo, la UI puede mostrar el dashboard de admin si el router no verifica contra JWT claims.
+
+2. **`seed_status` colección pública**:
+   ```javascript
+   match /seed_status/{docId} {
+     allow read, write: if true;  // Totalmente abierto
+   }
+   ```
+   Cualquier usuario no autenticado puede leer o escribir el estado de seeding. Un atacante podría marcar la DB como "no seeded" para trigger re-seedings, o más críticamente, marcarla como "seeded" para bloquear la inicialización.
+
+3. **Roles basados en Firestore, no en JWT Claims**: La función `getRole()` en las reglas hace una consulta adicional a Firestore por cada regla evaluada, lo que añade latencia y costos. En producción, los roles deberían estar en JWT custom claims asignados por Firebase Admin SDK.
 
 ---
 
 ## 4. Testing Coverage Audit
 
-**Status:** Abysmal (Less than 5% actual coverage)
+**Estado:** ⚠️ Cobertura baja, pero E2E test es ahora más robusto
 
-### Empirical Evidence
-Execution of `flutter test --coverage` combined with `lcov` output yields exactly 36 lines of covered code, entirely confined to `lib/shared/utils/scoring_engine.dart`.
+### Tests Actuales
 
-### Gaps
-*   **0% UI Coverage:** Not a single widget test exists (the default `widget_test.dart` was deleted because it crashed without a Firebase mock).
-*   **0% State Coverage:** Riverpod providers, caching, and health ingestion logic are completely untested natively.
-*   **False Positives:** The `integration_test/app_test.dart` only tests a "Happy Path" login. It does not test RBAC deflections, unauthorized access attempts, or network failures.
+#### Unit Tests (`test/`)
+Cobertura muy limitada. El único archivo de test existente cubre únicamente `ScoringEngine`. No hay widget tests.
+
+#### E2E Integration Test (`integration_test/app_test.dart`)
+El test ahora cubre el **happy path completo** para los tres roles:
+- **Employee (Alan)**: Login → cierre de OnboardingDialog → cierre de WearableModal → logout
+- **Manager (Victor)**: Login → cierre de OnboardingDialog → verificación de dashboard → logout
+- **Admin**: Login → cierre de OnboardingDialog → verificación de dashboard → logout
+
+**Instrumentación de diagnóstico añadida** (no ideal para CI, debe refactorizarse):
+- El test verifica keys específicos de debug (`login_error_text`, `login_status_data`, etc.)
+- La detección del OnboardingDialog usa loops de retry con `pumpAndSettle`
+
+### Gaps Críticos Persistentes
+
+| Área | Cobertura | Impacto |
+|---|---|---|
+| Widget tests | 0% | Cualquier cambio de UI pasa desapercibido |
+| Providers Riverpod | 0% | Lógica de consentimiento no testeada |
+| RBAC deflections | 0% | No se verifica que employee no acceda a /manager |
+| Firestore Rules (JS) | Parcial | Tests en `firestore-tests/` cubren algunas reglas |
+| Error scenarios | 0% | Sin tests de network failure, token expirado, etc. |
+| Consent toggle flow | 0% | El toggle de privacy en EmployeeShell no está testeado |
 
 ---
 
 ## 5. Technical Debt & Demo-Only Implementations
 
-### Demo-Only Implementations
-*   **ReplayHealthDataSource:** The app relies on a hardcoded array of physiological data (`_mockBiometrics`). This is useless for production. There is no actual HealthKit/Google Fit integration interface prepared.
-*   **Mock Repositories:** The system uses in-memory `_consents` and `_controllers`. These memory leaks were patched via a `dispose()` method, but the entire persistence layer needs to be rewritten to interface with Firestore.
+### Instrumentación de Diagnóstico en Producción (DEBE ELIMINARSE)
 
-### Missing Production Concerns
-*   **Observability:** `AppLogger` is currently just a wrapper around `print()`. In a production Web app, this is invisible to operators. It must be wired to Sentry, Datadog, or Firebase Crashlytics.
-*   **Offline Support:** No offline caching or persistence strategy is defined for the Flutter Web target.
-*   **Rebuild Storms:** Riverpod's `StateNotifier` logic currently lacks distinct `select()` statements in the UI, meaning deep updates to team scores might trigger full-page rebuilds across the Manager dashboard.
+Los siguientes artefactos de debugging fueron añadidos durante la resolución del bug E2E y deben ser removidos antes de cualquier release:
+
+```dart
+// En app_router.dart:
+class RouterLogs {
+  static final List<String> logs = [];  // Lista global que crece indefinidamente
+}
+
+// En login_screen.dart (dentro del widget de UI):
+if (authState.hasError)
+  Text('TEST ERROR: ${authState.error}', key: Key('login_error_text'), ...)
+if (authState.isLoading)
+  Text('TEST STATUS: LOADING...', key: Key('login_status_loading'), ...)
+if (!authState.isLoading && !authState.hasError)
+  Text('TEST STATUS: DATA(...)', key: Key('login_status_data'), ...)
+Padding(
+  child: Text('ROUTER LOGS: ${RouterLogs.logs.join(...)}', key: Key('router_logs_text'), ...)
+)
+```
+
+### Implementaciones Demo-Only
+
+- **`SyntheticHealthDataSource`**: Genera datos biométricos sintéticos por UID. Funciona para demos pero no refleja datos reales de wearable. La interfaz `HealthDataSource` está preparada para swap.
+- **`AppLogger`**: Wrapper sobre `print()`. Invisible en producción web. Debe conectarse a Sentry/Crashlytics/Datadog.
+- **Score client-side**: Los scores se calculan y escriben directamente desde el cliente. Permitido por las reglas Firestore (owner puede write), pero en producción debe moverse a Cloud Functions.
+- **orgId hardcodeada**: En `burnout_providers.dart`, la lógica de fallback usa `orgId: 'org789'` hardcoded cuando no hay membership.
+
+### Rebuild Storms
+
+Los providers `FutureProvider.autoDispose.family` (`personalScoreProvider`, `teamScoresProvider`) se invalidan completamente cuando cambia el `userId`/`teamId`. Sin embargo, dentro de `teamScoresProvider` se hace un loop que llama a `personalScoreProvider` por cada miembro, lo que puede generar N requests paralelos a Firestore sin batching ni cache.
 
 ---
 
-## 6. Summary of Real Constraints
+## 6. Resumen de Prioridades de Acción
 
-BurnoutMeter is currently an advanced prototype. To declare it "Production-Ready", the following strictly engineered steps must occur:
-
-1.  **Hardcode CI SDKs:** Stop using `3.19.x` in GitHub Actions.
-2.  **Fix Firestore Rules:** Strip client write-access to the `memberships` collection.
-3.  **Implement Cloud Functions:** Move RBAC assignment and seeding to an isolated Node.js environment.
-4.  **Replace WebDrivers:** Migrate E2E testing to a containerized browser environment to escape local ChromeDriver mismatches.
-5.  **Write Real Mocks:** Implement `mockito` to allow Widget Tests to run in isolation without crashing the Dart VM.
+| Prioridad | Acción | Impacto |
+|---|---|---|
+| 🔴 **P0** | Corregir bug del `return null` prematuro en `app_router.dart` | Desbloquea E2E tests y habilita RBAC guards |
+| 🔴 **P0** | Eliminar widgets de debug de `LoginScreen` | Exposición de información interna en UI |
+| 🔴 **P0** | Limpiar `RouterLogs` de producción | Memory leak acumulativo |
+| 🟠 **P1** | Pintar versión de Flutter en CI | Reproducibilidad del pipeline |
+| 🟠 **P1** | Mover roles a JWT custom claims | Seguridad server-side real |
+| 🟠 **P1** | Restringir `/seed_status` collection | Superficie de ataque eliminada |
+| 🟡 **P2** | Widget tests con `mockito` | Cobertura de UI básica |
+| 🟡 **P2** | Tests de RBAC deflections | Verificación de seguridad |
+| 🟡 **P2** | Conectar `AppLogger` a Sentry | Observabilidad en producción |
+| 🟢 **P3** | Migrar scoring a Cloud Functions | Arquitectura production-grade |

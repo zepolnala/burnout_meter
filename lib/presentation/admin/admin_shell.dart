@@ -7,6 +7,7 @@ import '../../domain/models/membership.dart';
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/providers/repository_providers.dart';
 import '../../shared/theme/app_theme.dart';
+import '../shared/onboarding_dialog.dart';
 
 class AdminShell extends ConsumerStatefulWidget {
   const AdminShell({super.key});
@@ -21,10 +22,20 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   bool _loading = true;
   String? _loadedAdminUid;
 
+  bool _dialogShown = false;
+
   @override
   void initState() {
     super.initState();
     _loadAdminData();
+    if (!_dialogShown) {
+      _dialogShown = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (mounted) {
+          await OnboardingDialog.show(context);
+        }
+      });
+    }
   }
 
   Future<void> _loadAdminData() async {
@@ -94,7 +105,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
               const Icon(Icons.psychology, color: AppTheme.accentTeal, size: 20),
               const SizedBox(width: 8),
               Text(
-                '💡 GUÍA DE EVALUACIÓN CTO • ROL: $role',
+                '💡 GUÍA DE EVALUACIÓN CTO • ROL: ${role.toUpperCase()}',
                 style: const TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 0.5),
               ),
             ],

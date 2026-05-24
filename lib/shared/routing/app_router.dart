@@ -13,51 +13,56 @@ import '../config/seed_service.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateProvider);
-
   return GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: '/login',
     redirect: (context, state) {
-      // 1. If auth is loading, has an error, or we are seeding the database, hold redirection
-      if (authState.isLoading || authState.hasError || SeedService.isSeeding) return null;
-
-      final user = authState.valueOrNull;
+      final authState = ref.read(authStateProvider);
       final location = state.uri.path;
 
-      // 2. Unauthenticated state: Force redirection to login
+      // 1. Hold redirect while auth state is resolving or seeding is in progress
+      if (authState.isLoading || authState.hasError || SeedService.isSeeding) {
+        AppLogger.info('🛣️ [ROUTER] Holding redirect. isLoading=${authState.isLoading}, isSeeding=${SeedService.isSeeding}');
+        return null;
+      }
+
+      final user = authState.valueOrNull;
+
+      // 2. Unauthenticated: force to /login
       if (user == null) {
         if (location != '/login') {
-          AppLogger.warning('🔒 [ROUTER] Unauthenticated access to $location deflected to /login');
+          AppLogger.warning('🔒 [ROUTER] Unauthenticated access to $location → /login');
           return '/login';
         }
         return null;
       }
 
-      // 3. Authenticated state trying to access login: Route automatically to role dashboard
-      if (location == '/login') {
-        AppLogger.info('🔄 [ROUTER] Authenticated user (${user.role}) bypassed /login');
+      // 3. Authenticated user at /login or /: redirect to role dashboard
+      if (location == '/login' || location == '/') {
+        AppLogger.info('🔄 [ROUTER] Authenticated ${user.role} bypassed /login');
         if (user.role == 'admin') return '/admin';
         if (user.role == 'manager') return '/manager';
         return '/employee';
       }
 
-      // 4. Role Guards (Server-side RBAC validation block)
+      // 4. RBAC Guards: block cross-role navigation
       if (location.startsWith('/employee') && user.role != 'employee') {
-        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted to access /employee');
+        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted /employee');
         return '/unauthorized';
       }
 
       if (location.startsWith('/manager') && user.role != 'manager') {
-        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted to access /manager');
+        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted /manager');
         return '/unauthorized';
       }
 
       if (location.startsWith('/admin') && user.role != 'admin') {
-        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted to access /admin');
+        AppLogger.warning('🛑 [ROUTER] RBAC Block: ${user.role} attempted /admin');
         return '/unauthorized';
       }
 
+      // 5. All checks passed — allow navigation
+      AppLogger.info('✅ [ROUTER] ${user.role} at $location — allowed');
       return null;
     },
     routes: [
@@ -67,7 +72,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/',
-        builder: (context, state) => const AppShell(), // Swapper console
+        builder: (context, state) => const AppShell(),
       ),
       GoRoute(
         path: '/employee',

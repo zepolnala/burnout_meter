@@ -30,6 +30,12 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!_dialogShown && mounted) {
+        _dialogShown = true;
+        await OnboardingDialog.show(context);
+      }
+    });
   }
 
   String _getNameFromEmail(String email) {
@@ -67,7 +73,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
               const Icon(Icons.psychology, color: AppTheme.accentTeal, size: 20),
               const SizedBox(width: 8),
               Text(
-                '💡 GUÍA DE EVALUACIÓN CTO • ROL: $role',
+                '💡 GUÍA DE EVALUACIÓN CTO • ROL: ${role.toUpperCase()}',
                 style: const TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 0.5),
               ),
             ],

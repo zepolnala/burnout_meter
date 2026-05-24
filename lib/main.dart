@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'shared/routing/app_router.dart';
+import 'shared/providers/auth_provider.dart';
 import 'shared/theme/app_theme.dart';
 import 'shared/logging/app_logger.dart';
 
@@ -58,6 +59,12 @@ class BurnoutMeterApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+
+    // Listen to authState changes and refresh the router to trigger redirect evaluation.
+    ref.listen(authStateProvider, (previous, next) {
+      AppLogger.info('🔄 [AUTH] AuthState changed: refreshing router');
+      router.refresh();
+    });
 
     return MaterialApp.router(
       title: 'BurnoutMeter B2B',

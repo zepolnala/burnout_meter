@@ -26,6 +26,15 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!_dialogShown && mounted) {
+        _dialogShown = true;
+        await OnboardingDialog.show(context);
+        if (mounted) {
+          _showWearableOnboardingModal();
+        }
+      }
+    });
   }
 
   void _showWearableOnboardingModal() {
@@ -441,7 +450,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
               const Icon(Icons.psychology, color: AppTheme.accentTeal, size: 20),
               const SizedBox(width: 8),
               Text(
-                '💡 GUÍA DE EVALUACIÓN CTO • ROL: $role',
+                '💡 GUÍA DE EVALUACIÓN CTO • ROL: ${role.toUpperCase()}',
                 style: const TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 0.5),
               ),
             ],
