@@ -64,16 +64,22 @@ jobs:
         run: cd functions && npm install
 
       # 7. E2E Web Integration Tests (against Emulators)
+      - name: Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
       - name: Run Web E2E Integration Tests
         run: |
+          export DISPLAY=:99
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
           chromedriver --port=4444 &
-          firebase emulators:exec "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true"
+          firebase emulators:exec --project demo-burnoutmeter "flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d web-server --dart-define=USE_EMULATOR=true"
           
-      # 7. Production Build Verification
+      # 8. Production Build Verification
       - name: Build Web Target
         run: flutter build web --release
 
-      # 8. Staging Deployment (Optional/Placeholder)
+      # 9. Staging Deployment (Optional/Placeholder)
       - name: Deploy to Firebase Hosting (Staging)
         if: github.ref == 'refs/heads/main'
         run: echo "Deployment to Firebase Hosting would occur here using firebase deploy --only hosting"
+
