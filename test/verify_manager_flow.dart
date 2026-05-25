@@ -23,10 +23,10 @@ void main() async {
     final user = FirebaseAuth.instance.currentUser;
     print('✅ Logged in as: ${user?.uid}');
 
-    // 2. Fetch team members (burnout_memberships)
+    // 2. Fetch team members (memberships)
     print('📋 Fetching team members for teamEng...');
     final membersQuery = await FirebaseFirestore.instance
-        .collection('burnout_memberships')
+        .collection('memberships')
         .where('teamId', isEqualTo: 'teamEng')
         .get();
     
@@ -35,9 +35,8 @@ void main() async {
     // 3. Fetch scores
     print('📊 Fetching burnout scores for teamEng...');
     final scoresQuery = await FirebaseFirestore.instance
-        .collection('burnout_scores')
+        .collection('scores')
         .where('teamId', isEqualTo: 'teamEng')
-        .where('sharingEnabled', isEqualTo: true)
         .get();
 
     print('✅ Found ${scoresQuery.docs.length} scores without permission errors!');

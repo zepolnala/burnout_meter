@@ -129,7 +129,8 @@ service cloud.firestore {
 
     // 7. Public seed status metadata (unauthenticated check)
     match /seed_status/{docId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAuthenticated();
     }
   }
 }

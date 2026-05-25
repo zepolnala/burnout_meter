@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'shared/routing/app_router.dart';
 import 'shared/providers/auth_provider.dart';
 import 'shared/theme/app_theme.dart';
 import 'shared/logging/app_logger.dart';
+import 'shared/logging/app_provider_observer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,14 +43,34 @@ Future<void> main() async {
       AppLogger.info('☁️ [CLOUD] Connected directly to Firebase Cloud services: burnoutmeter-zepolnala');
     }
     
+    AppLogger.info('📊 [CRASHLYTICS] Initializing Firebase Crashlytics...');
+    
+    // Register fatal crash handlers for Flutter errors
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.presentError(details);
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    };
+
+    // Register fatal crash handlers for platform / asynchronous errors
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+
+    // Environment-safe Crashlytics collection setup
+    const bool enableCrashlytics = !kDebugMode && !useEmulator;
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(enableCrashlytics);
+    AppLogger.info('📊 [CRASHLYTICS] Collection active: $enableCrashlytics');
+
     AppLogger.info('✅ [FIREBASE] Initialization sequence complete');
   } catch (e) {
-    AppLogger.error('❌ [FIREBASE] Initialization/Emulator fatal error: $e');
+    AppLogger.error('❌ [FIREBASE/CRASHLYTICS] Initialization sequence error: $e');
   }
 
   runApp(
-    const ProviderScope(
-      child: BurnoutMeterApp(),
+    ProviderScope(
+      observers: [AppProviderObserver()],
+      child: const BurnoutMeterApp(),
     ),
   );
 }

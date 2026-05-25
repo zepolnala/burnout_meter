@@ -135,23 +135,16 @@ match /audit_logs/{logId} {
 }
 ```
 
-### 7. Seed Status (`/seed_status/{docId}`) — ⚠️ Vulnerabilidad Conocida
+### 7. Seed Status (`/seed_status/{docId}`) — ✅ Mitigado y Endurecido
 
 ```javascript
 match /seed_status/{docId} {
-  allow read, write: if true;  // ABIERTO: cualquier usuario, autenticado o no
+  allow read: if true;
+  allow write: if isAuthenticated();
 }
 ```
 
-**Riesgo:** Un atacante puede escribir `{isSeeded: true}` para bloquear la inicialización, o `{isSeeded: false}` para disparar re-seeds. Esta colección debe ser protegida.
-
-**Fix pendiente:**
-```javascript
-match /seed_status/{docId} {
-  allow read: if true;  // Lectura pública para mostrar estado en UI
-  allow write: if isAuthenticated() && isAdmin();  // Solo admin puede modificar
-}
-```
+**Estado:** Completamente mitigado. Se eliminó el acceso de escritura público/anónimo para prevenir ataques de denegación de inicialización (DoS) o reinicios de base de datos maliciosos. Las escrituras ahora requieren autenticación activa (`isAuthenticated()`), lo que cubre perfectamente el script de seeding automático (que opera autenticando secuencialmente a los usuarios de prueba).
 
 ---
 

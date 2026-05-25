@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class AppLogger {
   /// Startup trace logger
@@ -36,14 +37,25 @@ class AppLogger {
     _print('⚠️ [WARNING] $message');
   }
 
-  /// Error logger
-  static void error(String message) {
-    _print('❌ [ERROR] $message');
+  /// Error logger with Crashlytics integration
+  static void error(String message, [Object? error, StackTrace? stack]) {
+    _print('❌ [ERROR] $message${error != null ? ': $error' : ''}');
+    try {
+      FirebaseCrashlytics.instance.recordError(
+        error ?? message,
+        stack,
+        reason: message,
+        fatal: false,
+      );
+    } catch (_) {}
   }
 
   static void _print(String formatted) {
     if (kDebugMode) {
       print(formatted);
     }
+    try {
+      FirebaseCrashlytics.instance.log(formatted);
+    } catch (_) {}
   }
 }
