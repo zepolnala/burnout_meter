@@ -351,10 +351,12 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        isMobileWidth ? 'BurnoutMeter Admin' : 'BurnoutMeter Admin Console',
-                        style: TextStyle(fontSize: isMobileWidth ? 13 : 15, fontWeight: FontWeight.bold, color: Colors.white),
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        child: Text(
+                          isMobileWidth ? 'BurnoutMeter Admin' : 'BurnoutMeter Admin Console',
+                          style: TextStyle(fontSize: isMobileWidth ? 13 : 15, fontWeight: FontWeight.bold, color: Colors.white),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       if (!isMobileWidth) ...[
                         const SizedBox(width: 8),

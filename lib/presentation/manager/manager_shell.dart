@@ -142,10 +142,12 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        isMobile ? 'BurnoutMeter Manager' : 'BurnoutMeter Manager Console',
-                        style: TextStyle(fontSize: isMobile ? 13 : 15, fontWeight: FontWeight.bold, color: Colors.white),
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        child: Text(
+                          isMobile ? 'BurnoutMeter Manager' : 'BurnoutMeter Manager Console',
+                          style: TextStyle(fontSize: isMobile ? 13 : 15, fontWeight: FontWeight.bold, color: Colors.white),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       if (!isMobile) ...[
                         const SizedBox(width: 8),
