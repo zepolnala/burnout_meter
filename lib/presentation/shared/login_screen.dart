@@ -397,9 +397,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       backgroundColor: AppTheme.darkSlate,
       body: Center(
         child: SingleChildScrollView(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 460),
-            margin: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                constraints: const BoxConstraints(maxWidth: 460),
+                margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
               color: AppTheme.cardSlate.withValues(alpha: 0.8),
@@ -868,9 +871,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
           ),
-        ),
+          const SizedBox(height: 16),
+          const Text(
+            'v1.0.0',
+            style: TextStyle(
+              color: AppTheme.softText,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
-    );
+    ),
+  ),
+);
   }
 
   Widget _buildQuickAccessButton({required String label, required String email, required Color color}) {

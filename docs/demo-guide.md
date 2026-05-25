@@ -17,7 +17,7 @@ Start the secure local Firebase Emulator suite (Auth, Firestore, Consoles):
 ### B. Boot the BurnoutMeter Client
 Run the application in your preferred environment (Web or Mobile):
 *   **Web Target:** Runs as standard dev server.
-*   **Visual Indicator:** Notice the bright global header **`[EMULADOR LOCAL ACTIVE]`** showing that all transactions are safely isolated in your local sandbox.
+*   **Visual Indicator:** Notice the bright global header connection badge showing either **`[EMULADOR LOCAL]`** (amber, runs isolated in your local sandbox) or **`[NUBE FIREBASE]`** (emerald, connects directly to production Google Cloud).
 
 ---
 
@@ -66,7 +66,7 @@ sequenceDiagram
 1.  **Log in:** Use the quick login selector to choose **Alan** (`employee_eng1@burnoutmeter.demo`).
 2.  **Dashboard:** Observe his personal Burnout Index (initially healthy, e.g. `32.0`). 
 3.  **Physiological Simulation:** Click **"Simular Lectura Wearable"**.
-    *   *What happens:* The app pulls mock biometric records from the replay JSON fixture, calculates a new consolidated score using the `ScoringEngine`, and writes it to Firestore. The circular gauge animates reactively!
+    *   *What happens:* The app dynamically generates new randomized biometric records via the `SyntheticHealthDataSource` (sleep, HR, HRV, respiratory rate), calculates a new consolidated score using the `ScoringEngine`, and writes it to Firestore. The circular gauge animates reactively!
 4.  **GDPR Consent Review:** Go to the "Privacidad" tab. Alan's sharing and action policies are currently **Active**.
 5.  **Log out.**
 
