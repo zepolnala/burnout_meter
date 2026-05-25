@@ -139,17 +139,25 @@ final teamScoresProvider = FutureProvider.autoDispose.family<List<Score>, String
   final members = await membershipRepo.getTeamMemberships(teamId, authState.orgId);
   final List<Score> sharedScores = [];
 
-  for (final member in members) {
-    // 1. Core Privacy Rule: Load employee consent
-    final consentRepo = ref.read(consentRepositoryProvider);
-    final consent = await consentRepo.getConsent(member.userId);
+  // 1. Core Privacy Rule: Load employee consents in parallel to avoid sequential N+1 RTTs
+  final consentRepo = ref.read(consentRepositoryProvider);
+  final consents = await Future.wait(
+    members.map((m) => consentRepo.getConsent(m.userId)).toList(),
+  );
 
-    // Only fetch score if sharing is explicitly granted
+  // 2. Fetch scores in parallel ONLY for members who granted explicit sharing consent
+  final List<Future<Score?>> scoreFutures = [];
+  for (int i = 0; i < members.length; i++) {
+    final consent = consents[i];
     if (consent?.sharingEnabled == true) {
-      final score = await ref.read(personalScoreProvider(member.userId).future);
-      if (score != null) {
-        sharedScores.add(score);
-      }
+      scoreFutures.add(ref.read(personalScoreProvider(members[i].userId).future));
+    }
+  }
+
+  final List<Score?> scores = await Future.wait(scoreFutures);
+  for (final score in scores) {
+    if (score != null) {
+      sharedScores.add(score);
     }
   }
 

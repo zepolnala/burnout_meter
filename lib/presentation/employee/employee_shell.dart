@@ -450,9 +450,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
             children: [
               const Icon(Icons.psychology, color: AppTheme.accentTeal, size: 20),
               const SizedBox(width: 8),
-              Text(
-                '💡 GUÍA DE EVALUACIÓN CTO • ROL: ${role.toUpperCase()}',
-                style: const TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 0.5),
+              Expanded(
+                child: Text(
+                  '💡 GUÍA DE EVALUACIÓN CTO • ROL: ${role.toUpperCase()}',
+                  style: const TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 0.5),
+                ),
               ),
             ],
           ),
@@ -516,7 +518,34 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                     const SizedBox(height: 24),
                     // Beautiful Custom Radial Score Dial
                     BurnoutRadialScore(score: idx, size: 160),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
+                    const Tooltip(
+                      message: 'El Índice de Burnout se calcula ponderando:\n'
+                          '• Estrés fisiológico (HR + Frec. respiratoria) (40%)\n'
+                          '• Deuda de recuperación autonómica (HRV) (30%)\n'
+                          '• Deuda de sueño (duración e interrupciones) (20%)\n'
+                          '• Carga física acumulada (promedio FC) (10%)\n'
+                          'Se normaliza de 0 a 100 usando algoritmos clínicos.',
+                      preferBelow: false,
+                      triggerMode: TooltipTriggerMode.tap,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.info_outline, color: AppTheme.accentTeal, size: 12),
+                          SizedBox(width: 4),
+                          Text(
+                            '¿Cómo se calcula este índice?',
+                            style: TextStyle(
+                              color: AppTheme.accentTeal,
+                              fontSize: 10,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppTheme.accentTeal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     const Text(
                       'Biometría cargada de Wearable E500. Tu manager nunca accede a tus datos biológicos crudos.',
                       textAlign: TextAlign.center,
@@ -929,6 +958,20 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
     );
   }
 
+  String _formatDateTime(DateTime dt) {
+    final now = DateTime.now();
+    final diff = now.difference(dt);
+    if (diff.inMinutes < 1) {
+      return 'Hace unos instantes';
+    } else if (diff.inMinutes < 60) {
+      return 'Hace ${diff.inMinutes} min';
+    } else if (diff.inHours < 24) {
+      return 'Hace ${diff.inHours} h';
+    } else {
+      return '${dt.day}/${dt.month}/${dt.year}';
+    }
+  }
+
   Widget _buildHistoricActionRow(ActionInstance action) {
     final bool isAccepted = action.status == 'acknowledged';
     final color = isAccepted ? AppTheme.activeGreen : AppTheme.softText;
@@ -952,9 +995,22 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            displayTitle,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  displayTitle,
+                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  _formatDateTime(action.createdAt),
+                  style: const TextStyle(color: AppTheme.softText, fontSize: 9),
+                ),
+              ],
+            ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

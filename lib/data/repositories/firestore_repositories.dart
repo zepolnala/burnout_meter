@@ -188,15 +188,10 @@ class FirestoreHealthRepository implements HealthRepository {
   Future<List<Score>> getTeamLatestScores(List<String> userIds) async {
     if (userIds.isEmpty) return [];
     
-    // Fetch latest score for each user individually to avoid complex IN queries
-    final List<Score> scores = [];
-    for (final uid in userIds) {
-      final s = await getLastScore(uid);
-      if (s != null) {
-        scores.add(s);
-      }
-    }
-    return scores;
+    // Fetch latest score for each user in parallel to eliminate N+1 latency bottlenecks
+    final List<Future<Score?>> futures = userIds.map((uid) => getLastScore(uid)).toList();
+    final List<Score?> results = await Future.wait(futures);
+    return results.whereType<Score>().toList();
   }
 }
 
