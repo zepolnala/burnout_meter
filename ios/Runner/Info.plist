@@ -62,9 +62,11 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Necesitamos acceder a tus datos fisiológicos de sueño, ritmo cardíaco y HRV para calcular tu índice de burnout psicofisiológico y alertarte sobre sobrecarga.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Necesitamos registrar tus datos fisiológicos de salud en HealthKit para actualizar tus indicadores biométricos.</string>
 </dict>
 </plist>
