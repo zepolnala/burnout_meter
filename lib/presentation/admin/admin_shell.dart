@@ -21,6 +21,8 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   List<Membership> _members = [];
   bool _loading = true;
   String? _loadedAdminUid;
+  int _managerCount = 0;
+  double _averageStress = 0.0;
 
   bool _dialogShown = false;
 
@@ -60,8 +62,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
     try {
       final auditRepo = ref.read(auditRepositoryProvider);
       final memberRepo = ref.read(membershipRepositoryProvider);
+      final healthRepo = ref.read(healthRepositoryProvider);
 
-      final listMembers = await memberRepo.getOrgMemberships('org789');
+      final listMembers = await memberRepo.getOrgMemberships(currentUser.orgId);
       
       // Simulate some standard seed logs for presentation
       await auditRepo.logAccess(AuditLog(
@@ -69,17 +72,34 @@ class _AdminShellState extends ConsumerState<AdminShell> {
         actorUserId: currentUser.userId,
         actorRole: 'admin',
         actionType: 'read_security_audit_logs',
-        orgId: 'org789',
+        orgId: currentUser.orgId,
         timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
         details: 'Consulted global compliance ledger.',
       ));
 
-      final listLogs = await auditRepo.getLogsForOrg('org789');
+      final listLogs = await auditRepo.getLogsForOrg(currentUser.orgId);
+
+      // Fetch team scores to compute average stress level
+      double totalStress = 0.0;
+      int scoredEmployees = 0;
+      for (final m in listMembers) {
+        if (m.role == 'employee') {
+          final lastScore = await healthRepo.getLastScore(m.userId, teamId: m.teamId, orgId: m.orgId);
+          if (lastScore != null) {
+            totalStress += lastScore.burnoutIndex;
+            scoredEmployees++;
+          }
+        }
+      }
+
+      final double avgStress = scoredEmployees > 0 ? totalStress / scoredEmployees : 35.0; // fallback to 35 if no scores
 
       if (mounted) {
         setState(() {
           _members = listMembers;
           _logs = listLogs.reversed.toList(); // Newest first
+          _managerCount = listMembers.where((m) => m.role == 'manager').length;
+          _averageStress = avgStress;
         });
       }
     } catch (e) {
@@ -405,23 +425,36 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _buildMetricCard('Colaboradores Activos', '${_members.length}', Icons.people, AppTheme.accentTeal),
+                        _buildMetricCard('Colaboradores Activos', '${_members.length - _managerCount - (_members.any((m) => m.role == 'admin') ? 1 : 0)}', Icons.people, AppTheme.accentTeal),
                         const SizedBox(height: 12),
-                        _buildMetricCard('Tasa Consentimiento', '75%', Icons.verified_user, AppTheme.activeGreen),
+                        _buildMetricCard('Mánagers de Equipo', '$_managerCount', Icons.supervisor_account, AppTheme.activeOrange),
                         const SizedBox(height: 12),
-                        _buildMetricCard('Auditorías de Acceso', '${_logs.length}', Icons.history_toggle_off, AppTheme.activeRed),
+                        _buildMetricCard('Estrés Promedio de Equipos', '${_averageStress.toStringAsFixed(1)}%', Icons.psychology, AppTheme.activeRed),
+                        const SizedBox(height: 12),
+                        _buildMetricCard('Tasa Consentimiento B2B', '75%', Icons.verified_user, AppTheme.activeGreen),
+                        const SizedBox(height: 12),
+                        _buildMetricCard('Auditorías de Acceso GDPR', '${_logs.length}', Icons.history_toggle_off, AppTheme.softText),
                       ],
                     )
-                  else
+                  else ...[
                     Row(
                       children: [
-                        Expanded(child: _buildMetricCard('Colaboradores Activos', '${_members.length}', Icons.people, AppTheme.accentTeal)),
+                        Expanded(child: _buildMetricCard('Colaboradores Activos', '${_members.length - _managerCount - (_members.any((m) => m.role == 'admin') ? 1 : 0)}', Icons.people, AppTheme.accentTeal)),
                         const SizedBox(width: 16),
-                        Expanded(child: _buildMetricCard('Tasa Consentimiento', '75%', Icons.verified_user, AppTheme.activeGreen)),
+                        Expanded(child: _buildMetricCard('Mánagers Activos', '$_managerCount', Icons.supervisor_account, AppTheme.activeOrange)),
                         const SizedBox(width: 16),
-                        Expanded(child: _buildMetricCard('Auditorías de Acceso', '${_logs.length}', Icons.history_toggle_off, AppTheme.activeRed)),
+                        Expanded(child: _buildMetricCard('Estrés Promedio de Equipos', '${_averageStress.toStringAsFixed(1)}%', Icons.psychology, AppTheme.activeRed)),
                       ],
                     ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(child: _buildMetricCard('Tasa Consentimiento B2B', '75%', Icons.verified_user, AppTheme.activeGreen)),
+                        const SizedBox(width: 16),
+                        Expanded(child: _buildMetricCard('Auditorías de Acceso GDPR', '${_logs.length}', Icons.history_toggle_off, AppTheme.softText)),
+                      ],
+                    ),
+                  ],
                   const SizedBox(height: 24),
 
                   if (isMobileWidth)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../shared/config/seed_service.dart';
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/theme/app_theme.dart';
@@ -30,11 +31,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String _selectedOrg = 'select';
   String _selectedTeam = 'select';
   bool? _isDatabaseSeeded;
+  bool _showQuickAccess = false;
+  List<String> _customOrgs = [];
+  List<String> _customTeamsForSelectedOrg = [];
 
   @override
   void initState() {
     super.initState();
     _checkIfDatabaseSeeded();
+    _loadCustomOrganizations();
   }
 
   Future<void> _checkIfDatabaseSeeded() async {
@@ -52,6 +57,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _isDatabaseSeeded = false;
         });
       }
+    }
+  }
+
+  Future<void> _loadCustomOrganizations() async {
+    try {
+      final snap = await FirebaseFirestore.instance.collection('memberships').get();
+      final orgs = snap.docs.map((d) => d.data()['orgId'] as String?).whereType<String>().toSet();
+      
+      // Filter out predefined orgs
+      final custom = orgs.where((org) => org != 'org789' && org != 'orgDemo').toList();
+      if (mounted) {
+        setState(() {
+          _customOrgs = custom;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading custom organizations: $e');
+    }
+  }
+
+  Future<void> _loadCustomTeamsForOrg(String orgId) async {
+    try {
+      final snap = await FirebaseFirestore.instance
+          .collection('memberships')
+          .where('orgId', isEqualTo: orgId)
+          .get();
+      final teams = snap.docs.map((d) => d.data()['teamId'] as String?).whereType<String>().toSet().toList();
+      if (mounted) {
+        setState(() {
+          _customTeamsForSelectedOrg = teams;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error loading custom teams: $e');
     }
   }
 
@@ -581,6 +620,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           value: e.key,
                           child: Text(e.value['name'] as String),
                         )),
+                        ..._customOrgs.map((org) => DropdownMenuItem(
+                          value: org,
+                          child: Text('$org (Personalizada)'),
+                        )),
                         const DropdownMenuItem(
                           value: 'custom',
                           child: Text('Crear nueva organización / Otra...'),
@@ -590,15 +633,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         if (val != null) {
                           setState(() {
                             _selectedOrg = val;
+                            _selectedTeam = 'select'; // reset team
+                            _regTeamController.clear();
                             if (val == 'custom') {
                               _regOrgController.clear();
                               _selectedTeam = 'custom';
                               _regTeamController.clear();
-                            } else {
+                            } else if (_predefinedOrgs.containsKey(val)) {
                               _regOrgController.text = val;
                               final teams = _predefinedOrgs[val]!['teams'] as Map<String, String>;
                               _selectedTeam = teams.keys.first;
                               _regTeamController.text = _selectedTeam;
+                            } else {
+                              // Custom org selected from dropdown
+                              _regOrgController.text = val;
+                              _loadCustomTeamsForOrg(val);
                             }
                           });
                         }
@@ -640,10 +689,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                         ),
                         items: [
-                          if (_selectedOrg != 'custom')
+                          if (_predefinedOrgs.containsKey(_selectedOrg))
                             ...(_predefinedOrgs[_selectedOrg]!['teams'] as Map<String, String>).entries.map((e) => DropdownMenuItem(
                               value: e.key,
                               child: Text(e.value),
+                            )),
+                          if (!_predefinedOrgs.containsKey(_selectedOrg) && _selectedOrg != 'custom')
+                            ..._customTeamsForSelectedOrg.map((team) => DropdownMenuItem(
+                              value: team,
+                              child: Text(team),
                             )),
                           const DropdownMenuItem(
                             value: 'custom',
@@ -761,36 +815,55 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Quick selector accounts drawer
-                  const Text(
-                    'ACCESOS RÁPIDOS DEMO',
-                    style: TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1),
+                  // Quick selector accounts drawer toggle accordion
+                  InkWell(
+                    onTap: () => setState(() => _showQuickAccess = !_showQuickAccess),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'ACCESOS RÁPIDOS DEMO',
+                            style: TextStyle(color: AppTheme.accentTeal, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 1),
+                          ),
+                          Icon(
+                            _showQuickAccess ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                            color: AppTheme.accentTeal,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
 
-                  _buildQuickAccessButton(
-                    label: 'Alan (Empleado • Acme Corp: teamEng)',
-                    email: 'employee_eng1@burnoutmeter.demo',
-                    color: AppTheme.activeGreen,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildQuickAccessButton(
-                    label: 'Sofía (Empleado • Acme Corp: teamEng • Privado)',
-                    email: 'employee_eng2@burnoutmeter.demo',
-                    color: AppTheme.softText,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildQuickAccessButton(
-                    label: 'Victor (Manager • Acme Corp: lidera teamEng)',
-                    email: 'manager_eng@burnoutmeter.demo',
-                    color: AppTheme.activeOrange,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildQuickAccessButton(
-                    label: 'Admin (Global • Acme Corp: multi-tenant)',
-                    email: 'admin@burnoutmeter.demo',
-                    color: AppTheme.activeRed,
-                  ),
+                  if (_showQuickAccess) ...[
+                    _buildQuickAccessButton(
+                      label: 'Alan (Empleado • Acme Corp: teamEng)',
+                      email: 'employee_eng1@burnoutmeter.demo',
+                      color: AppTheme.activeGreen,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildQuickAccessButton(
+                      label: 'Sofía (Empleado • Acme Corp: teamEng • Privado)',
+                      email: 'employee_eng2@burnoutmeter.demo',
+                      color: AppTheme.softText,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildQuickAccessButton(
+                      label: 'Victor (Manager • Acme Corp: lidera teamEng)',
+                      email: 'manager_eng@burnoutmeter.demo',
+                      color: AppTheme.activeOrange,
+                    ),
+                    const SizedBox(height: 8),
+                    _buildQuickAccessButton(
+                      label: 'Admin (Global • Acme Corp: multi-tenant)',
+                      email: 'admin@burnoutmeter.demo',
+                      color: AppTheme.activeRed,
+                    ),
+                  ],
                 ],
               ),
             ),
