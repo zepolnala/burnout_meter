@@ -26,30 +26,18 @@ Registro profesional de deuda técnica aceptada durante la fase MVP de **Burnout
 
 ### 2. Deuda de Debug Activa (DEBE ELIMINARSE ANTES DE PRODUCCIÓN)
 
-Estos elementos fueron añadidos durante el debugging de la integración E2E y están actualmente presentes en código de producción:
+* **Estado Actual**: ✅ **Totalmente Mitigada y Eliminada**
+
+Todos los elementos de depuración y soporte temporal inyectados durante el diagnóstico del pipeline E2E han sido completamente purgados y eliminados del código fuente de producción:
 
 #### `RouterLogs` en `app_router.dart`
-```dart
-class RouterLogs {
-  static final List<String> logs = [];  // Lista estática global, nunca se limpia
-}
-```
-- **Riesgo**: Memory leak — la lista crece indefinidamente durante el runtime.
-- **Acción**: Eliminar la clase completa. Usar `AppLogger` para los logs de routing.
+* **Acción realizada**: Se eliminó por completo la clase estática `RouterLogs` y el acumulador global de logs en memoria, previniendo cualquier riesgo de *memory leak* por crecimiento acumulativo. El enrutamiento ahora confía de forma íntegra en la infraestructura asíncrona de `AppLogger`.
 
 #### Widgets de diagnóstico en `login_screen.dart`
-```dart
-if (authState.hasError) Text('TEST ERROR: ...', key: Key('login_error_text'))
-if (authState.isLoading) Text('TEST STATUS: LOADING...', key: Key('login_status_loading'))
-if (!authState.isLoading && !authState.hasError) Text('TEST STATUS: DATA(...)', key: Key('login_status_data'))
-Text('ROUTER LOGS: ${RouterLogs.logs.join(...)}', key: Key('router_logs_text'))
-```
-- **Riesgo**: Expone información de estado interno en la UI de producción. Viola principio de información mínima expuesta.
-- **Acción**: Eliminar todos estos widgets. Mover la lógica de diagnóstico a los logs del E2E test usando `debugPrint`.
+* **Acción realizada**: Se eliminaron todos los textos condicionales con keys de testing (`login_error_text`, `login_status_loading`, `login_status_data`, `router_logs_text`) que exponían información del estado interno en la UI de producción.
 
 #### Import circular potencial
-- `login_screen.dart` importa `app_router.dart` (para `RouterLogs`). Esto crea acoplamiento entre la capa de Presentation y la capa de Routing.
-- **Acción**: Al eliminar `RouterLogs`, eliminar también este import.
+* **Acción realizada**: Se eliminó el acoplamiento directo entre la pantalla de login (`login_screen.dart`) y el enrutador (`app_router.dart`) al retirar las dependencias cruzadas de logs temporales, restableciendo el aislamiento estricto entre Presentation y Routing.
 
 ---
 

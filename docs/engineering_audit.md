@@ -8,7 +8,7 @@
 
 ## 1. CI/CD Reliability — GitHub Actions
 
-**Estado Actual:** ⚠️ Parcialmente Funcional
+**Estado Actual:** ✅ Totalmente Funcional y Estable
 
 ### Configuración Actual del Pipeline (`flutter_ci.yml`)
 El workflow ejecuta los siguientes pasos en orden:
@@ -23,45 +23,20 @@ El workflow ejecuta los siguientes pasos en orden:
 9. **E2E Integration Tests** (`flutter drive` con emuladores Firebase + chromedriver)
 10. `flutter build web --release`
 
-### Problema Activo: E2E Tests en CI
+### Estado Resuelto: E2E Tests en CI y GoRouter Redirects
 
-El paso de E2E está fallando en CI por la siguiente causa raíz identificada (tras análisis extensivo):
+Todos los bloqueos relacionados con los tests E2E y el flujo de navegación de GoRouter han sido **completamente resueltos y verificados** de extremo a extremo:
 
-**Síntoma confirmado localmente:**
-```
-Login failed BUT HAS DATA STATE: TEST STATUS: DATA(employee)
-```
+1. **Resolución de Redirección GoRouter**:
+   Se eliminó el `return null` prematuro y todos los vestigios del objeto `RouterLogs` de depuración. El enrutador [app_router.dart](file:///Users/alan/Burnout%20meter/lib/shared/routing/app_router.dart) implementa ahora una secuencia limpia de 5 pasos (Hold, Unauthenticated checks, Role-based redirect redirects, y RBAC guards de seguridad). Las guardias RBAC de cliente están **100% activas y no contienen código muerto**.
 
-**Diagnóstico:** El estado de autenticación se completa exitosamente (`DATA(employee)`), pero la navegación de GoRouter no redirige fuera de `/login`. Esto se debe a un **bug activo en `app_router.dart`**: el código de RBAC guards contiene un `return null` prematuro que convierte el código de redirección en dead code:
+2. **Mitigación de Flakes en Clicks E2E (Off-Screen Viewports)**:
+   Se identificó que el pipeline web-server en GitHub Actions (Chrome headless) corre a una resolución limitada (800x600 px), lo que provocaba que el botón de login de **Admin** estuviera fuera de pantalla y los clicks de hit-test fallaran de forma silenciosa. 
+   * **Solución**: Se inyectó `await tester.ensureVisible(buttonFinder)` para todos los botones scrollables (sembrado, empleado, mánager, admin) en `app_test.dart`, obligando al framework de test a hacer scroll automático antes de interactuar.
+   * **Sincronización**: Se añadieron esperas explícitas con `pumpAndSettle()` tras los logouts para estabilizar las transiciones de pantalla antes del siguiente flujo.
 
-```dart
-RouterLogs.logs.add('✅ Auth user (${user.role}) at $location, allowed');
-return null;  // ← RETURN PREMATURO: las siguientes guardias RBAC nunca se ejecutan
-
-// Este bloque es dead code inalcanzable:
-if (location.startsWith('/employee') && user.role != 'employee') {
-  return '/unauthorized';
-}
-```
-
-Adicionalmente, la lógica de redirección para `/login` (líneas 59-64) debería redirigir al usuario autenticado, pero con el `return null` en línea 67, el router **no rechaza** el acceso a `/login` tras autenticación exitosa.
-
-**Fix Requerido:**
-```dart
-// Eliminar el return null prematuro. La lógica debería ser:
-if (user == null) {
-  return location != '/login' ? '/login' : null;
-}
-if (location == '/login') {
-  if (user.role == 'admin') return '/admin';
-  if (user.role == 'manager') return '/manager';
-  return '/employee';
-}
-// RBAC Guards activos
-if (location.startsWith('/employee') && user.role != 'employee') return '/unauthorized';
-// ... etc.
-return null;
-```
+3. **Remoción de Instrumentos de Diagnóstico de Producción**:
+   Se eliminaron de forma íntegra los widgets de diagnóstico temporal (`login_error_text`, `login_status_loading`, etc.) que contaminaban la UI de producción en `LoginScreen`. Todo diagnóstico se realiza ahora mediante logs nativos en la consola de tests.
 
 ### Problema Anterior Resuelto: Versión de Flutter
 
@@ -219,15 +194,15 @@ Los providers `FutureProvider.autoDispose.family` (`personalScoreProvider`, `tea
 
 ## 6. Resumen de Prioridades de Acción
 
-| Prioridad | Acción | Impacto |
-|---|---|---|
-| 🔴 **P0** | Corregir bug del `return null` prematuro en `app_router.dart` | Desbloquea E2E tests y habilita RBAC guards |
-| 🔴 **P0** | Eliminar widgets de debug de `LoginScreen` | Exposición de información interna en UI |
-| 🔴 **P0** | Limpiar `RouterLogs` de producción | Memory leak acumulativo |
-| 🟠 **P1** | Pintar versión de Flutter en CI | Reproducibilidad del pipeline |
-| 🟠 **P1** | Mover roles a JWT custom claims | Seguridad server-side real |
-| 🟠 **P1** | Restringir `/seed_status` collection | Superficie de ataque eliminada |
-| 🟡 **P2** | Widget tests con `mockito` | Cobertura de UI básica |
-| 🟡 **P2** | Tests de RBAC deflections | Verificación de seguridad |
-| 🟡 **P2** | Conectar `AppLogger` a Sentry | Observabilidad en producción |
-| 🟢 **P3** | Migrar scoring a Cloud Functions | Arquitectura production-grade |
+| Prioridad | Acción | Impacto | Estado |
+|---|---|---|---|
+| 🔴 **P0** | Corregir bug del `return null` prematuro en `app_router.dart` | Desbloquea E2E tests y habilita RBAC guards | ✅ **Resuelto y Validado** |
+| 🔴 **P0** | Eliminar widgets de debug de `LoginScreen` | Exposición de información interna en UI | ✅ **Resuelto y Validado** |
+| 🔴 **P0** | Limpiar `RouterLogs` de producción | Memory leak acumulativo | ✅ **Resuelto y Validado** |
+| 🟠 **P1** | Pintar versión de Flutter en CI | Reproducibilidad del pipeline | ⏳ Pendiente |
+| 🟠 **P1** | Mover roles a JWT custom claims | Seguridad server-side real | ⏳ Pendiente |
+| 🟠 **P1** | Restringir `/seed_status` collection | Superficie de ataque eliminada | ⏳ Pendiente |
+| 🟡 **P2** | Widget tests con `mockito` | Cobertura de UI básica | ⏳ Pendiente |
+| 🟡 **P2** | Tests de RBAC deflections | Verificación de seguridad | ⏳ Pendiente |
+| 🟡 **P2** | Conectar `AppLogger` a Sentry | Observabilidad en producción | ⏳ Pendiente |
+| 🟢 **P3** | Migrar scoring a Cloud Functions | Arquitectura production-grade | ⏳ Pendiente |
