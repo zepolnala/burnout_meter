@@ -315,6 +315,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
     final admin = authState.value;
+    const bool useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: false);
 
     if (admin == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -360,11 +361,11 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: const BoxDecoration(
-                            color: AppTheme.activeRed,
+                            color: useEmulator ? Color(0xFFF59E0B) : AppTheme.activeGreen,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                           ),
                           child: const Text(
-                            'EMULADOR LOCAL',
+                            useEmulator ? 'EMULADOR LOCAL' : 'NUBE FIREBASE',
                             style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                         )

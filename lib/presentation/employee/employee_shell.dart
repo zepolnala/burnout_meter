@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/sources/health/replay_health_data_source.dart';
+import '../../data/sources/health/synthetic_health_data_source.dart';
 import '../../shared/providers/auth_provider.dart';
 import '../../shared/providers/burnout_providers.dart';
 import '../../shared/providers/repository_providers.dart';
@@ -152,11 +152,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                         final userId = authState.value?.userId;
                         if (userId != null) {
                           final healthRepo = ref.read(healthRepositoryProvider);
-                          final replaySource = ReplayHealthDataSource();
+                          final syntheticSource = SyntheticHealthDataSource();
                           final end = DateTime.now();
                           final start = end.subtract(const Duration(days: 7));
                           
-                          final samples = await replaySource.fetchSamples(userId: userId, start: start, end: end);
+                          final samples = await syntheticSource.fetchSamples(userId: userId, start: start, end: end);
                           await healthRepo.saveSamples(samples);
                           
                           final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
@@ -201,11 +201,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                         final userId = authState.value?.userId;
                         if (userId != null) {
                           final healthRepo = ref.read(healthRepositoryProvider);
-                          final replaySource = ReplayHealthDataSource();
+                          final syntheticSource = SyntheticHealthDataSource();
                           final end = DateTime.now();
                           final start = end.subtract(const Duration(days: 7));
                           
-                          final samples = await replaySource.fetchSamples(userId: userId, start: start, end: end);
+                          final samples = await syntheticSource.fetchSamples(userId: userId, start: start, end: end);
                           await healthRepo.saveSamples(samples);
                           
                           final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
@@ -289,6 +289,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
     final user = authState.value;
+    const bool useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: false);
 
     if (user == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -346,11 +347,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: const BoxDecoration(
-                          color: AppTheme.activeGreen,
+                          color: useEmulator ? Color(0xFFF59E0B) : AppTheme.activeGreen,
                           borderRadius: BorderRadius.all(Radius.circular(4)),
                         ),
                         child: const Text(
-                          'EMULADOR LOCAL',
+                          useEmulator ? 'EMULADOR LOCAL' : 'NUBE FIREBASE',
                           style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.black),
                         ),
                       )
@@ -530,11 +531,11 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                       ),
                       onPressed: () async {
                         final healthRepo = ref.read(healthRepositoryProvider);
-                        final replaySource = ReplayHealthDataSource();
+                        final syntheticSource = SyntheticHealthDataSource();
                         final end = DateTime.now();
                         final start = end.subtract(const Duration(days: 7));
                         
-                        final samples = await replaySource.fetchSamples(userId: userId, start: start, end: end);
+                        final samples = await syntheticSource.fetchSamples(userId: userId, start: start, end: end);
                         await healthRepo.saveSamples(samples);
                         
                         final member = await ref.read(membershipRepositoryProvider).getMembership(userId);
@@ -554,7 +555,7 @@ class _EmployeeShellState extends ConsumerState<EmployeeShell> {
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Cálculo completado a través de ReplayHealthDataSource.'),
+                              content: Text('Lectura de wearable simulada con nuevos valores aleatorios.'),
                               backgroundColor: AppTheme.activeGreen,
                             ),
                           );

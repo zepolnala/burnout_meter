@@ -92,6 +92,7 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
     final manager = authState.value;
+    const bool useEmulator = bool.fromEnvironment('USE_EMULATOR', defaultValue: false);
 
     if (manager == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -151,11 +152,11 @@ class _ManagerShellState extends ConsumerState<ManagerShell> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: const BoxDecoration(
-                            color: AppTheme.activeOrange,
+                            color: useEmulator ? Color(0xFFF59E0B) : AppTheme.activeGreen,
                             borderRadius: BorderRadius.all(Radius.circular(4)),
                           ),
                           child: const Text(
-                            'EMULADOR LOCAL',
+                            useEmulator ? 'EMULADOR LOCAL' : 'NUBE FIREBASE',
                             style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                         ),
